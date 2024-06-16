@@ -3,7 +3,7 @@
 
 static uint8_t cur_lang = LANG_EN;
 
-static uint8_t tg_mode = TG_DEFAULT;
+static uint8_t tg_mode = TG_M1M2;
 
 static uint32_t revert_ru_time = 0;
 
