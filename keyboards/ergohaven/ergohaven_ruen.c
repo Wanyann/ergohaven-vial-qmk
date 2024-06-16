@@ -31,9 +31,9 @@ void set_lang(uint8_t lang) {
             dynamic_keymap_macro_send(QK_MACRO_0 - QK_MACRO);
             break;
         case TG_M1M2:
-            if (lang == LANG_EN)
-                dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
-            else
+            if (lang == LANG_EN) {
+                if (!should_revert_ru) dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
+            } else
                 dynamic_keymap_macro_send(QK_MACRO_2 - QK_MACRO);
             break;
         default:
@@ -102,15 +102,15 @@ bool pre_process_record_ruen(uint16_t keycode, keyrecord_t *record) {
         case KC_SCLN ... KC_SLSH: // KC_QUOT KC_GRAVE KC_COMMA KC_DOT
         case S(KC_SCLN)... S(KC_SLSH):
             if (should_revert_ru) {
-                set_lang(LANG_RU);
                 should_revert_ru = false;
+                set_lang(LANG_RU);
             }
             break;
         case LG_SET_EN:
         case LG_TOGGLE:
             if (should_revert_ru) {
-                set_lang(LANG_EN);
                 should_revert_ru = false;
+                set_lang(LANG_EN);
             }
             break;
     }
@@ -188,8 +188,8 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 
 void housekeeping_task_ruen(void) {
     if (should_revert_ru && timer_elapsed32(revert_ru_time) > 500) {
-        set_lang(LANG_RU);
         should_revert_ru = false;
+        set_lang(LANG_RU);
     } else {
         struct hid_data_t *hid_data = get_hid_data();
         if (hid_data->layout_changed) {
