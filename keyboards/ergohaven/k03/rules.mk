@@ -21,13 +21,13 @@ TAP_DANCE_ENABLE = yes
 COMBO_ENABLE = yes
 KEY_OVERRIDE_ENABLE = yes
 DYNAMIC_MACRO_ENABLE = yes
-CAPS_WORD_ENABLE = yes
+CAPS_WORD_ENABLE = no
 REPEAT_KEY_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
 NO_USB_STARTUP_CHECK = yes
 
-WPM_ENABLE = yes
-RAW_ENABLE = yes
+WPM_ENABLE = no
+RAW_ENABLE = no
 
 SRC += keyboards/ergohaven/ergohaven_rgb.c
 SRC += keyboards/ergohaven/ergohaven.c

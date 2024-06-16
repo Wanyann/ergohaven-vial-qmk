@@ -236,21 +236,21 @@ static const char* PROGMEM LAYER_NAME[] =   {
 };
 
 static const char* PROGMEM LAYER_UPPER_NAME[] =   {
-    "BASE ",
+    " BASE",
     "LOWER",
-    "RAISE",
-    "ADJST",
-    "FOUR ",
-    "FIVE ",
-    "SIX  ",
-    "SEVEN",
-    "EIGHT",
-    "NINE ",
-    "TEN  ",
+    " NAV ",
+    " NUM ",
+    " APP ",
+    " SYM ",
+    " FUN ",
+    " LCS ",
+    " CTRL",
+    " ADD ",
+    " TEN ",
     "ELEVN",
     "TWLVE",
     "THRTN",
-    "FRTN ",
+    " GAME",
     "FIFTN",
 };
 

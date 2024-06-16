@@ -66,26 +66,22 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void render_status_classic(void) {
     // Print current mode
     oled_clear();
+
+    oled_set_cursor(0, 2);
     if (strlen(PRODUCT) <= 5) // Imperial44 is too long name
         oled_write_P(PSTR(PRODUCT), false);
 
-    oled_set_cursor(0, 2);
+    oled_set_cursor(0, 4);
     oled_write_P(PSTR(EH_VERSION_STR), false);
 
-    oled_set_cursor(0, 5);
-    oled_write_P("MODE:", false);
     oled_set_cursor(0, 7);
-    if (keymap_config.swap_lctl_lgui) {
-        oled_write_P(PSTR("Mac"), false);
-    } else {
-        oled_write_P(PSTR("Win"), false);
-    }
-
-    // Print current layer
+    oled_write(get_cur_lang() == LANG_EN ? " EN " : " RU ", false);
+    
     oled_set_cursor(0, 10);
     oled_write_P(PSTR("LAYER"), false);
+    // Print current layer
     oled_set_cursor(0, 12);
-    oled_write_P(PSTR(layer_name(get_highest_layer(layer_state))), false);
+    oled_write_P(PSTR(layer_upper_name(get_highest_layer(layer_state))), false);
 
     oled_set_cursor(0, 15);
     led_t led_usb_state = host_keyboard_led_state();
