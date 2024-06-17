@@ -220,10 +220,8 @@ bool oled_task_kb(void) {
 #    ifdef RGBLIGHT_ENABLE
     if (activity_elapsed > EH_TIMEOUT) {
         rgblight_suspend();
-        return false;
     } else {
         rgblight_wakeup();
-        oled_on();
     }
 #    endif
 
