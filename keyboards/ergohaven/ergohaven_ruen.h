@@ -41,6 +41,9 @@ enum ruen_custom_keycodes {
     // symbols exist in russian only layout
     LG_NUM,
 
+    //
+    LG_WORD,
+
     // end of ru en symbols range
     LG_END,
 };

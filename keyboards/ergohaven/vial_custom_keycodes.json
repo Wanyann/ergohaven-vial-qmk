@@ -154,5 +154,9 @@
         {"name": "LG_NUM",
         "title": "Send №",
         "shortName": "RuEn\n№"
+        },
+        {"name": "LG_WORD",
+        "title": "Temporary turn on English layout and back to Russian layout on word's end",
+        "shortName": "RuEn\nword"
         }
      ],
