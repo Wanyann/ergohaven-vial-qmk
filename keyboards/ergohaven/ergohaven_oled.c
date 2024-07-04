@@ -78,24 +78,20 @@ void render_status_classic(void) {
     oled_clear();
 
     oled_set_cursor(0, 2);
-    if (strlen(PRODUCT) <= 5) // Imperial44 is too long name
-        oled_write_P(PSTR(PRODUCT), false);
+    oled_write_P(" K03 ", false);
 
-    oled_set_cursor(0, 4);
-    oled_write_P(PSTR(EH_VERSION_STR), false);
+    oled_set_cursor(0, 3);
+    oled_write_P((" 3.4 "), false);
 
-    oled_set_cursor(0, 7);
-    oled_write(get_cur_lang() == LANG_EN ? " EN " : " RU ", false);
+    oled_set_cursor(0, 6);
+    oled_write(get_cur_lang() == LANG_EN ? " ENG " : " RUS ", false);
     
-    oled_set_cursor(0, 10);
-    oled_write_P(PSTR("LAYER"), false);
-    // Print current layer
-    oled_set_cursor(0, 12);
+    oled_set_cursor(0, 9);
     oled_write_P(PSTR(layer_upper_name(get_highest_layer(layer_state))), false);
 
-    oled_set_cursor(0, 15);
+    oled_set_cursor(0, 12);
     bool caps = host_keyboard_led_state().caps_lock || is_caps_word_on();
-    oled_write_P(PSTR("CPSLK"), caps);
+    oled_write_P(PSTR(" CPS "), caps);
 }
 
 void render_status_modern(void) {
@@ -122,23 +118,23 @@ void render_status_modern(void) {
     oled_write_P((get_mods() | get_oneshot_mods()) & MOD_MASK_ALT ? PSTR("ALT\07\10") : PSTR("ALT\05\06"), false);
     oled_write_P((get_mods() | get_oneshot_mods()) & MOD_MASK_GUI ? PSTR("GUI\07\10") : PSTR("GUI\05\06"), false);
 
-    char buf[16];
-    int  wpm = get_current_wpm();
-    if (wpm < 10)
-        sprintf(buf, "WPM %d", wpm);
-    else if (wpm < 100)
-        sprintf(buf, "W  %d", wpm);
-    else
-        sprintf(buf, "W %d", wpm);
-    oled_set_cursor(0, 12);
-    oled_write_ln(buf, false);
+    // char buf[16];
+  //  int  wpm = get_current_wpm();
+    // if (wpm < 10)
+    //     sprintf(buf, "WPM %d", wpm);
+    // else if (wpm < 100)
+    //     sprintf(buf, "W  %d", wpm);
+    // else
+    //     sprintf(buf, "W %d", wpm);
+    // oled_set_cursor(0, 12);
+    // oled_write_ln(buf, false);
 
-    struct hid_data_t* hid_data = get_hid_data();
-    if (hid_data->time_changed) {
-        sprintf(buf, "%02d:%02d", hid_data->hours, hid_data->minutes);
-        oled_set_cursor(0, 14);
-        oled_write_ln(buf, false);
-    }
+    // struct hid_data_t* hid_data = get_hid_data();
+    // if (hid_data->time_changed) {
+    //     sprintf(buf, "%02d:%02d", hid_data->hours, hid_data->minutes);
+    //     oled_set_cursor(0, 14);
+    //     oled_write_ln(buf, false);
+    // }
 }
 
 void render_status_minimalistic(void) {
@@ -180,26 +176,26 @@ void render_status_minimalistic(void) {
     oled_set_cursor(0, 7);
     oled_write(buf, false);
 
-    int wpm = get_current_wpm();
-    if (wpm > 0) {
-        if (wpm < 10)
-            sprintf(buf, "WPM %d", wpm);
-        else if (wpm < 100)
-            sprintf(buf, "W  %d", wpm);
-        else
-            sprintf(buf, "W %d", wpm);
+   // int wpm = get_current_wpm();
+    // if (wpm > 0) {
+    //     if (wpm < 10)
+    //         sprintf(buf, "WPM %d", wpm);
+    //     else if (wpm < 100)
+    //         sprintf(buf, "W  %d", wpm);
+    //     else
+    //         sprintf(buf, "W %d", wpm);
 
-    } else
-        sprintf(buf, "     ");
-    oled_set_cursor(0, 9);
-    oled_write_ln(buf, false);
+    // } else
+    //     sprintf(buf, "     ");
+    // oled_set_cursor(0, 9);
+    // oled_write_ln(buf, false);
 
-    struct hid_data_t* hid_data = get_hid_data();
-    if (hid_data->time_changed) {
-        sprintf(buf, "%02d:%02d", hid_data->hours, hid_data->minutes);
-        oled_set_cursor(0, 11);
-        oled_write_ln(buf, false);
-    }
+    // struct hid_data_t* hid_data = get_hid_data();
+    // if (hid_data->time_changed) {
+    //     sprintf(buf, "%02d:%02d", hid_data->hours, hid_data->minutes);
+    //     oled_set_cursor(0, 11);
+    //     oled_write_ln(buf, false);
+    // }
 }
 
 void render_media(void) {
