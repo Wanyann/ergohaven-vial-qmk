@@ -17,6 +17,7 @@
 #include "timer.h"
 #include "action.h"
 #include "action_util.h"
+#include "action_layer.h"
 
 /** @brief True when Caps Word is active. */
 static bool caps_word_active = false;
@@ -56,7 +57,7 @@ void caps_word_on(void) {
 #if CAPS_WORD_IDLE_TIMEOUT > 0
     caps_word_reset_idle_timer();
 #endif // CAPS_WORD_IDLE_TIMEOUT > 0
-
+    layer_on(2);
     caps_word_active = true;
     caps_word_set_user(true);
 }
@@ -67,6 +68,7 @@ void caps_word_off(void) {
     }
 
     unregister_weak_mods(MOD_MASK_SHIFT); // Make sure weak shift is off.
+    layer_off(2);
     caps_word_active = false;
     caps_word_set_user(false);
 }
