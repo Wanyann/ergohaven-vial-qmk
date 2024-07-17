@@ -69,8 +69,8 @@ typedef struct {
 } ru_en_symbol;
 
 ru_en_symbol ru_en_table[] = {
-    {KC_DOT, KC_SLASH},         // LG_DOT
-    {KC_COMMA, LSFT(KC_SLASH)}, // LG_COMMA
+    // {KC_DOT, KC_SLASH},         // LG_DOT
+    // {KC_COMMA, LSFT(KC_SLASH)}, // LG_COMMA
     {KC_SCLN, LSFT(KC_4)},      // LG_SCLN
     {KC_COLON, LSFT(KC_6)},     // LG_COLON
     {KC_DQUO, LSFT(KC_2)},      // LG_DQUO
@@ -93,7 +93,7 @@ uint16_t en_table[] = {
     KC_CIRC,  // LG_CIRC
     KC_AMPR,  // LG_AMPR
     KC_PIPE,  // LG_PIPE
-    KC_QUOT,  // LG_QUOTE
+    KC_QUOT,  // LG_QUOTEэ?
 };
 
 bool pre_process_record_ruen(uint16_t keycode, keyrecord_t *record) {
@@ -170,19 +170,55 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             tg_mode = TG_DEFAULT;
             return false;
 
-        case LG_RU_EN_START ... LG_SLASH:
+        case LG_SCLN :
+        case LG_COLON :
+        case LG_DQUO :
+        case LG_QUES :
+        case LG_SLASH :
             if (cur_lang == 0)
-                tap_code16(ru_en_table[keycode - LG_RU_EN_START].en);
+                tap_code16(ru_en_table[keycode - LG_SCLN].en);
             else
-                tap_code16(ru_en_table[keycode - LG_RU_EN_START].ru);
+                tap_code16(ru_en_table[keycode - LG_SCLN].ru);
             return false;
 
-        case LG_EN_START ... LG_QUOTE: {
+        case LG_LBR:
+        case LG_RBR :
+        case LG_LCBR :
+        case LG_RCBR :
+        case LG_LT :
+        case LG_GT :
+        case LG_GRAVE :
+        case LG_TILD :
+        case LG_AT :
+        case LG_HASH :
+        case LG_DLR :
+        case LG_CIRC :
+        case LG_AMPR :
+        case LG_PIPE :
+        case LG_QUOTE : {
             uint8_t lang = cur_lang;
             set_lang(LANG_EN);
-            tap_code16(en_table[keycode - LG_EN_START]);
+            tap_code16(en_table[keycode - LG_LBR]);
             should_revert_ru = should_revert_ru || (cur_lang != lang);
             revert_ru_time   = timer_read32();
+            return false;
+        }
+
+
+
+        case LG_DOT: {
+            uint8_t lang = cur_lang;
+            set_lang(LANG_EN);
+            tap_code16(KC_DOT);
+            set_lang(lang);
+            return false;
+        }
+
+        case LG_COMMA: {
+            uint8_t lang = cur_lang;
+            set_lang(LANG_EN);
+            tap_code16(KC_COMMA);
+            set_lang(lang);
             return false;
         }
 
