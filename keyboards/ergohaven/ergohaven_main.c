@@ -4,6 +4,21 @@
 #include "ergohaven_oled.h"
 #include "hid.h"
 
+typedef union {
+    uint32_t raw;
+    struct {
+        uint8_t ruen_toggle_mode : 2;
+    };
+} kb_config_t;
+
+kb_config_t kb_config;
+
+void kb_config_update_ruen_toggle_mode(uint8_t mode)
+{
+    kb_config.ruen_toggle_mode = mode;
+    eeconfig_update_kb(kb_config.raw);
+}
+
 #ifdef AUDIO_ENABLE
 float base_sound[][2] = SONG(TERMINAL_SOUND);
 float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
@@ -183,6 +198,9 @@ void matrix_scan_kb(void) { // The very important timer.
 }
 
 void keyboard_post_init_kb(void) {
+    kb_config.raw = eeconfig_read_kb();
+    set_ruen_toggle_mode(kb_config.ruen_toggle_mode);
+
 #ifdef RGBLIGHT_ENABLE
     keyboard_post_init_rgb();
 #endif
@@ -206,11 +224,8 @@ layer_state_t layer_state_set_kb(layer_state_t state) {
     return state;
 }
 
-// for macropad
-__attribute__((weak)) void housekeeping_task_oled(void) {}
-
 void housekeeping_task_kb(void) {
-#ifdef OLED_ENABLE
+#if defined(OLED_ENABLE) && defined(SPLIT_KEYBOARD)
     housekeeping_task_oled();
 #endif
     housekeeping_task_ruen();

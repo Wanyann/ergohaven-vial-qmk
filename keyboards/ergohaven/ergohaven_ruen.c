@@ -3,9 +3,13 @@
 
 static uint8_t cur_lang = LANG_EN;
 
+static uint8_t stored_lang = LANG_EN;
+
+static bool should_revert_macro = false;
+
 static uint8_t tg_mode = TG_M1M2;
 
-static uint32_t revert_ru_time = 0;
+static uint32_t revert_time = 0;
 
 static bool should_revert_ru = false;
 
@@ -43,6 +47,23 @@ void set_lang(uint8_t lang) {
             break;
     }
     cur_lang = lang;
+}
+
+void set_ruen_toggle_mode(uint8_t mode) {
+    switch (mode) {
+        default:
+        case TG_DEFAULT:
+            tg_mode = TG_DEFAULT;
+            break;
+
+        case TG_M1M2:
+            tg_mode = TG_M1M2;
+            break;
+
+        case TG_M0:
+            tg_mode = TG_M0;
+            break;
+    }
 }
 
 void lang_toggle(void) {
@@ -139,6 +160,11 @@ bool pre_process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == LG_MOD) {
+        lang_toggle();
+        return true;
+    }
+
     if (!record->event.pressed) return true;
 
     switch (keycode) {
@@ -160,14 +186,17 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 
         case LG_SET_M0:
             tg_mode = TG_M0;
+            kb_config_update_ruen_toggle_mode(tg_mode);
             return false;
 
         case LG_SET_M1M2:
             tg_mode = TG_M1M2;
+            kb_config_update_ruen_toggle_mode(tg_mode);
             return false;
 
         case LG_SET_DFLT:
             tg_mode = TG_DEFAULT;
+            kb_config_update_ruen_toggle_mode(tg_mode);
             return false;
 
         case LG_SCLN :
@@ -200,7 +229,25 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             set_lang(LANG_EN);
             tap_code16(en_table[keycode - LG_LBR]);
             should_revert_ru = should_revert_ru || (cur_lang != lang);
-            revert_ru_time   = timer_read32();
+            revert_time      = timer_read32();
+            return false;
+        }
+
+
+
+        case LG_DOT: {
+            uint8_t lang = cur_lang;
+            set_lang(LANG_EN);
+            tap_code16(KC_DOT);
+            set_lang(lang);
+            return false;
+        }
+
+        case LG_COMMA: {
+            uint8_t lang = cur_lang;
+            set_lang(LANG_EN);
+            tap_code16(KC_COMMA);
+            set_lang(lang);
             return false;
         }
 
@@ -240,23 +287,39 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         }
+
+        case LG_STORE:
+            stored_lang         = cur_lang;
+            should_revert_macro = true;
+            return false;
+
+        case LG_REVERT:
+            set_lang(stored_lang);
+            should_revert_macro = false;
+            revert_time         = timer_read32();
+            return false;
     }
 
     return true;
 }
 
 void housekeeping_task_ruen(void) {
-    if (should_revert_ru && timer_elapsed32(revert_ru_time) > 500) {
+    if (timer_elapsed32(revert_time) < 500) return;
+
+    if (should_revert_ru) {
         should_revert_ru = false;
         set_lang(LANG_RU);
-    } else {
-        struct hid_data_t *hid_data = get_hid_data();
-        if (hid_data->layout_changed) {
-            if (hid_data->layout == LANG_EN)
-                cur_lang = LANG_EN;
-            else
-                cur_lang = LANG_RU;
-            hid_data->layout_changed = false;
-        }
+        return;
+    }
+
+    if (should_revert_macro) return;
+
+    struct hid_data_t *hid_data = get_hid_data();
+    if (hid_data->layout_changed) {
+        if (hid_data->layout == LANG_EN)
+            cur_lang = LANG_EN;
+        else
+            cur_lang = LANG_RU;
+        hid_data->layout_changed = false;
     }
 }

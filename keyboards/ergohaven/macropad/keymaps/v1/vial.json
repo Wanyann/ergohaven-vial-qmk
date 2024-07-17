@@ -1,7 +1,7 @@
 {
     "name": "M4CR0Pad",
-    "vendorId": "0x444D",
-    "productId": "0x3636",
+    "vendorId": "0xe612",
+    "productId": "0x0040",
     "matrix": {
         "rows": 5,
         "cols": 3
