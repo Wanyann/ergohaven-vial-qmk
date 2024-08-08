@@ -143,6 +143,20 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       }
       layer_move(prev_layer);
       return false;
+    case KC_SCLN:
+    case KC_QUOT:
+    case KC_LBRC:
+    case KC_RBRC:
+    case KC_GRAVE:
+    case KC_COMMA:
+    case KC_DOT:
+    case KC_A ... KC_Z:
+
+      if(IS_LAYER_ON(1)) {
+        layer_off(1);
+      }
+
+      return process_record_user(keycode, record);
 
     case LG_TOGGLE...LG_END:
       return process_record_ruen(keycode, record);
@@ -259,7 +273,7 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
     " APP ",
     " SYM ",
     " FUN ",
-    " L 7 ",
+    " OLG ",
     " L 8 ",
     " L 9 ",
     " TEN ",
