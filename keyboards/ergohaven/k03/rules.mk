@@ -26,7 +26,7 @@ REPEAT_KEY_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
 NO_USB_STARTUP_CHECK = yes
 
-WPM_ENABLE = no
+WPM_ENABLE = yes
 RAW_ENABLE = no
 
 SRC += keyboards/ergohaven/ergohaven_rgb.c

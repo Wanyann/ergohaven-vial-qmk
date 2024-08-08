@@ -251,24 +251,6 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
 
-
-
-        case LG_DOT: {
-            uint8_t lang = cur_lang;
-            set_lang(LANG_EN);
-            tap_code16(KC_DOT);
-            set_lang(lang);
-            return false;
-        }
-
-        case LG_COMMA: {
-            uint8_t lang = cur_lang;
-            set_lang(LANG_EN);
-            tap_code16(KC_COMMA);
-            set_lang(lang);
-            return false;
-        }
-
         case LG_NUM: {
             uint8_t lang = cur_lang;
             set_lang(LANG_RU);
