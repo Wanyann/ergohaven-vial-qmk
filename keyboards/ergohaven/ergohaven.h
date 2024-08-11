@@ -56,6 +56,7 @@ enum custom_keycodes {
     ALT_TAB,
     LAYER_NEXT,
     LAYER_PREV,
+    SNIP
 };
 
 // 1st layer on the cycle

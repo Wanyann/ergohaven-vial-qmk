@@ -1,6 +1,11 @@
 #include QMK_KEYBOARD_H
 #include "ergohaven.h"
 
+
+static bool numlock_enabled = false;
+static bool scrolllock_enabled = false;
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT( \
           KC_GRV,   KC_1,    KC_2,    KC_3,     KC_4,     KC_5,                                          KC_6,  KC_7,     KC_8,     KC_9,   KC_0,    KC_BSPC, \
@@ -13,7 +18,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_LOWER] = LAYOUT( \
          KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,    KC_F6,                                            KC_F7,   KC_F8,   KC_F9,   KC_F10, KC_F11,  KC_F12,
          _______, _______, KC_HOME, KC_UP,   KC_END,   KC_INS,                                           KC_PGUP, KC_7,    KC_8,    KC_9,   _______, _______,
-         _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,                                           KC_PGDN, KC_4,    KC_5,    KC_6,   _______, _______,
+         _______, SNIP, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,                                           KC_PGDN, KC_4,    KC_5,    KC_6,   _______, _______,
          _______, _______, PREVWRD, KC_CAPS, NEXTWRD,  KC_DEL,                                           KC_PSCR, KC_1,    KC_2,    KC_3,   _______, _______,
                            _______, _______, _______, _______, _______, _______,       _______, _______, ADJUST, _______,  KC_0, _______\
         ),
@@ -44,3 +49,34 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
   [3] = { ENCODER_CCW_CW(_______, _______), ENCODER_CCW_CW(_______, _______)},
 };
 #endif
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SNIP:
+            if (record->event.pressed) {
+                if(!scrolllock_enabled) {
+                    tap_code16(KC_SCRL);
+                }
+            } else {
+                if(scrolllock_enabled) {
+                    tap_code16(KC_SCRL);
+                }
+            }
+        case KC_NUM:
+            return true;
+        default:
+            if (record->event.pressed) {
+                if(numlock_enabled) {
+                    tap_code16(KC_NUM);
+                }
+            }
+            return true;
+    }
+}
+
+
+bool led_update_user(led_t led_state) {
+    numlock_enabled = led_state.num_lock;
+    scrolllock_enabled = led_state.scroll_lock;
+    return true;
+}
