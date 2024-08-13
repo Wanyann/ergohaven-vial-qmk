@@ -86,7 +86,7 @@ void render_status_classic(void) {
     oled_write_P(" K03 ", false);
 
     oled_set_cursor(0, 3);
-    oled_write_P((" 3.4 "), false);
+    oled_write_P((" 3.6 "), false);
 
     oled_set_cursor(0, 6);
     oled_write(get_cur_lang() == LANG_EN ? " ENG " : " RUS ", false);

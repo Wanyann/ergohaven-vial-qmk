@@ -12,7 +12,9 @@ enum ruen_custom_keycodes {
 
     // symbols exist in russian and english layout
     LG_RU_EN_START,
-    LG_SCLN = LG_RU_EN_START,
+    LG_DOT = LG_RU_EN_START,
+    LG_COMMA,
+    LG_SCLN,
     LG_COLON,
     LG_DQUO,
     LG_QUES,
@@ -38,8 +40,6 @@ enum ruen_custom_keycodes {
 
     // symbols exist in russian only layout
     LG_NUM,
-    LG_COMMA,
-    LG_DOT,
 
     //^
     LG_WORD,
