@@ -1,7 +1,7 @@
 #pragma once
 #include "quantum.h"
 
-#define EH_VERSION_STR "v3.5"
+#define EH_VERSION_STR "v3.6"
 
 #define _BASE 0
 #define _LOWER 1
@@ -49,11 +49,11 @@
 #define APP_B     LSG(KC_B)
 
 enum custom_keycodes {
-    NEXTSEN = QK_KB,
-    PREDL,
-    BRACES,
-    PARENTH,
-    ALT_TAB,
+    EH_RESERV1 = QK_KB,
+    EH_RESERV2,
+    EH_RESERV3,
+    WNEXT,
+    WPREV,
     LAYER_NEXT,
     LAYER_PREV,
     SNIP
