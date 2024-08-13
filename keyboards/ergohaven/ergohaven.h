@@ -1,7 +1,7 @@
 #pragma once
 #include "quantum.h"
 
-#define EH_VERSION_STR "v3.4"
+#define EH_VERSION_STR "v3.5"
 
 #define _BASE 0
 #define _LOWER 1
@@ -56,6 +56,7 @@ enum custom_keycodes {
     ALT_TAB,
     LAYER_NEXT,
     LAYER_PREV,
+    SNIP
 };
 
 // 1st layer on the cycle
@@ -66,3 +67,5 @@ enum custom_keycodes {
 const char* layer_name(int layer);
 
 const char* layer_upper_name(int layer);
+
+void kb_config_update_ruen_toggle_mode(uint8_t mode);

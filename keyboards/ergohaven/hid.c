@@ -52,7 +52,7 @@ void process_raw_hid_data(uint8_t *data, uint8_t length) {
     }
 }
 
-#if defined(SPLIT_OLED_ENABLE)
+#if defined(OLED_ENABLE) && defined(SPLIT_KEYBOARD)
 #    include "transactions.h"
 
 void raw_hid_receive_kb(uint8_t *data, uint8_t length) {
