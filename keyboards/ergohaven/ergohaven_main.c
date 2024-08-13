@@ -13,6 +13,9 @@ typedef union {
 
 kb_config_t kb_config;
 
+static bool numlock_enabled = false;
+static bool scrolllock_enabled = false;
+
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
 {
     kb_config.ruen_toggle_mode = mode;
@@ -170,6 +173,41 @@ bool caps_word_press_user(uint16_t keycode) {
         default:
             return false; // Deactivate Caps Word.
     }
+}
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SNIP:
+            if (record->event.pressed) {
+                if(!scrolllock_enabled) {
+                    tap_code16(KC_SCRL);
+                }
+            } else {
+                if(scrolllock_enabled) {
+                    tap_code16(KC_SCRL);
+                }
+            }
+        case KC_NUM:
+            return true;
+        case LALT(KC_SPACE):
+            layer_off(1);
+            return true;
+        default:
+            if (record->event.pressed) {
+                if(numlock_enabled) {
+                    tap_code16(KC_NUM);
+                }
+            }
+            return true;
+    }
+}
+
+
+bool led_update_user(led_t led_state) {
+    numlock_enabled = led_state.num_lock;
+    scrolllock_enabled = led_state.scroll_lock;
+    return true;
 }
 
 void matrix_scan_kb(void) { // The very important timer.

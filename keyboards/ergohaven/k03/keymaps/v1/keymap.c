@@ -2,8 +2,6 @@
 #include "ergohaven.h"
 
 
-static bool numlock_enabled = false;
-static bool scrolllock_enabled = false;
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -50,36 +48,3 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case SNIP:
-            if (record->event.pressed) {
-                if(!scrolllock_enabled) {
-                    tap_code16(KC_SCRL);
-                }
-            } else {
-                if(scrolllock_enabled) {
-                    tap_code16(KC_SCRL);
-                }
-            }
-        case KC_NUM:
-            return true;
-        case LALT(KC_SPACE):
-            layer_off(1);
-            return true;
-        default:
-            if (record->event.pressed) {
-                if(numlock_enabled) {
-                    tap_code16(KC_NUM);
-                }
-            }
-            return true;
-    }
-}
-
-
-bool led_update_user(led_t led_state) {
-    numlock_enabled = led_state.num_lock;
-    scrolllock_enabled = led_state.scroll_lock;
-    return true;
-}
