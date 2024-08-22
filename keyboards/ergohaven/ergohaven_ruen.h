@@ -2,7 +2,7 @@
 #include "ergohaven.h"
 
 enum ruen_custom_keycodes {
-    LG_TOGGLE = SNIP + 1,
+    LG_TOGGLE = SCRL + 1,
     LG_SYNC,
     LG_SET_EN,
     LG_SET_RU,

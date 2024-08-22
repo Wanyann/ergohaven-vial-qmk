@@ -6,10 +6,6 @@
         "title": "Not using",
         "shortName": ""
         },
-        {"name": "",
-        "title": "Not using",
-        "shortName": ""
-        },
         {"name": "WNEXT",
         "title": "Holds Alt and taps Tab, then waits for 650ms, if the key is tapped again, it will send another Tab; if there is no tap, Alt will turn off. This allows you to cycle through windows with only one key",
         "shortName": "Next\nWin"
@@ -27,6 +23,10 @@
         "shortName": "Prev\nLayer"
         },
         {"name": "SNIP",
-        "title": "Momentarily activate Sniping layer",
+        "title": "Momentarily activate Sniping mode",
         "shortName": "SNIP"
+        },
+        {"name": "SCRL",
+        "title": "Momentarily activate Scroll mode",
+        "shortName": "SCRL"
         }
