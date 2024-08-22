@@ -743,11 +743,11 @@ void display_housekeeping_task(void) {
 
     const int TIMEOUT = (1 * 60 * 1000);
     if (last_input_activity_elapsed() > TIMEOUT) {
-        gpio_write_pin_low(GP17);
+        gpio_write_pin_low(GP18);
         qp_power(display, false);
         return;
     } else {
-        gpio_write_pin_high(GP17);
+        gpio_write_pin_high(GP18);
         qp_power(display, true);
     }
 

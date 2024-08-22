@@ -4,10 +4,13 @@ BOOTLOADER = rp2040
 # ALLOW_WARNINGS = yes
 # PICO_INTRINSICS_ENABLED = no
 
-DEFAULT_FOLDER = ergohaven/velvet/rev3
+POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = azoteq_iqs5xx
 
-SPLIT_KEYBOARD = yes
-SERIAL_DRIVER = vendor
+# Build Options
+ENCODER_ENABLE = yes
+OLED_ENABLE = yes
+OLED_DRIVER = ssd1306
 
 NKRO_ENABLE = yes
 BOOTMAGIC_ENABLE = yes
@@ -22,9 +25,8 @@ DYNAMIC_MACRO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
-NO_USB_STARTUP_CHECK = yes
 
 SRC += keyboards/ergohaven/ergohaven_rgb.c
 SRC += keyboards/ergohaven/ergohaven_main.c
-SRC += keyboards/ergohaven/ergohaven_ruen.c
+SRC += keyboards/ergohaven/lang_ru_en.c
 SRC += keyboards/ergohaven/hid.c

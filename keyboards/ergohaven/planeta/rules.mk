@@ -6,8 +6,8 @@ BOOTLOADER = rp2040
 
 DEFAULT_FOLDER = ergohaven/planeta/rev2
 
-AUDIO_ENABLE = yes
-AUDIO_DRIVER = pwm_hardware
+# AUDIO_ENABLE = yes
+# AUDIO_DRIVER = pwm_hardware
 
 NKRO_ENABLE = yes
 BOOTMAGIC_ENABLE = yes
