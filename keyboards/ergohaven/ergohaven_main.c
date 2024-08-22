@@ -181,23 +181,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SNIP:
             if (record->event.pressed) {
                 if(!scrolllock_enabled) {
-                    tap_code16(KC_SCRL);
+                    tap_code16(KC_SCROLL_LOCK);
                 }
             } else {
                 if(scrolllock_enabled) {
-                    tap_code16(KC_SCRL);
+                    tap_code16(KC_SCROLL_LOCK);
                 }
             }
-        case KC_NUM:
             return true;
-        case LALT(KC_SPACE):
-            layer_off(1);
-            return true;
-        default:
+
+        case SCRL:
             if (record->event.pressed) {
+                if(!numlock_enabled) {
+                    tap_code16(KC_NUM);
+                }
+            } else {
                 if(numlock_enabled) {
                     tap_code16(KC_NUM);
                 }
+            }
+            return true;
+
+        case LALT(KC_SPACE):
+            layer_off(1);
+            return true;
+
+        default:
+            if(numlock_enabled) {
+                tap_code16(KC_NUM);
             }
             return true;
     }
