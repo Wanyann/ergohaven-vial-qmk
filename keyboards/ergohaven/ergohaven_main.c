@@ -175,6 +175,13 @@ bool caps_word_press_user(uint16_t keycode) {
     }
 }
 
+void caps_word_set_user(bool active) {
+    if (active) {
+        layer_on(2);
+    } else {
+        layer_off(2);
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
