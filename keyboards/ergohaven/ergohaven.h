@@ -55,8 +55,7 @@ enum custom_keycodes {
     WPREV,
     LAYER_NEXT,
     LAYER_PREV,
-    SNIP,
-    SCRL
+    SNIP
 };
 
 // 1st layer on the cycle

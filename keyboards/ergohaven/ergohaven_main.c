@@ -201,16 +201,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
 
-        case SCRL:
-            if (record->event.pressed) {
-                if(!numlock_enabled) {
-                    tap_code16(KC_NUM);
-                }
-            } else {
-                if(numlock_enabled) {
-                    tap_code16(KC_NUM);
-                }
-            }
         case KC_NUM:
             return true;
 
@@ -260,9 +250,7 @@ void matrix_scan_kb(void) { // The very important timer.
         is_alt_tab_active = false;
         }
     }
-  }
 
-  matrix_scan_user();
     if (modifiersPressed()) {
         if(alpha_layer_active) {
             layer_on(2);
