@@ -165,7 +165,8 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
                 temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON1);
             } else if (base_data.gesture_events_1.two_finger_tap) {
                 pd_dprintf("IQS5XX - Two finger tap.\n");
-                temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON2);
+                if (base_data.previous_cycle_time == 10) // this fixes weird bug with two extra clicks
+                    temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON2);
             } else if (base_data.gesture_events_0.swipe_x_neg) {
                 pd_dprintf("IQS5XX - X-.\n");
                 temp_report.buttons = pointing_device_handle_buttons(temp_report.buttons, true, POINTING_DEVICE_BUTTON4);
@@ -215,6 +216,17 @@ report_mouse_t azoteq_iqs5xx_get_report(report_mouse_t mouse_report) {
     } else {
         pd_dprintf("IQS5XX - Init failed: %d \n", azoteq_iqs5xx_init_status);
     }
+
+    static uint32_t button_press_time = 0;
+    static uint8_t  prev_buttons      = 0;
+    if (temp_report.buttons) {
+        prev_buttons |= temp_report.buttons;
+        button_press_time = timer_read32();
+    }
+    if (timer_elapsed32(button_press_time) < 40)
+        temp_report.buttons = prev_buttons;
+    else
+        temp_report.buttons = prev_buttons = 0;
 
     return temp_report;
 }

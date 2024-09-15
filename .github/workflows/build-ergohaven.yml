@@ -35,11 +35,13 @@ jobs:
         qmk compile -kb ergohaven/planeta -km v2
         qmk compile -kb ergohaven/macropad/rev1 -km v1
         qmk compile -kb ergohaven/macropad/rev2 -km v2
+        qmk compile -kb ergohaven/macropad/rev2 -km v2_ccw
         qmk compile -kb ergohaven/trackball -km v1
+        qmk compile -kb ergohaven/k03pro -km v1
 
     - uses: actions/upload-artifact@v4
       name: Upload
       id: upload
       with:
-        path: .build/*.uf2
+        path: "*.uf2"
         name: ergohaven_fw

@@ -4,10 +4,13 @@
 #include "ergohaven_ruen.h"
 #include "hid.h"
 #include "ergohaven.h"
+#include "k03pro.h"
 
 static uint16_t home_screen_timer = 0;
 
 static bool display_enabled;
+
+static bool display_is_on = false;
 
 static painter_device_t display;
 
@@ -44,9 +47,9 @@ static lv_obj_t *label_media_artist;
 static lv_obj_t *label_media_title;
 
 /* public function to be used in keymaps */
-// bool is_display_enabled(void) {
-//     return display_enabled;
-// }
+bool is_display_enabled(void) {
+    return display_enabled;
+}
 
 void init_styles(void) {
     lv_style_init(&style_screen);
@@ -98,7 +101,7 @@ void init_screen_home(void) {
     label_shift = create_button(mods, "SFT", &style_button, &style_button_active);
 
     label_caps = create_button(mods, "CAPS", &style_button, &style_button_active);
-    label_num = create_button(mods, "NUM", &style_button, &style_button_active);
+    label_num  = create_button(mods, "NUM", &style_button, &style_button_active);
 
     lv_obj_t *bottom_row = lv_obj_create(screen_home);
     lv_obj_add_style(bottom_row, &style_container, 0);
@@ -114,7 +117,7 @@ void init_screen_home(void) {
     lv_obj_align(label_layout, LV_ALIGN_RIGHT_MID, -20, 0);
 
     label_version = lv_label_create(screen_home);
-    lv_label_set_text(label_version, EH_VERSION_STR);
+    lv_label_set_text(label_version, "v" EH_VERSION_STR);
 }
 
 void init_screen_volume(void) {
@@ -159,7 +162,6 @@ bool display_init_kb(void) {
     dprint("display_init_kb - start\n");
 
     gpio_set_pin_output(GP17);
-    gpio_write_pin_high(GP17);
 
     display = qp_st7789_make_spi_device(240, 280, LCD_CS_PIN, LCD_DC_PIN, LCD_RST_PIN, 16, 3);
     qp_set_viewport_offsets(display, 0, 20);
@@ -168,7 +170,7 @@ bool display_init_kb(void) {
 
     dprint("display_init_kb - initialised\n");
 
-    lv_disp_t  *lv_display = lv_disp_get_default();
+    lv_disp_t * lv_display = lv_disp_get_default();
     lv_theme_t *lv_theme   = lv_theme_default_init(lv_display, lv_palette_main(LV_PALETTE_TEAL), lv_palette_main(LV_PALETTE_BLUE), true, LV_FONT_DEFAULT);
     lv_disp_set_theme(lv_display, lv_theme);
     init_styles();
@@ -177,6 +179,7 @@ bool display_init_kb(void) {
     init_screen_volume();
     init_screen_media();
     display_enabled = true;
+    display_turn_on();
 
     return display_enabled;
 }
@@ -230,38 +233,41 @@ void display_process_layer_state(uint8_t layer) {
     lv_label_set_text(label_layer, layer_upper_name(layer));
 }
 
+void display_turn_on(void) {
+    if (!display_is_on) {
+        gpio_write_pin_high(GP17);
+        qp_power(display, true);
+        display_is_on = true;
+    }
+}
+
+void display_turn_off(void) {
+    if (display_is_on) {
+        gpio_write_pin_low(GP17);
+        qp_power(display, false);
+        display_is_on = false;
+    }
+}
+
 void display_housekeeping_task(void) {
     if (home_screen_timer && timer_elapsed(home_screen_timer) > 5000) {
         home_screen_timer = 0;
         lv_scr_load(screen_home);
     }
 
-    if (last_input_activity_elapsed() > EH_TIMEOUT ) {
-        rgblight_suspend();
-        gpio_write_pin_low(GP17);
-        qp_power(display, false);
-        return;
-    } else {
-        rgblight_wakeup();
-        gpio_write_pin_high(GP17);
-        qp_power(display, true);
-    }
+    int mods = get_mods() | get_oneshot_mods();
+    toggle_state(label_shift, LV_STATE_PRESSED, mods & MOD_MASK_SHIFT);
+    toggle_state(label_ctrl, LV_STATE_PRESSED, mods & MOD_MASK_CTRL);
+    toggle_state(label_alt, LV_STATE_PRESSED, mods & MOD_MASK_ALT);
+    toggle_state(label_gui, LV_STATE_PRESSED, mods & MOD_MASK_GUI);
 
-    toggle_state(label_shift, LV_STATE_PRESSED, (get_mods() | get_oneshot_mods()) & MOD_MASK_SHIFT);
-    toggle_state(label_ctrl, LV_STATE_PRESSED, (get_mods() | get_oneshot_mods()) & MOD_MASK_CTRL);
-    toggle_state(label_alt, LV_STATE_PRESSED, (get_mods() | get_oneshot_mods()) & MOD_MASK_ALT);
-    toggle_state(label_gui, LV_STATE_PRESSED, (get_mods() | get_oneshot_mods()) & MOD_MASK_GUI);
     struct hid_data_t *hid_data = get_hid_data();
     display_process_hid_data(hid_data);
-    set_layout_label(get_cur_lang());
-}
+    set_layout_label(get_lang());
 
-bool led_update_kb(led_t led_state) {
-    bool res = led_update_user(led_state);
-    if (res && is_display_enabled()) {
-        toggle_state(label_caps, LV_STATE_PRESSED, led_state.caps_lock);
-        toggle_state(label_num, LV_STATE_PRESSED, led_state.num_lock);
-    }
+    led_t led_state = host_keyboard_led_state();
+    toggle_state(label_caps, LV_STATE_PRESSED, led_state.caps_lock || get_caps_word());
+    toggle_state(label_num, LV_STATE_PRESSED, led_state.num_lock);
 
-    return res;
+    display_process_layer_state(get_highest_layer(layer_state));
 }
