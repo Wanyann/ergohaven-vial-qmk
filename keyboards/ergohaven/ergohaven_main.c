@@ -168,6 +168,8 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_DEL:
         case KC_UNDS:
         case QK_MACRO_1 ... QK_MACRO_31:
+        case LG_SET_EN:
+        case LG_SET_RU:
             return true;
 
         default:
