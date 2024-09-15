@@ -26,7 +26,7 @@
         "title": "Momentarily activate Sniping mode",
         "shortName": "SNIP"
         },
-        {"name": "SCRL",
-        "title": "Momentarily activate Scroll mode",
-        "shortName": "SCRL"
+        {"name": "",
+        "title": "Not using",
+        "shortName": ""
         }

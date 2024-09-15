@@ -15,6 +15,8 @@ kb_config_t kb_config;
 
 static bool numlock_enabled = false;
 static bool scrolllock_enabled = false;
+static bool mod_layer_on = false;
+static bool alpha_layer_active = true;
 
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
 {
@@ -168,6 +170,8 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_DEL:
         case KC_UNDS:
         case QK_MACRO_1 ... QK_MACRO_31:
+        case LG_SET_EN:
+        case LG_SET_RU:
             return true;
 
         default:
@@ -175,6 +179,13 @@ bool caps_word_press_user(uint16_t keycode) {
     }
 }
 
+void caps_word_set_user(bool active) {
+    if (active) {
+        layer_on(2);
+    } else {
+        layer_off(2);
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -190,26 +201,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return true;
 
-        case SCRL:
-            if (record->event.pressed) {
-                if(!numlock_enabled) {
-                    tap_code16(KC_NUM);
-                }
-            } else {
-                if(numlock_enabled) {
-                    tap_code16(KC_NUM);
-                }
-            }
+        case KC_NUM:
             return true;
+
+        case KC_LCTL:
+            return true;
+
+        case KC_LSFT:
+            return true;
+
+        case TO(0):
+            if(is_caps_word_on()) caps_word_off();
+            if(get_oneshot_mods()) clear_oneshot_mods();
+            return true;
+
+        // case KC_LCTRL:
+        //     if (record->event.pressed) {
+        //         if(!numlock_enabled) {
+        //             tap_code16(KC_NUM);
+        //         }
+        //     } else {
+        //         if(numlock_enabled) {
+        //             tap_code16(KC_NUM);
+        //         }
+        //     }
 
         case LALT(KC_SPACE):
             layer_off(1);
             return true;
 
         default:
-            if(numlock_enabled) {
-                tap_code16(KC_NUM);
-            }
+            if(numlock_enabled) tap_code16(KC_NUM);
             return true;
     }
 }
@@ -222,14 +244,24 @@ bool led_update_user(led_t led_state) {
 }
 
 void matrix_scan_kb(void) { // The very important timer.
-  if (is_alt_tab_active) {
-    if (timer_elapsed(alt_tab_timer) > 650) {
-      unregister_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
-      is_alt_tab_active = false;
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 650) {
+        unregister_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+        is_alt_tab_active = false;
+        }
     }
-  }
 
-  matrix_scan_user();
+    if (modifiersPressed()) {
+        if(alpha_layer_active) {
+            layer_on(2);
+            mod_layer_on = true;
+        }
+    } else if (mod_layer_on && IS_LAYER_ON(2)) {
+        layer_off(2);
+        mod_layer_on = false;
+    }
+
+    matrix_scan_user();
 }
 
 void keyboard_post_init_kb(void) {
@@ -304,6 +336,28 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
     " GAM ",
     " L15 ",
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    if(get_highest_layer(state) > 0) {
+        alpha_layer_active = false;
+    } else {
+        alpha_layer_active = true;
+    }
+    return state;
+}
+
+bool modifiersPressed(void) {
+    return (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_CAG; // (MOD_BIT(KC_LCTL) | MOD_BIT(KC_LALT) | MOD_BIT(KC_LGUI))
+}
+
+// bool alphaLayerIsActive() {
+//     for(i = 2; i <= 14; i++) {
+//         if(IS_LAYER_ON(i)) {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
 
 const char* layer_name(int layer) {
     if (layer >= 0 && layer <= 15)
