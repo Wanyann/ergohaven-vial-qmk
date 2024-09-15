@@ -69,3 +69,5 @@ const char* layer_name(int layer);
 const char* layer_upper_name(int layer);
 
 void kb_config_update_ruen_toggle_mode(uint8_t mode);
+
+bool modifiersPressed(void);
