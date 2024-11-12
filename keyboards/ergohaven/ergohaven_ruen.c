@@ -178,11 +178,11 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 
         case LG_SET_EN:
             set_lang(LANG_EN);
-            return false;
+            return true;
 
         case LG_SET_RU:
             set_lang(LANG_RU);
-            return false;
+            return true;
 
         case LG_SET_M0:
             tg_mode = TG_M0;
