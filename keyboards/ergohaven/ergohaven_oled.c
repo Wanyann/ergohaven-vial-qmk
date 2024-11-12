@@ -83,20 +83,20 @@ void render_status_classic(void) {
     oled_clear();
 
     oled_set_cursor(0, 2);
-    oled_write_P(" K03 ", false);
+    oled_write_P("K03v2", false);
 
     oled_set_cursor(0, 3);
-    oled_write_P((" 3.6 "), false);
+    oled_write_P((EH_VERSION_STR), false);
 
     oled_set_cursor(0, 6);
-    oled_write(get_cur_lang() == LANG_EN ? " ENG " : " RUS ", false);
+    oled_write(get_cur_lang() == LANG_EN ? "ENGLI" : "RUSSI", false);
 
     oled_set_cursor(0, 9);
     oled_write_P(PSTR(layer_upper_name(get_highest_layer(layer_state))), false);
 
     oled_set_cursor(0, 12);
     bool caps = host_keyboard_led_state().caps_lock || is_caps_word_on();
-    oled_write_P(PSTR(" CPS "), caps);
+    oled_write_P(PSTR("CPSLK"), caps);
 }
 
 void render_status_modern(void) {
