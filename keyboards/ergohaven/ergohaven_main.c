@@ -319,22 +319,22 @@ static const char* PROGMEM LAYER_NAME[] =   {
 };
 
 static const char* PROGMEM LAYER_UPPER_NAME[] =   {
-    " BAS ",
-    " LWR ",
-    " NAV ",
-    " NUM ",
-    " APP ",
-    " SYM ",
-    " FUN ",
-    " OLG ",
-    " L 8 ",
-    " L 9 ",
-    " TEN ",
-    " L11 ",
-    " L12 ",
-    " L13 ",
-    " GAM ",
-    " L15 ",
+    "# BAS",
+    "# DKT",
+    "# LWR",
+    "# NAV",
+    "# NUM",
+    "# APP",
+    "# SYM",
+    "# FUN",
+    "# OLG",
+    "# L 9",
+    "# TEN",
+    "# L12",
+    "# CTR",
+    "# L14",
+    "# GAM",
+    "# GFN",
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
