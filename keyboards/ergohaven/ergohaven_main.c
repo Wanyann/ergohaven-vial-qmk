@@ -31,6 +31,11 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
+// uint8_t prev_lang = LANG_EN;
+
+// uint8_t mod_state;
+// uint8_t os_mod_state;
+// uint8_t weak_mod_state;
 
 bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
@@ -120,6 +125,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       }
       layer_move(prev_layer);
       return false;
+
     case KC_SCLN:
     case KC_QUOT:
     case KC_LBRC:
@@ -129,8 +135,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     case KC_DOT:
     case KC_A ... KC_Z:
 
-      if(IS_LAYER_ON(1)) {
-        layer_off(1);
+      if(IS_LAYER_ON(2)) {
+        layer_off(2);
       }
 
       return process_record_user(keycode, record);
@@ -184,13 +190,21 @@ bool caps_word_press_user(uint16_t keycode) {
 
 void caps_word_set_user(bool active) {
     if (active) {
-        layer_on(2);
+        layer_on(3);
     } else {
-        layer_off(2);
+        layer_off(3);
     }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        if(IS_LAYER_ON(13))
+        {
+            layer_off(2);
+            // посмотреть тут че почему выключается скроллок когда тапаем мбтн1
+        }
+    }
+
     switch (keycode) {
         case SNIP:
             if (record->event.pressed) {
@@ -207,10 +221,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_NUM:
             return true;
 
-        case KC_LCTL:
+        case KC_LSFT:
             return true;
 
-        case KC_LSFT:
+        case KC_BTN1:
+            if (record->event.pressed) {
+                layer_on(13);
+                register_code(KC_BTN1);
+            } else {
+                unregister_code(KC_BTN1);
+                layer_off(13);
+            }
+            return false;
+
+        case KC_LCTL:
+            if (record->event.pressed) {
+                if(scrolllock_enabled) {
+                    tap_code16(C(S(KC_A)));
+                    layer_off(2);
+
+                    return false;
+                }
+            }
             return true;
 
         case TO(0):
@@ -230,8 +262,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         //     }
 
         case LALT(KC_SPACE):
-            layer_off(1);
+            layer_off(2);
             return true;
+
+        case KC_ENTER:
 
         default:
             if(numlock_enabled) tap_code16(KC_NUM);
@@ -256,11 +290,40 @@ void matrix_scan_kb(void) { // The very important timer.
 
     if (modifiersPressed()) {
         if(alpha_layer_active) {
-            layer_on(2);
+            // проблема из-за того что когда мы на слое, то какой-то модификатор уже нажат, и не срабатывает комбинация для переключения языка
+            // prev_lang = get_cur_lang();
+            layer_on(3);
+            // mod_state = get_mods();
+            // os_mod_state = get_oneshot_mods();
+            // weak_mod_state = get_weak_mods();
+
+            // clear_mods();
+            // clear_oneshot_mods();
+            // clear_weak_mods();
+            // set_lang(LANG_EN);
             mod_layer_on = true;
+
+            // register_mods(mod_state);
+            // set_oneshot_mods(os_mod_state);
+            // set_weak_mods(weak_mod_state);
         }
-    } else if (mod_layer_on && IS_LAYER_ON(2)) {
-        layer_off(2);
+    } else if (mod_layer_on && IS_LAYER_ON(3)) {
+        layer_off(3);
+        // if(get_cur_lang() != prev_lang) {
+            // mod_state = get_mods();
+            // os_mod_state = get_oneshot_mods();
+            // weak_mod_state = get_weak_mods();
+
+            // clear_mods();
+            // clear_oneshot_mods();
+            // clear_weak_mods();
+
+            // set_lang(prev_lang);
+
+            // register_mods(mod_state);
+            // set_oneshot_mods(os_mod_state);
+            // set_weak_mods(weak_mod_state);
+        // }
         mod_layer_on = false;
     }
 
@@ -346,6 +409,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     } else {
         alpha_layer_active = true;
     }
+
+    if(get_highest_layer(state) != 3 || get_highest_layer(state) != 12)
+    {
+        if(scrolllock_enabled) tap_code16(KC_SCROLL_LOCK);
+    }
+
     return state;
 }
 
