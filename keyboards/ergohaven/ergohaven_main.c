@@ -1,7 +1,8 @@
 #include "ergohaven.h"
 #include "ergohaven_ruen.h"
-#include "ergohaven_rgb.h"
 #include "ergohaven_oled.h"
+#include "ergohaven_rgb.h"
+#include "ergohaven_display.h"
 #include "hid.h"
 
 typedef union {
@@ -18,8 +19,12 @@ static bool scrolllock_enabled = false;
 static bool mod_layer_on = false;
 static bool alpha_layer_active = true;
 
-void kb_config_update_ruen_toggle_mode(uint8_t mode)
-{
+static bool numlock_enabled = false;
+static bool scrolllock_enabled = false;
+static bool mod_layer_on = false;
+static bool alpha_layer_active = true;
+
+void kb_config_update_ruen_toggle_mode(uint8_t mode) {
     kb_config.ruen_toggle_mode = mode;
     eeconfig_update_kb(kb_config.raw);
 }
@@ -49,61 +54,65 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //     }
 //   #endif
 
-  switch (keycode) { // This will do most of the grunt work with the keycodes.
-    case WNEXT:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-      } else {
-        unregister_code(KC_TAB);
-      }
-      break;
+    switch (keycode) { // This will do most of the grunt work with the keycodes.
+        case WNEXT:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+            }
+            break;
 
-    case WPREV:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code16(S(KC_TAB));
-      } else {
-          unregister_code16(S(KC_TAB));
-      }
-      break;
+        case WPREV:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code16(S(KC_TAB));
+            } else {
+                unregister_code16(S(KC_TAB));
+            }
+            break;
 
-    case KC_CAPS:
-      if (record->event.pressed) {
-    #ifdef AUDIO_ENABLE
-        PLAY_SONG(caps_sound);
-    #endif
-        }
-      return true; // Let QMK send the enter press/release events
+        case KC_CAPS:
+            if (record->event.pressed) {
+#ifdef AUDIO_ENABLE
+                PLAY_SONG(caps_sound);
+#endif
+            }
+            return true; // Let QMK send the enter press/release events
 
-    case LAYER_NEXT:
-      // Our logic will happen on presses, nothing is done on releases
-      if (!record->event.pressed) {
-        // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
-        return false;
-      }
+        case LAYER_NEXT:
+        case LAYER_PREV:
+            // Our logic will happen on presses, nothing is done on releases
+            if (!record->event.pressed) {
+                // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
+                return false;
+            }
 
-      uint8_t current_layer = get_highest_layer(layer_state);
+            int current_layer = get_highest_layer(layer_state);
 
-      // Check if we are within the range, if not quit
-      if (current_layer > LAYER_CYCLE_END || current_layer < LAYER_CYCLE_START) {
-        return false;
-      }
+            // Check if we are within the range, if not quit
+            if (current_layer > LAYER_CYCLE_END || current_layer < LAYER_CYCLE_START) {
+                return false;
+            }
 
-      uint8_t next_layer = current_layer + 1;
-      if (next_layer > LAYER_CYCLE_END) {
-          next_layer = LAYER_CYCLE_START;
-      }
-      layer_move(next_layer);
-      return false;
+            int next_layer = keycode == LAYER_NEXT ? current_layer + 1 : current_layer - 1;
+            if (next_layer > LAYER_CYCLE_END) {
+                next_layer = LAYER_CYCLE_START;
+            } else if (next_layer < LAYER_CYCLE_START) {
+                next_layer = LAYER_CYCLE_END;
+            }
+
+            layer_move(next_layer);
+            return false;
 
     case LAYER_PREV:
       // Our logic will happen on presses, nothing is done on releases
@@ -145,7 +154,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       return process_record_ruen(keycode, record);
   }
 
-  return process_record_user(keycode, record);
+    return process_record_user(keycode, record);
 }
 
 bool caps_word_press_user(uint16_t keycode) {
@@ -344,28 +353,71 @@ void keyboard_post_init_kb(void) {
 layer_state_t default_layer_state_set_kb(layer_state_t state) {
     state = default_layer_state_set_user(state);
 #ifdef RGBLIGHT_ENABLE
-    default_layer_state_set_rgb(state);
+    layer_state_set_rgb(layer_state | state);
 #endif
     return state;
 }
 
 layer_state_t layer_state_set_kb(layer_state_t state) {
-  state = layer_state_set_user(state);
+    state = layer_state_set_user(state);
 #ifdef RGBLIGHT_ENABLE
-    layer_state_set_rgb(state);
+    layer_state_set_rgb(state | default_layer_state);
 #endif
     return state;
 }
 
 void housekeeping_task_kb(void) {
+    uint32_t activity_elapsed = last_input_activity_elapsed();
+
+    if (activity_elapsed > EH_TIMEOUT) {
+#ifdef RGBLIGHT_ENABLE
+        rgb_off();
+#endif
+    } else {
+#ifdef RGBLIGHT_ENABLE
+        rgb_on();
+#endif
+    }
+
 #if defined(OLED_ENABLE) && defined(SPLIT_KEYBOARD)
-    housekeeping_task_oled();
+    housekeeping_task_split_oled();
 #endif
     housekeeping_task_ruen();
     housekeeping_task_user();
 }
 
-static const char* PROGMEM LAYER_NAME[] =   {
+void suspend_power_down_kb(void) {
+#ifdef EH_HAS_DISPLAY
+    display_turn_off();
+#endif
+#ifdef RGBLIGHT_ENABLE
+    rgb_off();
+#endif
+#ifdef OLED_ENABLE
+    oled_off();
+#endif
+    suspend_power_down_user();
+}
+
+void suspend_wakeup_init_kb(void) {
+#ifdef EH_HAS_DISPLAY
+    display_turn_on();
+#endif
+#ifdef RGBLIGHT_ENABLE
+    rgb_on();
+#endif
+#ifdef OLED_ENABLE
+    oled_on();
+#endif
+    suspend_wakeup_init_user();
+}
+
+uint8_t get_current_layer(void) {
+    return get_highest_layer(layer_state | default_layer_state);
+}
+
+static const char* PROGMEM LAYER_NAME[] = {
+    // clang-format off
     "Base ",
     "Lower",
     "Raise",
@@ -382,9 +434,11 @@ static const char* PROGMEM LAYER_NAME[] =   {
     "Thrtn",
     "Frtn ",
     "Fiftn",
+    // clang-format on
 };
 
 static const char* PROGMEM LAYER_UPPER_NAME[] =   {
+        // clang-format off
     "# BAS",
     "# DKT",
     "# LWR",
@@ -402,6 +456,8 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
     "# GAM",
     "# GFN",
 };
+
+
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     if(get_highest_layer(state) > 0) {
@@ -431,16 +487,28 @@ bool modifiersPressed(void) {
 //     return true;
 // }
 
-const char* layer_name(int layer) {
+__attribute__((weak)) const char* layer_name(uint8_t layer) {
     if (layer >= 0 && layer <= 15)
         return LAYER_NAME[layer];
     else
         return "Undef";
 }
 
-const char* layer_upper_name(int layer) {
+__attribute__((weak)) const char* layer_upper_name(uint8_t layer) {
     if (layer >= 0 && layer <= 15)
         return LAYER_UPPER_NAME[layer];
     else
         return "UNDEF";
+}
+
+__attribute__((weak)) uint8_t split_get_lang(void) {
+    return get_cur_lang();
+}
+
+__attribute__((weak)) bool split_get_mac(void) {
+    return keymap_config.swap_lctl_lgui;
+}
+
+__attribute__((weak)) bool split_get_caps_word(void) {
+    return is_caps_word_on();
 }

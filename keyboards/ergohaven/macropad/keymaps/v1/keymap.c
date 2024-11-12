@@ -18,7 +18,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [2] = LAYOUT(
                         KC_BTN3,
-      KC_CUT,  KC_COPY, KC_PASTE,
+      C(KC_X), C(KC_C), C(KC_V),
       KC_BTN1, KC_MS_U, KC_BTN2,
       KC_MS_L, KC_MS_D, KC_MS_R,
       KC_PSCR, _______, _______
@@ -102,7 +102,7 @@ void render_layer_state(void) {
     oled_set_cursor(0, 2);
     oled_write_ln_P(PSTR("lvl:"), false);
     // oled_write_P(PSTR("\n"), false);
-    switch (get_highest_layer(layer_state)) {
+    switch (get_current_layer()) {
         case _BASE:
             oled_write_P(PSTR("ZERO\n"), false);
             break;
