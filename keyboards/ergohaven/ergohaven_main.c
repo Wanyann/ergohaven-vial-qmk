@@ -37,12 +37,12 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-  #ifdef WPM_ENABLE
-    if (record->event.pressed) {
-        extern uint32_t tap_timer;
-        tap_timer = timer_read32();
-    }
-  #endif
+//   #ifdef WPM_ENABLE
+//     if (record->event.pressed) {
+//         extern uint32_t tap_timer;
+//         tap_timer = timer_read32();
+//     }
+//   #endif
 
   switch (keycode) { // This will do most of the grunt work with the keycodes.
     case WNEXT:
