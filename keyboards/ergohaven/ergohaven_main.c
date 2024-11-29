@@ -431,14 +431,14 @@ bool modifiersPressed(void) {
 //     return true;
 // }
 
-const char* layer_name(int layer) {
+const char* layer_name(uint8_t layer) {
     if (layer >= 0 && layer <= 15)
         return LAYER_NAME[layer];
     else
         return "Undef";
 }
 
-const char* layer_upper_name(int layer) {
+const char* layer_upper_name(uint8_t layer) {
     if (layer >= 0 && layer <= 15)
         return LAYER_UPPER_NAME[layer];
     else
