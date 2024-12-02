@@ -344,7 +344,7 @@ void keyboard_post_init_kb(void) {
 layer_state_t default_layer_state_set_kb(layer_state_t state) {
     state = default_layer_state_set_user(state);
 #ifdef RGBLIGHT_ENABLE
-    default_layer_state_set_rgb(state);
+    layer_state_set_rgb(layer_state | state);
 #endif
     return state;
 }
@@ -358,8 +358,20 @@ layer_state_t layer_state_set_kb(layer_state_t state) {
 }
 
 void housekeeping_task_kb(void) {
+    uint32_t activity_elapsed = last_input_activity_elapsed();
+
+    if (activity_elapsed > EH_TIMEOUT) {
+#ifdef RGBLIGHT_ENABLE
+        rgb_off();
+#endif
+    } else {
+#ifdef RGBLIGHT_ENABLE
+        rgb_on();
+#endif
+    }
+
 #if defined(OLED_ENABLE) && defined(SPLIT_KEYBOARD)
-    housekeeping_task_oled();
+    housekeeping_task_split_oled();
 #endif
     housekeeping_task_ruen();
     housekeeping_task_user();
