@@ -20,27 +20,35 @@ const rgblight_segment_t PROGMEM layer14_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, 
 const rgblight_segment_t PROGMEM layer15_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_GREEN});
 
 // Now define the array of layers. Later layers take precedence
+// clang-format off
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     layer0_rgb, layer1_rgb, layer2_rgb, layer3_rgb, layer4_rgb, layer5_rgb, layer6_rgb, layer7_rgb,
     layer8_rgb, layer9_rgb, layer10_rgb, layer11_rgb, layer12_rgb, layer13_rgb, layer14_rgb, layer15_rgb
 );
-#endif
+// clang-format on
 
 void keyboard_post_init_rgb(void) {
-#ifdef RGBLIGHT_ENABLE
     rgblight_layers = my_rgb_layers;
-#endif
-}
-
-void default_layer_state_set_rgb(layer_state_t state) {
-#ifdef RGBLIGHT_ENABLE
-    rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
-#endif
 }
 
 void layer_state_set_rgb(layer_state_t state) {
-#ifdef RGBLIGHT_ENABLE
-    for (int layer = 1; layer <= _FIFTEEN; ++layer)
+    for (int layer = 0; layer <= _FIFTEEN; ++layer)
         rgblight_set_layer_state(layer, layer_state_cmp(state, layer));
-#endif
 }
+
+static bool is_rgb_on = false;
+
+void rgb_on(void) {
+    if (!is_rgb_on) {
+        rgblight_wakeup();
+        is_rgb_on = true;
+    }
+}
+
+void rgb_off(void) {
+    if (is_rgb_on) {
+        rgblight_suspend();
+        is_rgb_on = false;
+    }
+}
+#endif

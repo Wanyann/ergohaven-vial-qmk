@@ -23,8 +23,11 @@ CAPS_WORD_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
 NO_USB_STARTUP_CHECK = yes
+RAW_ENABLE = yes
 
-SRC += keyboards/ergohaven/ergohaven_rgb.c
+UNICODE_COMMON = yes
+UNICODE_ENABLE = yes
+
 SRC += keyboards/ergohaven/ergohaven_main.c
 SRC += keyboards/ergohaven/ergohaven_ruen.c
 SRC += keyboards/ergohaven/hid.c

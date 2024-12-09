@@ -20,6 +20,8 @@ DYNAMIC_MACRO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 REPEAT_KEY_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
+BACKLIGHT_ENABLE = yes
+BACKLIGHT_DRIVER = pwm
 
 SERIAL_DRIVER = vendor
 
@@ -30,10 +32,17 @@ QUANTUM_PAINTER_LVGL_INTEGRATION = yes
 RGBLIGHT_ENABLE = no
 RAW_ENABLE = yes
 
-SRC += keyboards/ergohaven/ergohaven_rgb.c
+UNICODE_COMMON = yes
+UNICODE_ENABLE = yes
+
+SRC += display_modes.c
+SRC += screen_layout.c
+SRC += keyboards/ergohaven/lvgl_helpers.c
+SRC += keyboards/ergohaven/ergohaven_keycode_str.c
 SRC += keyboards/ergohaven/ergohaven_main.c
 SRC += keyboards/ergohaven/ergohaven_ruen.c
+SRC += keyboards/ergohaven/ergohaven_symbols_20.c
+SRC += keyboards/ergohaven/ergohaven_symbols_28.c
 SRC += keyboards/ergohaven/hid.c
-SRC += lvgl_helpers.c
-SRC += display.c
-SRC += ergohaven_symbols.c
+SRC += keyboards/ergohaven/ergohaven_logo.c
+SRC += keyboards/ergohaven/ergohaven_display.c

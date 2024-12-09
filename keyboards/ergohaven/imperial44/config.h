@@ -22,6 +22,7 @@
 #define SPLIT_MODS_ENABLE
 #define SPLIT_ACTIVITY_ENABLE
 #define SPLIT_LED_STATE_ENABLE
+#define SPLIT_OLED_ENABLE
 #endif
 
 /* split protocol settings */
@@ -42,3 +43,5 @@
 #define RGBLIGHT_DEFAULT_SAT 0
 
 #define TAP_CODE_DELAY 1
+
+#define EH_SHORT_PRODUCT_NAME "I44"
