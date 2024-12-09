@@ -97,123 +97,124 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-    case KC_CAPS:
-      if (record->event.pressed) {
-    #ifdef AUDIO_ENABLE
-        PLAY_SONG(caps_sound);
-    #endif
-        }
-      return true; // Let QMK send the enter press/release events
+        case KC_CAPS:
+            if (record->event.pressed) {
+                #ifdef AUDIO_ENABLE
+                    PLAY_SONG(caps_sound);
+                #endif
+                    }
+            return true; // Let QMK send the enter press/release events
 
-    case LAYER_NEXT:
-      // Our logic will happen on presses, nothing is done on releases
-      if (!record->event.pressed) {
-        // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
-        return false;
-      }
+        case LAYER_NEXT:
+            // Our logic will happen on presses, nothing is done on releases
+            if (!record->event.pressed) {
+                // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
+                return false;
+            }
 
-      uint8_t current_layer = get_highest_layer(layer_state);
+            uint8_t current_layer = get_highest_layer(layer_state);
 
-      // Check if we are within the range, if not quit
-      if (current_layer > LAYER_CYCLE_END || current_layer < LAYER_CYCLE_START) {
-        return false;
-      }
+            // Check if we are within the range, if not quit
+            if (current_layer > LAYER_CYCLE_END || current_layer < LAYER_CYCLE_START) {
+                return false;
+            }
 
-      uint8_t next_layer = current_layer + 1;
-      if (next_layer > LAYER_CYCLE_END) {
-          next_layer = LAYER_CYCLE_START;
-      }
-      layer_move(next_layer);
-      return false;
+            uint8_t next_layer = current_layer + 1;
+            if (next_layer > LAYER_CYCLE_END) {
+                next_layer = LAYER_CYCLE_START;
+            }
+            layer_move(next_layer);
+            return false;
 
         case LAYER_PREV:
         // Our logic will happen on presses, nothing is done on releases
-        if (!record->event.pressed) {
-            // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
-            return false;
-        }
-
-        uint8_t this_layer  = get_highest_layer(layer_state);
-
-        // Check if we are within the range, if not quit
-        if (this_layer > LAYER_CYCLE_END || this_layer < LAYER_CYCLE_START) {
-            return false;
-        }
-
-      uint8_t prev_layer = this_layer - 1;
-      if (prev_layer > LAYER_CYCLE_END) {
-          prev_layer = LAYER_CYCLE_START;
-      }
-      layer_move(prev_layer);
-      return false;
-
-    case KC_SCLN:
-    case KC_QUOT:
-    case KC_LBRC:
-    case KC_RBRC:
-    case KC_GRAVE:
-    case KC_COMMA:
-    case KC_DOT:
-    case KC_A ... KC_Z:
-
-      if(IS_LAYER_ON(2)) {
-        layer_off(2);
-      }
-
-      return process_record_user(keycode, record);
-
-    case LG_TOGGLE...LG_END:
-    
-        case EH_PRINFO: {
-        if (record->event.pressed) {
-            send_string("FW version: " QMK_VERSION "\n");
-            send_string("Build date: " QMK_BUILDDATE "\n");
-            send_string("Git hash: " QMK_GIT_HASH "\n");
-
-            send_string("Mac mode: ");
-            send_string(keymap_config.swap_lctl_lgui ? "on\n" : "off\n");
-
-            send_string("Unicode mode: ");
-            uint8_t uc_input_mode = get_unicode_input_mode();
-            switch (uc_input_mode) {
-                case UNICODE_MODE_MACOS:
-                    send_string("Mac\n");
-                    break;
-                case UNICODE_MODE_LINUX:
-                    send_string("Linux\n");
-                    break;
-                case UNICODE_MODE_WINDOWS:
-                    send_string("Windows\n");
-                    break;
-                case UNICODE_MODE_WINCOMPOSE:
-                    send_string("WinCompose\n");
-                    break;
-                default:
-                    send_string("error\n");
-                    break;
+            if (!record->event.pressed) {
+                // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
+                return false;
             }
 
-            send_string("RuEn mode: ");
-            uint8_t ruen_mode = get_ruen_toggle_mode();
-            if (ruen_mode == TG_DEFAULT)
-                send_string("default\n");
-            else if (ruen_mode == TG_M0)
-                send_string("M0\n");
-            else if (ruen_mode == TG_M1M2)
-                send_string("M1M2\n");
-            else
-                send_string("error\n");
+            uint8_t this_layer  = get_highest_layer(layer_state);
 
-            send_string("RuEn layout: ");
-            send_string(get_ruen_mac_layout() ? "Mac\n" : "PC\n");
+            // Check if we are within the range, if not quit
+            if (this_layer > LAYER_CYCLE_END || this_layer < LAYER_CYCLE_START) {
+                return false;
+            }
+
+            uint8_t prev_layer = this_layer - 1;
+            if (prev_layer > LAYER_CYCLE_END) {
+                prev_layer = LAYER_CYCLE_START;
+            }
+            layer_move(prev_layer);
+            return false;
+
+        case KC_SCLN:
+        case KC_QUOT:
+        case KC_LBRC:
+        case KC_RBRC:
+        case KC_GRAVE:
+        case KC_COMMA:
+        case KC_DOT:
+        case KC_A ... KC_Z:
+
+        if(IS_LAYER_ON(2)) {
+            layer_off(2);
         }
-        return false;
-    }
+        return process_record_user(keycode, record);
+        
+        case EH_PRINFO: {
+            if (record->event.pressed) {
+                send_string("FW version: " QMK_VERSION "\n");
+                send_string("Build date: " QMK_BUILDDATE "\n");
+                send_string("Git hash: " QMK_GIT_HASH "\n");
+
+                send_string("Mac mode: ");
+                send_string(keymap_config.swap_lctl_lgui ? "on\n" : "off\n");
+
+                send_string("Unicode mode: ");
+                uint8_t uc_input_mode = get_unicode_input_mode();
+                switch (uc_input_mode) {
+                    case UNICODE_MODE_MACOS:
+                        send_string("Mac\n");
+                        break;
+                    case UNICODE_MODE_LINUX:
+                        send_string("Linux\n");
+                        break;
+                    case UNICODE_MODE_WINDOWS:
+                        send_string("Windows\n");
+                        break;
+                    case UNICODE_MODE_WINCOMPOSE:
+                        send_string("WinCompose\n");
+                        break;
+                    default:
+                        send_string("error\n");
+                        break;
+                }
+
+                send_string("RuEn mode: ");
+                uint8_t ruen_mode = get_ruen_toggle_mode();
+                if (ruen_mode == TG_DEFAULT)
+                    send_string("default\n");
+                else if (ruen_mode == TG_M0)
+                    send_string("M0\n");
+                else if (ruen_mode == TG_M1M2)
+                    send_string("M1M2\n");
+                else
+                    send_string("error\n");
+
+                send_string("RuEn layout: ");
+                send_string(get_ruen_mac_layout() ? "Mac\n" : "PC\n");
+            }
+            return false;
+        }
+        
+        // case LG_TOGGLE...LG_END:
+        //     return process_record_ruen(keycode, record);
+        // }
     }
 
     if (!process_record_ruen(keycode, record)) return false;
 
-  return process_record_user(keycode, record);
+    return process_record_user(keycode, record);
 }
 
 bool caps_word_press_user(uint16_t keycode) {

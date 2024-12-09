@@ -2,7 +2,7 @@
 #include "ergohaven.h"
 
 enum ruen_custom_keycodes {
-    LG_START = SNIP + 2,
+    LG_START = SNIP + 1,
 
     LG_TOGGLE = LG_START,
     LG_SYNC,
@@ -41,7 +41,7 @@ enum ruen_custom_keycodes {
     // symbols exist in russian only layout
     LG_NUM,
 
-    //^
+    //
     LG_WORD,
     LG_MOD,
     LG_STORE,
