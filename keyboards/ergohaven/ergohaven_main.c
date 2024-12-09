@@ -234,7 +234,6 @@ bool caps_word_press_user(uint16_t keycode) {
 
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_Z:
-        case KC_MINS:
         // For some reason weak mode doesn't work on this keycodes
         // so we additionaly add weak mode in process_russian_letter(...)
         case LG_RU_BE:
