@@ -51,3 +51,4 @@ void rgb_off(void) {
         is_rgb_on = false;
     }
 }
+#endif

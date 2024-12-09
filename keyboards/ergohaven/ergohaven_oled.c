@@ -106,7 +106,7 @@ void render_status_classic(void) {
 
 void render_status_modern(void) {
     oled_clear();
-    oled_write_ln(layer_upper_name(get_current_layer()), false);
+    // oled_write_ln(layer_upper_name(get_current_layer()), false);
     oled_set_cursor(0, 1);
     if (split_get_mac())
         oled_write_P(PSTR("   \01\02   \03\04"), false);
@@ -152,142 +152,142 @@ void render_status_modern(void) {
 void render_status_minimalistic(void) {
     oled_clear();
 
-    int layer = get_current_layer();
-    if (0 < layer && layer < 10) {
-        char buf[11] = "          ";
-        render_big_num(layer, buf + 1, buf + 2, buf + 6, buf + 7);
-        oled_write(buf, false);
-    } else if (10 <= layer && layer < 16) {
-        char buf[11] = "          ";
-        render_big_num(layer / 10, buf + 0, buf + 1, buf + 5, buf + 6);
-        render_big_num(layer % 10, buf + 2, buf + 3, buf + 7, buf + 8);
-        oled_write(buf, false);
-    }
+    // int layer = get_current_layer();
+    // if (0 < layer && layer < 10) {
+    //     char buf[11] = "          ";
+    //     render_big_num(layer, buf + 1, buf + 2, buf + 6, buf + 7);
+    //     oled_write(buf, false);
+    // } else if (10 <= layer && layer < 16) {
+    //     char buf[11] = "          ";
+    //     render_big_num(layer / 10, buf + 0, buf + 1, buf + 5, buf + 6);
+    //     render_big_num(layer % 10, buf + 2, buf + 3, buf + 7, buf + 8);
+    //     oled_write(buf, false);
+    // }
 
-    oled_set_cursor(0, 3);
-    oled_write(split_get_lang() == LANG_EN ? "     " : " RU  ", false);
+    // oled_set_cursor(0, 3);
+    // oled_write(split_get_lang() == LANG_EN ? "     " : " RU  ", false);
 
-    led_t led_usb_state = host_keyboard_led_state();
+    // led_t led_usb_state = host_keyboard_led_state();
 
-    {
-        char buf[11] = "          ";
-        if (led_usb_state.num_lock) {
-            buf[0] = '\x96';
-            buf[1] = '\x97';
-            buf[5] = '\xb6';
-            buf[6] = '\xb7';
-        }
-        if (led_usb_state.caps_lock) {
-            buf[2] = '\x94';
-            buf[3] = '\x95';
-            buf[7] = '\xb4';
-            buf[8] = '\xb5';
+    // {
+    //     char buf[11] = "          ";
+    //     if (led_usb_state.num_lock) {
+    //         buf[0] = '\x96';
+    //         buf[1] = '\x97';
+    //         buf[5] = '\xb6';
+    //         buf[6] = '\xb7';
+    //     }
+    //     if (led_usb_state.caps_lock) {
+    //         buf[2] = '\x94';
+    //         buf[3] = '\x95';
+    //         buf[7] = '\xb4';
+    //         buf[8] = '\xb5';
 
-        } else if (split_get_caps_word()) {
-            buf[2] = '\x9A';
-            buf[3] = '\x9B';
-            buf[7] = '\xBA';
-            buf[8] = '\xBB';
-        }
-        oled_set_cursor(0, 11);
-        oled_write(buf, false);
-    }
-    {
-        char buf[11] = "          ";
-        if (split_get_mac()) {
-            buf[1] = '\x01';
-            buf[2] = '\x02';
-            buf[6] = '\x03';
-            buf[7] = '\x04';
-        } else if (led_usb_state.scroll_lock) {
-            buf[1] = '\x98';
-            buf[2] = '\x99';
-            buf[6] = '\xb8';
-            buf[7] = '\xb9';
-        }
-        oled_set_cursor(0, 13);
-        oled_write(buf, false);
-    }
+    //     } else if (split_get_caps_word()) {
+    //         buf[2] = '\x9A';
+    //         buf[3] = '\x9B';
+    //         buf[7] = '\xBA';
+    //         buf[8] = '\xBB';
+    //     }
+    //     oled_set_cursor(0, 11);
+    //     oled_write(buf, false);
+    // }
+    // {
+    //     char buf[11] = "          ";
+    //     if (split_get_mac()) {
+    //         buf[1] = '\x01';
+    //         buf[2] = '\x02';
+    //         buf[6] = '\x03';
+    //         buf[7] = '\x04';
+    //     } else if (led_usb_state.scroll_lock) {
+    //         buf[1] = '\x98';
+    //         buf[2] = '\x99';
+    //         buf[6] = '\xb8';
+    //         buf[7] = '\xb9';
+    //     }
+    //     oled_set_cursor(0, 13);
+    //     oled_write(buf, false);
+    // }
 
-    uint8_t mods       = get_mods() | get_oneshot_mods();
-    bool    show_clock = is_hid_active() && get_oled_mode_on_half(!is_keyboard_master()) != OLED_MEDIA_VER;
+    // uint8_t mods       = get_mods() | get_oneshot_mods();
+    // bool    show_clock = is_hid_active() && get_oled_mode_on_half(!is_keyboard_master()) != OLED_MEDIA_VER;
 
-    if (mods != 0 || !show_clock) {
-        char buf[21] = "                    ";
-        if (mods & MOD_MASK_SHIFT) {
-            buf[0] = '\xD1';
-            buf[1] = '\xD2';
-            buf[5] = '\xD3';
-            buf[6] = '\xD4';
-        }
-        if (mods & MOD_MASK_CTRL) {
-            buf[3] = '\xD9';
-            buf[4] = '\xDA';
-            buf[8] = ' ';
-            buf[9] = ' ';
-        }
-        if (mods & MOD_MASK_ALT) {
-            if (!split_get_mac()) {
-                buf[10] = '\xDB';
-                buf[11] = '\xDC';
-                buf[15] = '\xDD';
-                buf[16] = '\xDE';
-            } else {
-                buf[10] = '\x9E';
-                buf[11] = '\x9F';
-                buf[15] = '\xBE';
-                buf[16] = '\xBF';
-            }
-        }
-        if (mods & MOD_MASK_GUI) {
-            if (!split_get_mac()) {
-                buf[13] = '\xD5';
-                buf[14] = '\xD6';
-                buf[18] = '\xD7';
-                buf[19] = '\xD8';
-            } else {
-                buf[13] = '\x9C';
-                buf[14] = '\x9D';
-                buf[18] = '\xBC';
-                buf[19] = '\xBD';
-            }
-        }
+    // if (mods != 0 || !show_clock) {
+    //     char buf[21] = "                    ";
+    //     if (mods & MOD_MASK_SHIFT) {
+    //         buf[0] = '\xD1';
+    //         buf[1] = '\xD2';
+    //         buf[5] = '\xD3';
+    //         buf[6] = '\xD4';
+    //     }
+    //     if (mods & MOD_MASK_CTRL) {
+    //         buf[3] = '\xD9';
+    //         buf[4] = '\xDA';
+    //         buf[8] = ' ';
+    //         buf[9] = ' ';
+    //     }
+    //     if (mods & MOD_MASK_ALT) {
+    //         if (!split_get_mac()) {
+    //             buf[10] = '\xDB';
+    //             buf[11] = '\xDC';
+    //             buf[15] = '\xDD';
+    //             buf[16] = '\xDE';
+    //         } else {
+    //             buf[10] = '\x9E';
+    //             buf[11] = '\x9F';
+    //             buf[15] = '\xBE';
+    //             buf[16] = '\xBF';
+    //         }
+    //     }
+    //     if (mods & MOD_MASK_GUI) {
+    //         if (!split_get_mac()) {
+    //             buf[13] = '\xD5';
+    //             buf[14] = '\xD6';
+    //             buf[18] = '\xD7';
+    //             buf[19] = '\xD8';
+    //         } else {
+    //             buf[13] = '\x9C';
+    //             buf[14] = '\x9D';
+    //             buf[18] = '\xBC';
+    //             buf[19] = '\xBD';
+    //         }
+    //     }
 
-        oled_set_cursor(0, 6);
-        oled_write(buf, false);
-    } else {
-        hid_data_t* hid_data = get_hid_data();
-        uint8_t     hours    = hid_data->hours;
-        uint8_t     minutes  = hid_data->minutes;
+    //     oled_set_cursor(0, 6);
+    //     oled_write(buf, false);
+    // } else {
+    //     hid_data_t* hid_data = get_hid_data();
+    //     uint8_t     hours    = hid_data->hours;
+    //     uint8_t     minutes  = hid_data->minutes;
 
-        char buf[21] = "                    ";
-        render_big_num(hours / 10, buf + 0, buf + 1, buf + 5, buf + 6);
-        render_big_num(hours % 10, buf + 2, buf + 3, buf + 7, buf + 8);
-        render_big_num(minutes / 10, buf + 11, buf + 12, buf + 16, buf + 17);
-        render_big_num(minutes % 10, buf + 13, buf + 14, buf + 18, buf + 19);
-        oled_set_cursor(0, 6);
-        oled_write(buf, false);
-    }
+    //     char buf[21] = "                    ";
+    //     render_big_num(hours / 10, buf + 0, buf + 1, buf + 5, buf + 6);
+    //     render_big_num(hours % 10, buf + 2, buf + 3, buf + 7, buf + 8);
+    //     render_big_num(minutes / 10, buf + 11, buf + 12, buf + 16, buf + 17);
+    //     render_big_num(minutes % 10, buf + 13, buf + 14, buf + 18, buf + 19);
+    //     oled_set_cursor(0, 6);
+    //     oled_write(buf, false);
+    // }
 }
 
 void render_volume_ver(int volume) {
     // clang-format off
-    const char* vol_str[] = {
-        "\xCC\xC0\xC0\xC0\xCD\0",
-        "\xCC\xC1\xC1\xC1\xCD\0",
-        "\xCC\xC2\xC2\xC2\xCD\0",
-        "\xCC\xC3\xC3\xC3\xCD\0",
-        "\xCC\xC4\xC4\xC4\xCD\0",
-        "\xCC\xC5\xC5\xC5\xCD\0",
-        "\xCC\xC6\xC6\xC6\xCD\0",
-        "\xCC\xC7\xC7\xC7\xCD\0",
-        "\xCC\xC8\xC8\xC8\xCD\0",
-    };
+    // const char* vol_str[] = {
+    //     "\xCC\xC0\xC0\xC0\xCD\0",
+    //     "\xCC\xC1\xC1\xC1\xCD\0",
+    //     "\xCC\xC2\xC2\xC2\xCD\0",
+    //     "\xCC\xC3\xC3\xC3\xCD\0",
+    //     "\xCC\xC4\xC4\xC4\xCD\0",
+    //     "\xCC\xC5\xC5\xC5\xCD\0",
+    //     "\xCC\xC6\xC6\xC6\xCD\0",
+    //     "\xCC\xC7\xC7\xC7\xCD\0",
+    //     "\xCC\xC8\xC8\xC8\xCD\0",
+    // };
     // clang-format on
 
-    char buf[6];
-    sprintf(buf, " %2d%%", volume);
-    oled_write(buf, false);
+    // char buf[6];
+    // sprintf(buf, " %2d%%", volume);
+    // oled_write(buf, false);
 
    // int wpm = get_current_wpm();
     // if (wpm > 0) {
@@ -408,9 +408,9 @@ bool oled_task_kb(void) {
             render_media_hor();
             break;
 
-        case OLED_MEDIA_VER:
-            render_media_ver();
-            break;
+        // case OLED_MEDIA_VER:
+        //     render_media_ver();
+        //     break;
 
         case OLED_SPLASH:
             ergohaven_dark_draw();
