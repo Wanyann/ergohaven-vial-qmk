@@ -3,11 +3,13 @@
 #include "ergohaven_rgb.h"
 #include "ergohaven_oled.h"
 #include "hid.h"
+#include "version.h"
 
 typedef union {
     uint32_t raw;
     struct {
         uint8_t ruen_toggle_mode : 2;
+        bool    ruen_mac_layout : 1;
     };
 } kb_config_t;
 
@@ -21,6 +23,11 @@ static bool alpha_layer_active = true;
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
 {
     kb_config.ruen_toggle_mode = mode;
+    eeconfig_update_kb(kb_config.raw);
+}
+
+void kb_config_update_ruen_mac_layout(bool mac_layout) {
+    kb_config.ruen_mac_layout = mac_layout;
     eeconfig_update_kb(kb_config.raw);
 }
 
@@ -49,32 +56,46 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //     }
 //   #endif
 
-  switch (keycode) { // This will do most of the grunt work with the keycodes.
-    case WNEXT:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code(KC_TAB);
-      } else {
-        unregister_code(KC_TAB);
-      }
-      break;
+    switch (keycode) { // This will do most of the grunt work with the keycodes.
+        case WRD_NXT:
+            if (record->event.pressed) {
+                register_code16(keymap_config.swap_lctl_lgui ? A(KC_RIGHT) : C(KC_RIGHT));
+            } else
+                unregister_code16(keymap_config.swap_lctl_lgui ? A(KC_RIGHT) : C(KC_RIGHT));
+            return false;
 
-    case WPREV:
-      if (record->event.pressed) {
-        if (!is_alt_tab_active) {
-          is_alt_tab_active = true;
-          register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
-        }
-        alt_tab_timer = timer_read();
-        register_code16(S(KC_TAB));
-      } else {
-          unregister_code16(S(KC_TAB));
-      }
-      break;
+        case WRD_PRV:
+            if (record->event.pressed) {
+                register_code16(keymap_config.swap_lctl_lgui ? A(KC_LEFT) : C(KC_LEFT));
+            } else
+                unregister_code16(keymap_config.swap_lctl_lgui ? A(KC_LEFT) : C(KC_LEFT));
+            return false;
+
+        case WNEXT:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code(KC_TAB);
+            } else {
+                unregister_code(KC_TAB);
+            }
+            return false;
+
+        case WPREV:
+            if (record->event.pressed) {
+                if (!is_alt_tab_active) {
+                    is_alt_tab_active = true;
+                    register_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+                }
+                alt_tab_timer = timer_read();
+                register_code16(S(KC_TAB));
+            } else {
+                unregister_code16(S(KC_TAB));
+            }
+            return false;
 
     case KC_CAPS:
       if (record->event.pressed) {
@@ -105,19 +126,19 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       layer_move(next_layer);
       return false;
 
-    case LAYER_PREV:
-      // Our logic will happen on presses, nothing is done on releases
-      if (!record->event.pressed) {
-        // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
-        return false;
-      }
+        case LAYER_PREV:
+        // Our logic will happen on presses, nothing is done on releases
+        if (!record->event.pressed) {
+            // We've already handled the keycode (doing nothing), let QMK know so no further code is run unnecessarily
+            return false;
+        }
 
-      uint8_t this_layer  = get_highest_layer(layer_state);
+        uint8_t this_layer  = get_highest_layer(layer_state);
 
-      // Check if we are within the range, if not quit
-      if (this_layer > LAYER_CYCLE_END || this_layer < LAYER_CYCLE_START) {
-        return false;
-      }
+        // Check if we are within the range, if not quit
+        if (this_layer > LAYER_CYCLE_END || this_layer < LAYER_CYCLE_START) {
+            return false;
+        }
 
       uint8_t prev_layer = this_layer - 1;
       if (prev_layer > LAYER_CYCLE_END) {
@@ -142,8 +163,55 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
       return process_record_user(keycode, record);
 
     case LG_TOGGLE...LG_END:
-      return process_record_ruen(keycode, record);
-  }
+    
+        case EH_PRINFO: {
+        if (record->event.pressed) {
+            send_string("FW version: " QMK_VERSION "\n");
+            send_string("Build date: " QMK_BUILDDATE "\n");
+            send_string("Git hash: " QMK_GIT_HASH "\n");
+
+            send_string("Mac mode: ");
+            send_string(keymap_config.swap_lctl_lgui ? "on\n" : "off\n");
+
+            send_string("Unicode mode: ");
+            uint8_t uc_input_mode = get_unicode_input_mode();
+            switch (uc_input_mode) {
+                case UNICODE_MODE_MACOS:
+                    send_string("Mac\n");
+                    break;
+                case UNICODE_MODE_LINUX:
+                    send_string("Linux\n");
+                    break;
+                case UNICODE_MODE_WINDOWS:
+                    send_string("Windows\n");
+                    break;
+                case UNICODE_MODE_WINCOMPOSE:
+                    send_string("WinCompose\n");
+                    break;
+                default:
+                    send_string("error\n");
+                    break;
+            }
+
+            send_string("RuEn mode: ");
+            uint8_t ruen_mode = get_ruen_toggle_mode();
+            if (ruen_mode == TG_DEFAULT)
+                send_string("default\n");
+            else if (ruen_mode == TG_M0)
+                send_string("M0\n");
+            else if (ruen_mode == TG_M1M2)
+                send_string("M1M2\n");
+            else
+                send_string("error\n");
+
+            send_string("RuEn layout: ");
+            send_string(get_ruen_mac_layout() ? "Mac\n" : "PC\n");
+        }
+        return false;
+    }
+    }
+
+    if (!process_record_ruen(keycode, record)) return false;
 
   return process_record_user(keycode, record);
 }
@@ -166,7 +234,16 @@ bool caps_word_press_user(uint16_t keycode) {
 
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_Z:
-
+        case KC_MINS:
+        // For some reason weak mode doesn't work on this keycodes
+        // so we additionaly add weak mode in process_russian_letter(...)
+        case LG_RU_BE:
+        case LG_RU_YU:
+        case LG_RU_ZHE:
+        case LG_RU_E:
+        case LG_RU_HRD_SGN:
+        case LG_RU_KHA:
+        case LG_RU_YO:
             add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
             return true;
 
@@ -333,6 +410,7 @@ void matrix_scan_kb(void) { // The very important timer.
 void keyboard_post_init_kb(void) {
     kb_config.raw = eeconfig_read_kb();
     set_ruen_toggle_mode(kb_config.ruen_toggle_mode);
+    set_ruen_mac_layout(kb_config.ruen_mac_layout);
 
 #ifdef RGBLIGHT_ENABLE
     keyboard_post_init_rgb();
@@ -350,7 +428,11 @@ layer_state_t default_layer_state_set_kb(layer_state_t state) {
 }
 
 layer_state_t layer_state_set_kb(layer_state_t state) {
-  state = layer_state_set_user(state);
+    if (is_alt_tab_active) {
+        unregister_code(keymap_config.swap_lctl_lgui ? KC_LGUI : KC_LALT);
+        is_alt_tab_active = false;
+    }
+    state = layer_state_set_user(state);
 #ifdef RGBLIGHT_ENABLE
     layer_state_set_rgb(state);
 #endif
