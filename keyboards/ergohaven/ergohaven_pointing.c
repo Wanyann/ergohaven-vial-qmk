@@ -1,5 +1,6 @@
 #include "ergohaven_pointing.h"
 #include "quantum.h"
+#include "hid.h"
 
 pointing_mode_t pointing_mode = POINTING_MODE_NORMAL;
 
@@ -74,10 +75,16 @@ bool get_led_blinks(void) {
     return led_blinks;
 }
 
+void set_pointing_mode_from_hid(pointing_mode_t mode) {
+    pointing_mode = mode;
+}
+
 void set_pointing_mode(pointing_mode_t mode) {
     if (mode != pointing_mode) {
         pointing_mode = mode;
-        if (led_blinks) {
+        if (is_hid_active()) {
+            hid_send_pointing_mode(mode);
+        } else if (led_blinks) {
             switch (pointing_mode) {
                 case POINTING_MODE_NORMAL:
                     register_code(KC_NUM_LOCK);

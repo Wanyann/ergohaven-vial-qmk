@@ -21,5 +21,7 @@ REPEAT_KEY_ENABLE = no
 AUTO_SHIFT_ENABLE = no
 QMK_SETTINGS = no
 DYNAMIC_KEYMAP_ENABLE = yes
+RAW_ENABLE = yes
 
 SRC += keyboards/ergohaven/ergohaven_pointing.c
+SRC += keyboards/ergohaven/hid.c

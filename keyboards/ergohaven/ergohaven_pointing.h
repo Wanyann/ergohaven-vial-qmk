@@ -41,6 +41,8 @@ void set_orientation(orientation_t orientation);
 
 void set_pointing_mode(pointing_mode_t mode);
 
+void set_pointing_mode_from_hid(pointing_mode_t mode);
+
 void set_led_blinks(bool led);
 
 bool get_led_blinks(void);
