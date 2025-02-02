@@ -16,6 +16,8 @@
 #define DEBOUNCE 10
 #define USB_SUSPEND_WAKEUP_DELAY 2000 // wait for USB hub to start
 
+#define WEAR_LEVELING_BACKING_SIZE 16384 // increase EEPROM size
+
 #define OLED_FONT_H "ergohaven_font.c"
 #define OLED_TIMEOUT 0
 #define EH_TIMEOUT (10 * 60 * 1000) // 10 minutes
