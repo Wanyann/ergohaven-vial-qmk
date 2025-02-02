@@ -284,6 +284,13 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
                 break;
 
             case POINTING_MODE_SCROLL:
+                if (abs(shift_x) > abs(shift_y)) {
+                    shift_y       = 0;
+                    accumulated_v = 0;
+                } else if (abs(shift_x) < abs(shift_y)) {
+                    shift_x       = 0;
+                    accumulated_h = 0;
+                }
                 mrpt.h = shift_x;
                 mrpt.v = -shift_y;
                 break;
