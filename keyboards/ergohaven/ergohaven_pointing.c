@@ -3,9 +3,6 @@
 
 pointing_mode_t pointing_mode = POINTING_MODE_NORMAL;
 
-static int32_t accumulated_h = 0;
-static int32_t accumulated_v = 0;
-
 static int32_t sens[4] = {1, 2, 16, 32};
 
 void set_sniper_sens(int32_t s) {
@@ -262,6 +259,9 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
     int32_t divisor = sens[MIN(pmode, POINTING_MODE_TEXT)];
 
+    static int32_t accumulated_h = 0;
+    static int32_t accumulated_v = 0;
+
     if (pmode != POINTING_MODE_NORMAL) {
         accumulated_h += mrpt.x;
         accumulated_v += mrpt.y;
@@ -338,6 +338,9 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
             case POINTING_MODE_NORMAL:
                 break;
         }
+    } else {
+        accumulated_h = 0;
+        accumulated_v = 0;
     }
 
     if (invert_scroll) {
