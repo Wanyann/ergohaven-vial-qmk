@@ -1,6 +1,6 @@
 {
     "manufacturer": "Ergohaven",
-    "keyboard_name": "HPD",
+    "keyboard_name": "HPD v1",
     "maintainer": "Ergohaven",
     "bootloader": "rp2040",
     "diode_direction": "COL2ROW",
