@@ -4,4 +4,4 @@
 #define VIAL_UNLOCK_COMBO_ROWS { 0, 0 }
 #define VIAL_UNLOCK_COMBO_COLS { 5, 4 }
 
-#define AZOTEQ_IQS5XX_ZOOM_ENABLE true
+#define AZOTEQ_IQS5XX_ZOOM_ENABLE false

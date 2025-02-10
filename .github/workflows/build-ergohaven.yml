@@ -46,6 +46,8 @@ jobs:
         qmk compile -kb ergohaven/trackball -km v2
         qmk compile -kb ergohaven/k03pro/43mm -km v1
         qmk compile -kb ergohaven/k03pro/65mm -km v1
+        qmk compile -kb ergohaven/k03pro/43mm -km v1_no_zoom
+        qmk compile -kb ergohaven/k03pro/65mm -km v1_no_zoom
 
     - uses: actions/upload-artifact@v4
       name: Upload
