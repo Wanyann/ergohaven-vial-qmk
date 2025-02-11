@@ -10,6 +10,9 @@
 #include "process_combo.h"
 #include "action_tapping.h"
 #include "keycode_config.h"
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+#include "pointing_device_auto_mouse.h"
+#endif
 
 static int eeprom_settings_get(const qmk_settings_proto_t *proto, void *setting, size_t maxsz);
 static int eeprom_settings_set(const qmk_settings_proto_t *proto, const void *setting, size_t maxsz);
@@ -40,6 +43,15 @@ static void mousekey_apply(void) {
 }
 #endif
 
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+static void auto_mouse_apply(void) {
+    set_auto_mouse_enable(QS.auto_mouse_enable);
+    set_auto_mouse_layer(QS.auto_mouse_layer);
+    set_auto_mouse_timeout(QS.auto_mouse_timeout);
+    set_auto_mouse_debounce(QS.auto_mouse_debounce);
+}
+#endif
+
 static const qmk_settings_proto_t protos[] PROGMEM = {
    DECLARE_STATIC_SETTING(1, grave_esc_override),
    DECLARE_STATIC_SETTING(2, combo_term),
@@ -64,6 +76,12 @@ static const qmk_settings_proto_t protos[] PROGMEM = {
    DECLARE_STATIC_SETTING(19, tap_hold_caps_delay),
    DECLARE_STATIC_SETTING(20, tapping_toggle),
    DECLARE_SETTING(21, magic_settings_get, magic_settings_set),
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+   DECLARE_STATIC_SETTING_NOTIFY(30, auto_mouse_enable, auto_mouse_apply),
+   DECLARE_STATIC_SETTING_NOTIFY(31, auto_mouse_layer, auto_mouse_apply),
+   DECLARE_STATIC_SETTING_NOTIFY(32, auto_mouse_timeout, auto_mouse_apply),
+   DECLARE_STATIC_SETTING_NOTIFY(33, auto_mouse_debounce, auto_mouse_apply),
+#endif
 };
 
 static void eeprom_settings_load(void) {
@@ -185,6 +203,13 @@ void qmk_settings_reset(void) {
     QS.tap_code_delay = TAP_CODE_DELAY;
     QS.tap_hold_caps_delay = TAP_HOLD_CAPS_DELAY;
     QS.tapping_toggle = TAPPING_TOGGLE;
+
+#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    QS.auto_mouse_enable = 0;
+    QS.auto_mouse_layer = AUTO_MOUSE_DEFAULT_LAYER;
+    QS.auto_mouse_timeout = AUTO_MOUSE_TIME;
+    QS.auto_mouse_debounce = AUTO_MOUSE_DEBOUNCE;
+#endif
 
     eeprom_settings_save();
 
