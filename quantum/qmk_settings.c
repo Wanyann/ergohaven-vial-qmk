@@ -205,7 +205,7 @@ void qmk_settings_reset(void) {
     QS.tapping_toggle = TAPPING_TOGGLE;
 
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    QS.auto_mouse_enable = 0;
+    QS.auto_mouse_enable = false;
     QS.auto_mouse_layer = AUTO_MOUSE_DEFAULT_LAYER;
     QS.auto_mouse_timeout = AUTO_MOUSE_TIME;
     QS.auto_mouse_debounce = AUTO_MOUSE_DEBOUNCE;

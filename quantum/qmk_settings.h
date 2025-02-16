@@ -106,7 +106,7 @@ typedef struct {
     uint8_t auto_mouse_debounce;
     uint16_t auto_mouse_timeout;
     uint8_t auto_mouse_layer;
-    uint8_t auto_mouse_enable;
+    bool auto_mouse_enable;
     uint16_t auto_shift_timeout;
     uint16_t osk_timeout;
     uint16_t mousekey_delay;
