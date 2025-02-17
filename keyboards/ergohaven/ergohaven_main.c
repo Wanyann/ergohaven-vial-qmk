@@ -37,12 +37,13 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 #endif
 
 bool is_alt_tab_active = false;
+bool is_processing = false;
 uint16_t alt_tab_timer = 0;
-// uint8_t prev_lang = LANG_EN;
+uint8_t prev_lang = LANG_EN;
 
-// uint8_t mod_state;
-// uint8_t os_mod_state;
-// uint8_t weak_mod_state;
+uint8_t mod_state;
+uint8_t os_mod_state;
+uint8_t weak_mod_state;
 
 bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
@@ -259,7 +260,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case LG_SET_RU:
             return true;
 
-        case KC_ENTER:
+        case KC_ENTER: tap_code16(KC_ENTER);
         default:
             return false; // Deactivate Caps Word.
     }
@@ -283,20 +284,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-        case SNIP:
-            if (record->event.pressed) {
-                if(!scrolllock_enabled) {
-                    tap_code16(KC_SCROLL_LOCK);
-                }
-            } else {
-                if(scrolllock_enabled) {
-                    tap_code16(KC_SCROLL_LOCK);
-                }
-            }
-            return true;
-
-        case KC_NUM:
-            return true;
 
         case KC_LSFT:
             return true;
@@ -311,32 +298,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case KC_LCTL:
-            if (record->event.pressed) {
-                if(scrolllock_enabled) {
-                    tap_code16(C(S(KC_A)));
-                    layer_off(2);
-
-                    return false;
-                }
-            }
-            return true;
-
         case TO(0):
             if(is_caps_word_on()) caps_word_off();
             if(get_oneshot_mods()) clear_oneshot_mods();
             return true;
-
-        // case KC_LCTRL:
-        //     if (record->event.pressed) {
-        //         if(!numlock_enabled) {
-        //             tap_code16(KC_NUM);
-        //         }
-        //     } else {
-        //         if(numlock_enabled) {
-        //             tap_code16(KC_NUM);
-        //         }
-        //     }
 
         case LALT(KC_SPACE):
             layer_off(2);
@@ -350,6 +315,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (is_processing) return;
+// в подходе с процесс рекорд юзер не получается тапнуть гуи - посмотреть
+    if (modifiersPressed()) {
+        if(alpha_layer_active) {
+            // is_processing = true;
+            // prev_lang = get_cur_lang();
+            // mod_state = get_mods();
+            // os_mod_state = get_oneshot_mods();
+            // weak_mod_state = get_weak_mods();
+            
+            layer_on(3);
+            mod_layer_on = true;
+
+            // clear_mods();
+            // clear_oneshot_mods();
+            // clear_weak_mods();
+            // set_lang(LANG_EN);
+            
+            // register_mods(mod_state);
+            // set_oneshot_mods(os_mod_state);
+            // set_weak_mods(weak_mod_state);
+            // is_processing = false;
+        }
+    } else if (mod_layer_on && IS_LAYER_ON(3)) {
+        layer_off(3);
+        // if(get_cur_lang() != prev_lang) {
+        //     is_processing = true;
+        //     mod_state = get_mods();
+        //     os_mod_state = get_oneshot_mods();
+        //     weak_mod_state = get_weak_mods();
+
+        //     clear_mods();
+        //     clear_oneshot_mods();
+        //     clear_weak_mods();
+
+        //     set_lang(prev_lang);
+
+        //     register_mods(mod_state);
+        //     set_oneshot_mods(os_mod_state);
+        //     set_weak_mods(weak_mod_state);
+        //     is_processing = false;
+        // }
+        mod_layer_on = false;
+    }
+}
 
 bool led_update_user(led_t led_state) {
     numlock_enabled = led_state.num_lock;
@@ -365,44 +376,54 @@ void matrix_scan_kb(void) { // The very important timer.
         }
     }
 
-    if (modifiersPressed()) {
-        if(alpha_layer_active) {
-            // проблема из-за того что когда мы на слое, то какой-то модификатор уже нажат, и не срабатывает комбинация для переключения языка
-            // prev_lang = get_cur_lang();
-            layer_on(3);
-            // mod_state = get_mods();
-            // os_mod_state = get_oneshot_mods();
-            // weak_mod_state = get_weak_mods();
+//  в таком подходе работает тап по гуи, но если гуи зажать - не сменяется раскладка (вероятно из-за того что он используется в сочетании для смены языка)
+    // if (is_processing) {
+    //     matrix_scan_user();
+    //     return;
+    // }
 
-            // clear_mods();
-            // clear_oneshot_mods();
-            // clear_weak_mods();
-            // set_lang(LANG_EN);
-            mod_layer_on = true;
+    // if (modifiersPressed()) {
+    //     if(alpha_layer_active) {
+    //         // is_processing = true;
+    //         // prev_lang = get_cur_lang();
+    //         // mod_state = get_mods();
+    //         // os_mod_state = get_oneshot_mods();
+    //         // weak_mod_state = get_weak_mods();
+            
+    //         layer_on(3);
+    //         mod_layer_on = true;
 
-            // register_mods(mod_state);
-            // set_oneshot_mods(os_mod_state);
-            // set_weak_mods(weak_mod_state);
-        }
-    } else if (mod_layer_on && IS_LAYER_ON(3)) {
-        layer_off(3);
-        // if(get_cur_lang() != prev_lang) {
-            // mod_state = get_mods();
-            // os_mod_state = get_oneshot_mods();
-            // weak_mod_state = get_weak_mods();
+    //         // clear_mods();
+    //         // clear_oneshot_mods();
+    //         // clear_weak_mods();
+    //         // set_lang(LANG_EN);
+            
+    //         // register_mods(mod_state);
+    //         // set_oneshot_mods(os_mod_state);
+    //         // set_weak_mods(weak_mod_state);
+    //         // is_processing = false;
+    //     }
+    // } else if (mod_layer_on && IS_LAYER_ON(3)) {
+    //     layer_off(3);
+    //     // if(get_cur_lang() != prev_lang) {
+    //     //     is_processing = true;
+    //     //     mod_state = get_mods();
+    //     //     os_mod_state = get_oneshot_mods();
+    //     //     weak_mod_state = get_weak_mods();
 
-            // clear_mods();
-            // clear_oneshot_mods();
-            // clear_weak_mods();
+    //     //     clear_mods();
+    //     //     clear_oneshot_mods();
+    //     //     clear_weak_mods();
 
-            // set_lang(prev_lang);
+    //     //     set_lang(prev_lang);
 
-            // register_mods(mod_state);
-            // set_oneshot_mods(os_mod_state);
-            // set_weak_mods(weak_mod_state);
-        // }
-        mod_layer_on = false;
-    }
+    //     //     register_mods(mod_state);
+    //     //     set_oneshot_mods(os_mod_state);
+    //     //     set_weak_mods(weak_mod_state);
+    //     //     is_processing = false;
+    //     // }
+    //     mod_layer_on = false;
+    // }
 
     matrix_scan_user();
 }
@@ -498,32 +519,17 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if(get_highest_layer(state) > 0) {
+    if(get_highest_layer(state) > 1) {
         alpha_layer_active = false;
     } else {
         alpha_layer_active = true;
     }
-
-    if(get_highest_layer(state) != 3 || get_highest_layer(state) != 12)
-    {
-        if(scrolllock_enabled) tap_code16(KC_SCROLL_LOCK);
-    }
-
     return state;
 }
 
 bool modifiersPressed(void) {
     return (get_mods() | get_oneshot_mods() | get_weak_mods()) & MOD_MASK_CAG; // (MOD_BIT(KC_LCTL) | MOD_BIT(KC_LALT) | MOD_BIT(KC_LGUI))
 }
-
-// bool alphaLayerIsActive() {
-//     for(i = 2; i <= 14; i++) {
-//         if(IS_LAYER_ON(i)) {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
 
 const char* layer_name(uint8_t layer) {
     if (layer >= 0 && layer <= 15)
