@@ -125,7 +125,7 @@ uint16_t en_table[] = {
     KC_CIRC,  // LG_CIRC
     KC_AMPR,  // LG_AMPR
     KC_PIPE,  // LG_PIPE
-    KC_QUOT,  // LG_QUOTEэ?
+    KC_QUOT,  // LG_QUOTE
 };
 
 bool pre_process_record_ruen(uint16_t keycode, keyrecord_t *record) {
@@ -272,24 +272,10 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             kb_config_update_ruen_mac_layout(mac_layout);
             return false;
 
-        case LG_LBR:
-        case LG_RBR :
-        case LG_LCBR :
-        case LG_RCBR :
-        case LG_LT :
-        case LG_GT :
-        case LG_GRAVE :
-        case LG_TILD :
-        case LG_AT :
-        case LG_HASH :
-        case LG_DLR :
-        case LG_CIRC :
-        case LG_AMPR :
-        case LG_PIPE :
-        case LG_QUOTE : {
+        case LG_EN_START ... LG_QUOTE: {
             uint8_t lang = cur_lang;
             set_lang(LANG_EN);
-            tap_code16(en_table[keycode - LG_LBR]);
+            tap_code16(en_table[keycode - LG_EN_START]);
             should_revert_ru = should_revert_ru || (cur_lang != lang);
             revert_time      = timer_read32();
             return false;

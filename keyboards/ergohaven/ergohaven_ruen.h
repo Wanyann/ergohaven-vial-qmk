@@ -2,7 +2,7 @@
 #include "ergohaven.h"
 
 enum ruen_custom_keycodes {
-    LG_START = SNIP + 1,
+     LG_START = LAYER_PREV + 2,
 
     LG_TOGGLE = LG_START,
     LG_SYNC,
@@ -83,5 +83,3 @@ uint8_t get_ruen_toggle_mode(void);
 void set_ruen_mac_layout(bool mac_layout);
 
 bool get_ruen_mac_layout(void);
-
-void set_lang(uint8_t lang);
