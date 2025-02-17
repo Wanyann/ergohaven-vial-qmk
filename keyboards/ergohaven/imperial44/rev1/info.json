@@ -1,6 +1,6 @@
 {
     "manufacturer": "Ergohaven",
-    "keyboard_name": "Imperial44",
+    "keyboard_name": "Imperial44 v1/v2",
     "maintainer": "Ergohaven",
     "bootloader": "rp2040",
     "diode_direction": "COL2ROW",

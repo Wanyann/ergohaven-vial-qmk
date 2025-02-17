@@ -102,6 +102,11 @@
 /* actual settings - stored in RAM and backed by EEPROM
    these are in arbitrary order to ensure they are aligned w/o any holes, and the order can be changed at will */
 typedef struct {
+    uint8_t unused2;
+    uint8_t auto_mouse_debounce;
+    uint16_t auto_mouse_timeout;
+    uint8_t auto_mouse_layer;
+    bool auto_mouse_enable;
     uint16_t auto_shift_timeout;
     uint16_t osk_timeout;
     uint16_t mousekey_delay;
@@ -124,7 +129,7 @@ typedef struct {
     uint8_t tapping_toggle;
     uint8_t unused;
 } qmk_settings_t;
-_Static_assert(sizeof(qmk_settings_t) == 36, "unexpected size of the qmk_settings_t structure");
+_Static_assert(sizeof(qmk_settings_t) == 42, "unexpected size of the qmk_settings_t structure");
 
 struct qmk_settings_proto_t;
 

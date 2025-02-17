@@ -1,6 +1,5 @@
 {
-  "name": "Velvet v1",
-  "lighting": "none",
+    "lighting": "none",
     "matrix":{ "rows":8, "cols":5 },
 #include "keyboards/ergohaven/vial_custom_keycodes.json"
     "layouts":{
