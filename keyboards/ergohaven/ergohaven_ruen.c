@@ -18,9 +18,11 @@ static bool english_word = false;
 static bool mac_layout = false;
 
 void set_lang(uint8_t lang) {
+    uint8_t mods = get_mods();
     switch (tg_mode) {
         case TG_DEFAULT:
             if (cur_lang == lang) return;
+            if (mods != 0) del_mods(mods);
             if (keymap_config.swap_lctl_lgui) {
                 register_code(KC_LCTL);
                 tap_code(KC_SPACE);
@@ -34,16 +36,26 @@ void set_lang(uint8_t lang) {
                 unregister_code(KC_LGUI);
                 wait_ms(50);
             }
+            if (mods != 0) add_mods(mods);
             break;
         case TG_M0:
             if (cur_lang == lang) return;
+            if (mods != 0) del_mods(mods);
             dynamic_keymap_macro_send(QK_MACRO_0 - QK_MACRO);
+            if (mods != 0) add_mods(mods);
             break;
         case TG_M1M2:
             if (lang == LANG_EN) {
-                if (!should_revert_ru) dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
-            } else
+                if (!should_revert_ru) {
+                    if (mods != 0) del_mods(mods);
+                    dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
+                    if (mods != 0) add_mods(mods);
+                }
+            } else {
+                if (mods != 0) del_mods(mods);
                 dynamic_keymap_macro_send(QK_MACRO_2 - QK_MACRO);
+                if (mods != 0) add_mods(mods);
+            }
             break;
         default:
             break;
@@ -179,7 +191,13 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
     if (!(LG_START <= keycode && keycode < LG_END)) return true;
 
     if (keycode == LG_MOD) {
-        lang_toggle();
+        static uint16_t press_timer = 0;
+        if (record->event.pressed) {
+            lang_toggle();
+            press_timer = timer_read();
+        } else {
+            if (timer_elapsed(press_timer) >= get_tapping_term(keycode, record)) lang_toggle();
+        }
         return false;
     }
 

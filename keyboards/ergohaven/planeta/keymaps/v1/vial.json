@@ -1,5 +1,4 @@
 {
-    "name": "Planeta v1",
     "lighting": "none",
     "matrix":{ "rows":5, "cols":12 },
 #include "keyboards/ergohaven/vial_custom_keycodes.json"

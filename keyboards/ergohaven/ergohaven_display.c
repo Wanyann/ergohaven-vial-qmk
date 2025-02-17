@@ -365,6 +365,13 @@ void screen_home_housekeep(void) {
 
     if (mac != prev_mac) {
         toggle_hidden(label_mac, mac);
+        if (mac) {
+            lv_label_set_text(label_gui, "CMD");
+            lv_label_set_text(label_alt, "OPT");
+        } else {
+            lv_label_set_text(label_gui, "GUI");
+            lv_label_set_text(label_alt, "ALT");
+        }
         prev_mac = mac;
         return;
     }

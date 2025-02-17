@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "ergohaven_pointing.h"
 
 typedef struct {
     bool    hid_changed;
@@ -22,3 +23,5 @@ hid_data_t* get_hid_data(void);
 void keyboard_post_init_hid(void);
 
 bool is_hid_active(void);
+
+void hid_send_pointing_mode(pointing_mode_t mode);

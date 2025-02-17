@@ -1,6 +1,7 @@
 #include "hid.h"
 #include <string.h>
 #include "via.h"
+#include "raw_hid.h"
 
 static hid_data_t hid_data;
 
@@ -20,7 +21,14 @@ typedef enum {
     _LAYOUT,
     _MEDIA_ARTIST,
     _MEDIA_TITLE,
+
+    _RELAY_FROM_DEVICE = 0xCC,
+    _RELAY_TO_DEVICE,
 } hid_data_type;
+
+typedef enum {
+    _POINTING = 10,
+} relay_data_type;
 
 void read_string(uint8_t *data, char *string_data) {
     uint8_t data_length = MIN(31, data[1]);
@@ -65,6 +73,14 @@ bool process_raw_hid_data(uint8_t *data, uint8_t length) {
             new_hid_data                 = true;
             break;
 
+        case _RELAY_TO_DEVICE:
+            switch (data[1]) {
+                case _POINTING:
+                    set_pointing_mode_from_hid(data[2]);
+                    break;
+            }
+            new_hid_data = true;
+
         default:
             break;
     }
@@ -75,6 +91,15 @@ bool process_raw_hid_data(uint8_t *data, uint8_t length) {
     }
 
     return new_hid_data;
+}
+
+void hid_send_pointing_mode(pointing_mode_t mode) {
+    uint8_t data[32];
+    memset(data, 0, 32);
+    data[0] = _RELAY_FROM_DEVICE;
+    data[1] = _POINTING;
+    data[2] = mode;
+    raw_hid_send(data, 32);
 }
 
 #if (defined(OLED_ENABLE) || defined(EH_HAS_DISPLAY)) && defined(SPLIT_KEYBOARD)
