@@ -213,10 +213,12 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case LG_SET_EN:
+            layer_off(2);
             set_lang(LANG_EN);
             return true;
 
         case LG_SET_RU:
+            layer_off(2);
             set_lang(LANG_RU);
             return true;
 
