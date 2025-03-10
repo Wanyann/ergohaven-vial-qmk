@@ -527,6 +527,10 @@ void housekeeping_task_kb(void) {
     housekeeping_task_user();
 }
 
+uint8_t get_current_layer(void) {
+    return get_highest_layer(layer_state | default_layer_state);
+}
+
 static const char* PROGMEM LAYER_NAME[] =   {
     "Base ",
     "Lower",
