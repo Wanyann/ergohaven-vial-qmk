@@ -29,6 +29,7 @@ jobs:
         qmk compile -kb ergohaven/k03/rev3 -km v3
         qmk compile -kb ergohaven/velvet/rev3 -km v3
         qmk compile -kb ergohaven/trackball -km v2
+        qmk compile -kb ergohaven/k03pro/rev2 -km v2
 
     - uses: actions/upload-artifact@v4
       name: Upload
