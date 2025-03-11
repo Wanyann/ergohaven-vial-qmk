@@ -43,23 +43,6 @@ void kb_config_update_ruen_mac_layout(bool mac_layout) {
     kb_config_update(new_config);
 }
 
-bool process_detected_host_os_user(os_variant_t detected_os) {
-    switch (detected_os) {
-        case OS_WINDOWS:
-            tap_code16(CG_LNRM);
-            break;
-
-        case OS_MACOS:
-        case OS_IOS:
-        case OS_LINUX:
-        case OS_UNSURE:
-            tap_code16(CG_LSWP);
-            break;
-    }
-    
-    return true;
-}
-
 #ifdef AUDIO_ENABLE
 float base_sound[][2] = SONG(TERMINAL_SOUND);
 float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
