@@ -25,4 +25,6 @@
 #ifdef CONSOLE_ENABLE
 #    undef NO_DEBUG
 #endif
+
 #define COMBO_ONLY_FROM_LAYER 0
+#define OS_DETECTION_SINGLE_REPORT
