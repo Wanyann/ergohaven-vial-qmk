@@ -56,7 +56,7 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
         case OS_IOS:
         case OS_LINUX:
         case OS_UNSURE:
-            tap_code(CG_LSWP);
+            tap_code16(CG_LSWP);
             break;
     }
     
