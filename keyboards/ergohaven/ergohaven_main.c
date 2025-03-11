@@ -44,9 +44,6 @@ void kb_config_update_ruen_mac_layout(bool mac_layout) {
 }
 
 bool process_detected_host_os_kb(os_variant_t detected_os) {
-    if (!process_detected_host_os_user(detected_os)) {
-        return false;
-    }
     switch (detected_os) {
         case OS_WINDOWS:
             tap_code16(CG_LNRM);
