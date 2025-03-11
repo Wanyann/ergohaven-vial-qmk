@@ -50,10 +50,10 @@ bool process_detected_host_os_kb(os_variant_t detected_os) {
     switch (detected_os) {
         case OS_MACOS:
         case OS_IOS:
-            tap_code(CG_LSWP);
+            tap_code16(CG_LSWP);
             break;
         case OS_WINDOWS:
-            tap_code(CG_LNRM);
+            tap_code16(CG_LNRM);
             break;
         case OS_LINUX:
         case OS_UNSURE:
