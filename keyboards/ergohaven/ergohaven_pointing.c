@@ -240,9 +240,10 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
     
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
+    if(is_mouse_active) uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v); 
     #endif
     pointing_mode_t pmode = pointing_mode;
-    if(is_mouse_active) uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v); 
+    
     // dealing with two finger gesture on touch
     if (mrpt.h != 0 || mrpt.v != 0) {
         pmode  = POINTING_MODE_SCROLL;
