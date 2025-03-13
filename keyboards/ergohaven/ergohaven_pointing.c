@@ -197,7 +197,7 @@ void set_pointing_mode(pointing_mode_t mode) {
 }
 
 bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
-    uprintf("pointing kl: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    // uprintf("pointing kl: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
     
     switch (keycode) {
         case EH_SCR:
@@ -237,12 +237,12 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
     if(mrpt.buttons) uprintf("buttons: %u\n", mrpt.buttons);
-    uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v);
+    
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
     #endif
     pointing_mode_t pmode = pointing_mode;
-
+    if(is_mouse_active) uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v); 
     // dealing with two finger gesture on touch
     if (mrpt.h != 0 || mrpt.v != 0) {
         pmode  = POINTING_MODE_SCROLL;
@@ -353,11 +353,11 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
             default:
             case POINTING_MODE_NORMAL:
-                uprintf("normal from if -> switch\n");
+                uprintf("if staff\n");
                 break;
         }
     } else {
-        uprintf("normal from else\n");
+        uprint("normal from else\n");
         
         accumulated_h = 0;
         accumulated_v = 0;
