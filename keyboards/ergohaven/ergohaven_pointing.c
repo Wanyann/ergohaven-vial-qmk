@@ -240,7 +240,7 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
     
     // #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
-    if(is_mouse_active) uprintf("  before mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v); 
+    if(is_mouse_active) uprintf("before mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v)); 
     // #endif
     pointing_mode_t pmode = pointing_mode;
     
@@ -357,12 +357,12 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
                 break;
         }
     } else {
-        if(mrpt.x > mrpt.y) {
+        if(abs(mrpt.x) > abs(mrpt.y)) {
             mrpt.y = mrpt.y / 2;
         } else {
             mrpt.x = mrpt.x / 2; 
         }
-        if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v); 
+        if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v)); 
         accumulated_h = 0;
         accumulated_v = 0;
     }
