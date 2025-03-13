@@ -5,7 +5,6 @@
 #include "ergohaven_rgb.h"
 #include "ergohaven_display.h"
 #include "ergohaven_pointing.h"
-#include "print.h"
 
 typedef union {
     uint32_t raw;
@@ -100,12 +99,6 @@ bool is_display_side(void) {
 
 bool is_touch_side(void) {
     return !is_display_side();
-}
-
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    uprintf("report: %s \n", mouse_report);
-    uprintf("buttons: %s \n", mouse_report.buttons)
-    return mouse_report;
 }
 
 void housekeeping_task_user(void) {

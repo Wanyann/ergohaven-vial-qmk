@@ -1,6 +1,7 @@
 #include "ergohaven_pointing.h"
 #include "quantum.h"
 #include "hid.h"
+#include "print.h"
 
 pointing_mode_t pointing_mode = POINTING_MODE_NORMAL;
 
@@ -193,6 +194,8 @@ void set_pointing_mode(pointing_mode_t mode) {
 }
 
 bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
+    uprintf("pointing kl: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+    
     switch (keycode) {
         case EH_SCR:
         case EH_TXT:
@@ -230,7 +233,11 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
-#ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+
+    uprintf("mouse report: %s \n", mrpt);
+    uprintf("mouse buttons: %s \n", mrpt.buttons)
+
+    #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
 #endif
     pointing_mode_t pmode = pointing_mode;
