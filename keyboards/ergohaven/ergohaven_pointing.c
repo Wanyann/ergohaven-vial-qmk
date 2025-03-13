@@ -357,11 +357,11 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
                 break;
         }
     } else {
-        if(abs(mrpt.x) > abs(mrpt.y)) {
-            mrpt.y = mrpt.y / 2;
-        } else {
-            mrpt.x = mrpt.x / 2; 
-        }
+        // if(abs(mrpt.x) > abs(mrpt.y)) {
+        //     mrpt.y = mrpt.y / 2;
+        // } else {
+        //     mrpt.x = mrpt.x / 2; 
+        // }
         if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v)); 
         accumulated_h = 0;
         accumulated_v = 0;
