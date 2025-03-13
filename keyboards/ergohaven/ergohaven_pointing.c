@@ -234,8 +234,8 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
-    uprintf("mouse report: %s \n", mrpt);
-    uprintf("mouse buttons: %s \n", mrpt.buttons)
+    print(mrpt);
+    print(mrpt.buttons)
 
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
