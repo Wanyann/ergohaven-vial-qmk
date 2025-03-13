@@ -7,6 +7,9 @@ pointing_mode_t pointing_mode = POINTING_MODE_NORMAL;
 
 static int32_t sens[4] = {1, 2, 16, 32};
 
+// static int32_t prev_x = 0;
+// static int32_t prev_y = 0;
+
 void set_sniper_sens(int32_t s) {
     sens[POINTING_MODE_SNIPER] = s;
 }
@@ -233,7 +236,7 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 }
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
-    if(mrpt.buttons != 0) uprintf("buttons: %u\n", mrpt.buttons);
+    if(mrpt.buttons) uprintf("buttons: %u\n", mrpt.buttons);
     
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
@@ -273,6 +276,8 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
     static int32_t accumulated_h = 0;
     static int32_t accumulated_v = 0;
+    // static int32_t temp_x = mrph.x;
+    // static int32_t temp_y = mrph.y;
 
     if (pmode != POINTING_MODE_NORMAL) {
         accumulated_h += mrpt.x;
@@ -348,9 +353,12 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
             default:
             case POINTING_MODE_NORMAL:
+                print("normal from if -> switch\n");
                 break;
         }
     } else {
+        print("normal from else\n");
+        
         accumulated_h = 0;
         accumulated_v = 0;
     }
