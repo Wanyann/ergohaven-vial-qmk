@@ -237,10 +237,10 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
     if(mrpt.buttons) uprintf("buttons: %u\n", mrpt.buttons);
+    uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v);
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
-    uprintf("mrpt.x: %u ; mrpt.y: %u ; mrpt.h: %u ; mrpt.v: %u \n", mrpt.x, mrpt.y, mrpt.h, mrpt.v);
-#endif
+    #endif
     pointing_mode_t pmode = pointing_mode;
 
     // dealing with two finger gesture on touch
@@ -353,11 +353,11 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
             default:
             case POINTING_MODE_NORMAL:
-                print("normal from if -> switch\n");
+                uprintf("normal from if -> switch\n");
                 break;
         }
     } else {
-        print("normal from else\n");
+        uprintf("normal from else\n");
         
         accumulated_h = 0;
         accumulated_v = 0;
