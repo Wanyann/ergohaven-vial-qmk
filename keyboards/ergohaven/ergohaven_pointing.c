@@ -358,9 +358,9 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
         }
     } else {
         if(mrpt.x > mrpt.y) {
-            mrpt.y = 0;
+            mrpt.y = mrpt.y / 2;
         } else {
-            mrpt.x = 0; 
+            mrpt.x = mrpt.x / 2; 
         }
         accumulated_h = 0;
         accumulated_v = 0;
