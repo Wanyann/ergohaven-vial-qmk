@@ -354,12 +354,10 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
 
             default:
             case POINTING_MODE_NORMAL:
-                uprintf("if staff\n");
                 break;
         }
     } else {
-        uprint("normal from else\n");
-        
+        mrph.x > mrph.y ? mrph.y = 0 : mrph.x = 0;
         accumulated_h = 0;
         accumulated_v = 0;
     }
