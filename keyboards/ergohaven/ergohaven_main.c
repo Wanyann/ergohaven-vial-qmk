@@ -322,6 +322,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case DF(0): 
         case DF(1): 
         case TO(0):
+            auto_mouse_layer_off();
             if(is_caps_word_on()) caps_word_off();
             if(get_oneshot_mods()) clear_oneshot_mods();
             set_pointing_mode(POINTING_MODE_NORMAL);
