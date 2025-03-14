@@ -306,6 +306,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
+        case CM_OFF:
+            set_auto_mouse_enable(false);
+
+        case CM_ON:
+            set_auto_mouse_enable(true);
+
         case KC_LSFT:
             return true;
 
