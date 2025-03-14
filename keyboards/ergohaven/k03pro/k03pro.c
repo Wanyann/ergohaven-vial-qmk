@@ -173,6 +173,22 @@ void housekeeping_task_user(void) {
     }
 }
 
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    // switch on change in default layer need to check if target layer already set to avoid turning off layer needlessly
+    switch(get_highest_layer(state)) {
+        case 14:
+        case 2:
+            set_auto_mouse_enable(false);
+            break;
+        
+        default:
+            set_auto_mouse_enable(true);
+            break;
+    }
+
+    return state;
+}
+
 void keyboard_post_init_user(void) {
     if (is_display_side()) {
         display_init_kb();
