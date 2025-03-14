@@ -300,11 +300,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if(IS_LAYER_ON(13))
         {
             layer_off(2);
-            // посмотреть тут че почему выключается скроллок когда тапаем мбтн1
         }
     }
 
     switch (keycode) {
+
+        case TD(0):
+        case TD(1):
+        case TD(2):
+        case TD(29):
+        case TD(4):
+        case TD(31):
+        case TD(6):
+        case TD(7):
+        case TD(8):
+        case TD(9):
+            return true;
 
         case CM_OFF:
             set_auto_mouse_enable(false);
@@ -317,15 +328,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LSFT:
             return true;
 
-        // case KC_BTN1:
-        //     if (record->event.pressed) {
-        //         layer_on(13);
-        //         register_code(KC_BTN1);
-        //     } else {
-        //         unregister_code(KC_BTN1);
-        //         layer_off(13);
-        //     }
-        //     return false;
+        case KC_BTN1:
+            if (record->event.pressed) {
+                layer_on(13);
+                register_code(KC_BTN1);
+            } else {
+                unregister_code(KC_BTN1);
+                layer_off(13);
+            }
+            return false;
             
         case DF(0): 
         case DF(1): 
