@@ -48,7 +48,7 @@ void set_automouse(uint8_t layer) {
 bool is_mouse_active = false;
 
 bool auto_mouse_activation(report_mouse_t mouse_report) {
-    set_auto_mouse_enable(false);
+    set_auto_mouse_timeout(60000);
     return is_mouse_active;
 }
 
