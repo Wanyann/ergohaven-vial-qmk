@@ -299,6 +299,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         if(IS_LAYER_ON(13))
         {
+            auto_mouse_layer_off();
             layer_off(2);
         }
     }
