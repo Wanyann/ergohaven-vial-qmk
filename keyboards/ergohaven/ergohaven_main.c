@@ -308,22 +308,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case CM_OFF:
             set_auto_mouse_enable(false);
+            return true;
 
         case CM_ON:
-            set_auto_mouse_enable(true);
+            set_auto_mouse_enable(true); 
+            return true;   
 
         case KC_LSFT:
             return true;
 
-        case KC_BTN1:
-            if (record->event.pressed) {
-                layer_on(13);
-                register_code(KC_BTN1);
-            } else {
-                unregister_code(KC_BTN1);
-                layer_off(13);
-            }
-            return false;
+        // case KC_BTN1:
+        //     if (record->event.pressed) {
+        //         layer_on(13);
+        //         register_code(KC_BTN1);
+        //     } else {
+        //         unregister_code(KC_BTN1);
+        //         layer_off(13);
+        //     }
+        //     return false;
             
         case DF(0): 
         case DF(1): 
@@ -341,13 +343,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_ENTER:
 
         default:
-            if(numlock_enabled) tap_code16(KC_NUM);
             return true;
     }
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (is_processing) return;
+    // if (is_processing) return;
 // в подходе с процесс рекорд юзер не получается тапнуть гуи - посмотреть
     if (modifiersPressed()) {
         if(alpha_layer_active) {
