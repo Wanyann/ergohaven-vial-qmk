@@ -306,18 +306,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
-        case TD(0):
-        case TD(1):
-        case TD(2):
-        case TD(29):
-        case TD(4):
-        case TD(31):
-        case TD(6):
-        case TD(7):
-        case TD(8):
-        case TD(9):
-            return true;
-
         case CM_OFF:
             set_auto_mouse_enable(false);
             return true;
