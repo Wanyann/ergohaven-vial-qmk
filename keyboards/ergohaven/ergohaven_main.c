@@ -317,6 +317,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_LSFT:
             return true;
 
+        case LCTL(KC_L):
+            auto_mouse_layer_off();
+            layer_off(2);
+            return true;
+
         case KC_BTN1:
             if (record->event.pressed) {
                 layer_on(13);
