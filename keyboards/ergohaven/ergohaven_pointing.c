@@ -52,21 +52,21 @@ bool auto_mouse_activation(report_mouse_t mouse_report) {
     return is_mouse_active;
 }
 
-bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case EH_SCR:
-        case EH_SNP:
-        case EH_TXT:
-        case EH_USR1:
-        case EH_USR2:
-        case EH_USR3:
-            return true;
-        default:
-            return false;
-    }
+// bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
+//     switch (keycode) {
+//         case EH_SCR:
+//         case EH_SNP:
+//         case EH_TXT:
+//         case EH_USR1:
+//         case EH_USR2:
+//         case EH_USR3:
+//             return true;
+//         default:
+//             return false;
+//     }
 
-    return is_mouse_record_user(keycode, record);
-}
+//     return is_mouse_record_user(keycode, record);
+// }
 
 #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
