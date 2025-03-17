@@ -54,7 +54,7 @@ bool is_processing = false;
 uint16_t alt_tab_timer = 0;
 uint16_t shortcut_layer = 4;
 uint16_t mouse_layer = 2;
-uint16_t mouse_mods_layer = 3;
+uint16_t mouse_mods_layer = 13;
 uint8_t prev_lang = LANG_EN;
 
 uint8_t mod_state;
@@ -598,8 +598,8 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
     "DIKTR",
     "MOUSE",
     "# NAV",
-    "# NUM",
     "SHCUT",
+    "# NUM",
     "# APP",
     "# SYM",
     "# FUN",
