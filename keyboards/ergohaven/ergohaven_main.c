@@ -388,6 +388,7 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 
             layer_on(3);
             mod_layer_on = true;
+            printf("%s", "mod layer activated");
 
             // clear_mods();
             // clear_oneshot_mods();
