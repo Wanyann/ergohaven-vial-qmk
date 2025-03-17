@@ -4,12 +4,12 @@
 #ifdef RGBLIGHT_ENABLE
 const rgblight_segment_t PROGMEM layer0_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_WHITE});
 const rgblight_segment_t PROGMEM layer1_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_SPRINGGREEN});
-const rgblight_segment_t PROGMEM layer2_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CYAN});
+const rgblight_segment_t PROGMEM layer2_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_PURPLE});
 const rgblight_segment_t PROGMEM layer3_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_GOLD});
 const rgblight_segment_t PROGMEM layer4_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_RED});
 const rgblight_segment_t PROGMEM layer5_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_BLUE});
 const rgblight_segment_t PROGMEM layer6_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_ORANGE});
-const rgblight_segment_t PROGMEM layer7_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_PURPLE});
+const rgblight_segment_t PROGMEM layer7_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CYAN});
 const rgblight_segment_t PROGMEM layer8_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_YELLOW});
 const rgblight_segment_t PROGMEM layer9_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_MAGENTA});
 const rgblight_segment_t PROGMEM layer10_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_TEAL});
