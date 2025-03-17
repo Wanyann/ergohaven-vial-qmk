@@ -52,6 +52,9 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 bool is_alt_tab_active = false;
 bool is_processing = false;
 uint16_t alt_tab_timer = 0;
+uint16_t shortcut_layer = 4;
+uint16_t mouse_layer = 2;
+uint16_t mouse_mods_layer = 3;
 uint8_t prev_lang = LANG_EN;
 
 uint8_t mod_state;
@@ -160,7 +163,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             layer_move(prev_layer);
             return false;
-
         case KC_SCLN:
         case KC_QUOT:
         case KC_LBRC:
@@ -169,11 +171,12 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case KC_COMMA:
         case KC_DOT:
         case KC_A ... KC_Z:
-
-        if(IS_LAYER_ON(2)) {
-            layer_off(2);
-        }
-        return process_record_user(keycode, record);
+        case TD(9):
+        case TD(6):
+            if(IS_LAYER_ON(mouse_layer)) {
+                layer_off(mouse_layer);
+            }
+            return process_record_user(keycode, record);
 
         case EH_PRINFO: {
             if (record->event.pressed) {
@@ -322,10 +325,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
     if (record->event.pressed) {
-        if(IS_LAYER_ON(13))
+        if(IS_LAYER_ON(mouse_mods_layer))
         {
             auto_mouse_layer_off();
-            layer_off(2);
+            layer_off(mouse_layer);
         }
     }
 
@@ -344,11 +347,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case KC_BTN1:
             if (record->event.pressed) {
-                layer_on(13);
+                layer_on(mouse_mods_layer);
                 register_code(KC_BTN1);
             } else {
                 unregister_code(KC_BTN1);
-                layer_off(13);
+                layer_off(mouse_mods_layer);
             }
             return false;
 
@@ -365,7 +368,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LCTL(KC_L):
         case LCTL(KC_T):
             auto_mouse_layer_off();
-            layer_off(2);
+            layer_off(mouse_layer);
             return true;
 
         case KC_ENTER:
@@ -386,9 +389,9 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
             // os_mod_state = get_oneshot_mods();
             // weak_mod_state = get_weak_mods();
 
-            layer_on(3);
+            layer_on(shortcut_layer);
             mod_layer_on = true;
-            printf("%s", "mod layer activated");
+            // printf("%s", "mod layer activated");
 
             // clear_mods();
             // clear_oneshot_mods();
@@ -400,8 +403,8 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
             // set_weak_mods(weak_mod_state);
             // is_processing = false;
         }
-    } else if (mod_layer_on && IS_LAYER_ON(3)) {
-        layer_off(3);
+    } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
+        layer_off(shortcut_layer);
         // if(get_cur_lang() != prev_lang) {
         //     is_processing = true;
         //     mod_state = get_mods();
@@ -451,7 +454,7 @@ void matrix_scan_kb(void) { // The very important timer.
     //         // os_mod_state = get_oneshot_mods();
     //         // weak_mod_state = get_weak_mods();
 
-    //         layer_on(3);
+    //         layer_on(shortcut_layer);
     //         mod_layer_on = true;
 
     //         // clear_mods();
@@ -464,8 +467,8 @@ void matrix_scan_kb(void) { // The very important timer.
     //         // set_weak_mods(weak_mod_state);
     //         // is_processing = false;
     //     }
-    // } else if (mod_layer_on && IS_LAYER_ON(3)) {
-    //     layer_off(3);
+    // } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
+    //     layer_off(shortcut_layer);
     //     // if(get_cur_lang() != prev_lang) {
     //     //     is_processing = true;
     //     //     mod_state = get_mods();
@@ -611,7 +614,7 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    printf("changed layer to %u", get_highest_layer(state));
+    // printf("changed layer to %u", get_highest_layer(state));
     if(get_highest_layer(state) > 1) {
         alpha_layer_active = false;
     } else {
