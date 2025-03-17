@@ -277,6 +277,31 @@ bool caps_word_press_user(uint16_t keycode) {
         case QK_MACRO_1 ... QK_MACRO_31:
         case LG_SET_EN:
         case LG_SET_RU:
+
+        case TD(0):
+        case TD(1):
+        case TD(2):
+        case TD(3):
+        case TD(4):
+        case TD(5):
+        case TD(6):
+        case TD(7):
+        case TD(8):
+        case TD(9):
+        case TD(10):
+        case TD(11):
+        case TD(12):
+        case TD(13):
+        case TD(14):
+        case TD(15):
+        case TD(16):
+        case TD(17):
+        case TD(18):
+        case TD(19):
+        case TD(20):
+        case TD(21):
+        case TD(22):
+        case TD(23):
             return true;
 
         case KC_ENTER: tap_code16(KC_ENTER);
@@ -286,11 +311,11 @@ bool caps_word_press_user(uint16_t keycode) {
 }
 
 void caps_word_set_user(bool active) {
-    if (active) {
-        layer_on(3);
-    } else {
-        layer_off(3);
-    }
+    // if (active) {
+    //     layer_on(3);
+    // } else {
+    //     layer_off(3);
+    // }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -311,15 +336,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
 
         case CM_ON:
-            set_auto_mouse_enable(true); 
-            return true;   
-
-        case KC_LSFT:
+            set_auto_mouse_enable(true);
             return true;
 
-        case LCTL(KC_L):
-            auto_mouse_layer_off();
-            layer_off(2);
+        case KC_LSFT:
             return true;
 
         case KC_BTN1:
@@ -331,9 +351,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(13);
             }
             return false;
-            
-        case DF(0): 
-        case DF(1): 
+
+        case DF(0):
+        case DF(1):
         case TO(0):
             auto_mouse_layer_off();
             if(is_caps_word_on()) caps_word_off();
@@ -342,6 +362,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
 
         case LALT(KC_SPACE):
+        case LCTL(KC_L):
+        case LCTL(KC_T):
+            auto_mouse_layer_off();
             layer_off(2);
             return true;
 

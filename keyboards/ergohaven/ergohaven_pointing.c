@@ -60,7 +60,13 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
         case EH_USR1:
         case EH_USR2:
         case EH_USR3:
+        case TD(24):
+        case TD(25):
+        case TD(26):
+        case TD(27):
+        case TD(28):
         case TD(29):
+        case TD(30):
         case TD(31):
             return true;
         default:
@@ -201,7 +207,7 @@ void set_pointing_mode(pointing_mode_t mode) {
 
 bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
     // uprintf("pointing kl: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-    
+
     switch (keycode) {
         case EH_SCR:
         case EH_TXT:
@@ -240,13 +246,13 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
 
 report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
     // if(mrpt.buttons) uprintf("buttons: %u\n", mrpt.buttons);
-    
+
     #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
     is_mouse_active = abs(mrpt.x) > 1 || abs(mrpt.y) > 1 || abs(mrpt.v) > 1 || abs(mrpt.h) > 1 || mrpt.buttons;
-    // if(is_mouse_active) uprintf("before mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v)); 
+    // if(is_mouse_active) uprintf("before mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v));
     #endif
     pointing_mode_t pmode = pointing_mode;
-    
+
     // dealing with two finger gesture on touch
     if (mrpt.h != 0 || mrpt.v != 0) {
         pmode  = POINTING_MODE_SCROLL;
@@ -363,9 +369,9 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
         // if(abs(mrpt.x) > abs(mrpt.y)) {
         //     mrpt.y = mrpt.y / 2;
         // } else {
-        //     mrpt.x = mrpt.x / 2; 
+        //     mrpt.x = mrpt.x / 2;
         // }
-        // if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v)); 
+        // if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v));
         accumulated_h = 0;
         accumulated_v = 0;
     }
