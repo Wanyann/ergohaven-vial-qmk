@@ -610,6 +610,7 @@ static const char* PROGMEM LAYER_UPPER_NAME[] =   {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    printf("changed layer to %u", get_highest_layer(state));
     if(get_highest_layer(state) > 1) {
         alpha_layer_active = false;
     } else {
