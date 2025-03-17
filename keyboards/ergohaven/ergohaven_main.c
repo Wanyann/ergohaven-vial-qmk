@@ -174,7 +174,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             layer_off(2);
         }
         return process_record_user(keycode, record);
-        
+
         case EH_PRINFO: {
             if (record->event.pressed) {
                 send_string("Product: " PRODUCT "\n");
@@ -224,7 +224,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         }
-        
+
         // case LG_TOGGLE...LG_END:
         //     return process_record_ruen(keycode, record);
         // }
@@ -320,7 +320,7 @@ void caps_word_set_user(bool active) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
-    
+
     if (record->event.pressed) {
         if(IS_LAYER_ON(13))
         {
@@ -385,7 +385,7 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
             // mod_state = get_mods();
             // os_mod_state = get_oneshot_mods();
             // weak_mod_state = get_weak_mods();
-            
+
             layer_on(3);
             mod_layer_on = true;
 
@@ -393,7 +393,7 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
             // clear_oneshot_mods();
             // clear_weak_mods();
             // set_lang(LANG_EN);
-            
+
             // register_mods(mod_state);
             // set_oneshot_mods(os_mod_state);
             // set_weak_mods(weak_mod_state);
@@ -449,7 +449,7 @@ void matrix_scan_kb(void) { // The very important timer.
     //         // mod_state = get_mods();
     //         // os_mod_state = get_oneshot_mods();
     //         // weak_mod_state = get_weak_mods();
-            
+
     //         layer_on(3);
     //         mod_layer_on = true;
 
@@ -457,7 +457,7 @@ void matrix_scan_kb(void) { // The very important timer.
     //         // clear_oneshot_mods();
     //         // clear_weak_mods();
     //         // set_lang(LANG_EN);
-            
+
     //         // register_mods(mod_state);
     //         // set_oneshot_mods(os_mod_state);
     //         // set_weak_mods(weak_mod_state);
