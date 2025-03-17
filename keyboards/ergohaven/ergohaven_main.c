@@ -52,8 +52,10 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 bool is_alt_tab_active = false;
 bool is_processing = false;
 uint16_t alt_tab_timer = 0;
-uint16_t shortcut_layer = 2;
+
 uint16_t mouse_layer = 3;
+uint16_t shortcut_layer = 2;
+uint16_t nav_layer = 4;
 uint16_t mouse_mods_layer = 13;
 uint8_t prev_lang = LANG_EN;
 
@@ -171,9 +173,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case KC_COMMA:
         case KC_DOT:
         case KC_A ... KC_Z:
-        case TD(9):
-        case TD(6):
             if(IS_LAYER_ON(mouse_layer)) {
+                auto_mouse_layer_off();
                 layer_off(mouse_layer);
             }
             return process_record_user(keycode, record);
@@ -367,6 +368,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LALT(KC_SPACE):
         case LCTL(KC_L):
         case LCTL(KC_T):
+        case LCTL(KC_F):
+            layer_off(nav_layer);
             auto_mouse_layer_off();
             layer_off(mouse_layer);
             return true;
