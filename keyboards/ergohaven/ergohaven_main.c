@@ -52,8 +52,8 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 bool is_alt_tab_active = false;
 bool is_processing = false;
 uint16_t alt_tab_timer = 0;
-uint16_t shortcut_layer = 4;
-uint16_t mouse_layer = 2;
+uint16_t shortcut_layer = 2;
+uint16_t mouse_layer = 3;
 uint16_t mouse_mods_layer = 13;
 uint8_t prev_lang = LANG_EN;
 
@@ -596,9 +596,9 @@ static const char* PROGMEM LAYER_NAME[] =   {
 static const char* PROGMEM LAYER_UPPER_NAME[] =   {
     "BASE ",
     "DIKTR",
+    "SHCUT",
     "MOUSE",
     "# NAV",
-    "SHCUT",
     "# NUM",
     "# APP",
     "# SYM",
