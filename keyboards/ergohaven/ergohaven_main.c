@@ -339,15 +339,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
-
+        #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
         case CM_OFF:
+
             set_auto_mouse_enable(false);
+
             return true;
 
         case CM_ON:
             set_auto_mouse_enable(true);
             return true;
-
+        #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
         case KC_LSFT:
             return true;
 
