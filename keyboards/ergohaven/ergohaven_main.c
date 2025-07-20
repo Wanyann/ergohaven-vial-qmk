@@ -65,47 +65,63 @@ uint8_t weak_mod_state;
 
 // tap dance stuff
 
-typedef struct {
-    uint16_t tap;
-    uint16_t hold;
-    uint16_t held;
-} tap_dance_tap_hold_t;
+// 1. Функция для отправки символа с учётом Caps Word
+void send_tap_with_caps(uint16_t keycode) {
+    if (is_caps_word_on()) {
+        // Для букв применяем Shift
+        if (keycode >= KC_A && keycode <= KC_Z) {
+            tap_code16(S(keycode));
+            return;
+        }
 
-void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
-    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
-
-    if (state->pressed) {
-        if (state->count == 1
-// #ifndef PERMISSIVE_HOLD
-            && !state->interrupted
-// #endif
-        ) {
-            register_code16(tap_hold->hold);
-            tap_hold->held = tap_hold->hold;
-        } else {
-            register_code16(tap_hold->tap);
-            tap_hold->held = tap_hold->tap;
+        // Для специальных символов, которые должны быть "заглавными"
+        // Добавьте здесь обработку других символов по аналогии с caps_word_press_user
+        switch (keycode) {
+            case KC_MINS:
+                tap_code16(KC_UNDS); // _ вместо -
+                return;
+            case KC_SCLN:
+                tap_code16(KC_COLN); // : вместо ;
+                return;
+            // Добавьте другие символы по необходимости
         }
     }
+
+    // Стандартная отправка
+    tap_code16(keycode);
 }
 
-void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
-    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+// 2. Обработчики Tap Dance
+void td_generic_finished(tap_dance_state_t *state, void *user_data) {
+    uint8_t idx = state->count - 1;
+    if (idx >= TD_LAST) return;
 
-    if (tap_hold->held) {
-        unregister_code16(tap_hold->held);
-        tap_hold->held = 0;
+    if (state->pressed) {
+        // Удержание: отправляем комбинацию один раз
+        tap_code16(td_pairs[idx].hold);
+    } else {
+        // Тап: отправляем символ с учётом Caps Word
+        send_tap_with_caps(td_pairs[idx].tap);
     }
 }
 
-#define ACTION_TAP_DANCE_TAP_HOLD(tap, hold)                                        \
-    {                                                                               \
-        .fn        = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, \
-        .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}),               \
-    }
+void td_generic_reset(tap_dance_state_t *state, void *user_data) {
+    // Сброс не требуется
+}
 
-tap_dance_action_t simple_tap_dance_actions[] = {
-    [TD_K_Z] = ACTION_TAP_DANCE_TAP_HOLD(KC_K, LCTL(KC_Z)),
+// 3. Массив Tap Dance действий
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_K_Z] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_generic_finished, td_generic_reset),
+    // Добавьте остальные в том же формате
+};
+
+// 4. Массив пар "тап-удержание"
+td_pair_t td_pairs[] = {
+    [TD_K_Z] = {.tap = KC_K, .hold = LCTL(KC_Z)},
+    // Примеры других комбинаций:
+    // [TD_X_C] = {.tap = KC_X, .hold = LCTL(KC_C)},
+    // [TD_Y_V] = {.tap = KC_Y, .hold = LCTL(KC_V)},
+    // Добавьте остальные
 };
 
 // end tap dance stuff

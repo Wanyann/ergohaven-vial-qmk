@@ -73,9 +73,19 @@ enum custom_keycodes {
     EH_RSRV7,
 };
 
-enum {
-    TD_K_Z,
+typedef struct {
+    uint16_t tap;
+    uint16_t hold;
+} td_pair_t;
+
+enum td_extra_keys {
+    TD_K_Z = 32,
+    //TD_A_X, // Пример второй клавиши
+    // Добавьте остальные 18 клавиш
+    //TD_LAST
 };
+
+extern td_pair_t td_pairs[];
 
 // 1st layer on the cycle
 #define LAYER_CYCLE_START 0
