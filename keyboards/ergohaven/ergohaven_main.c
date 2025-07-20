@@ -316,15 +316,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
-        case TD(TD_K_Z): // list all tap dance keycodes with tap-hold configurations
-            action = &simple_tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return true;
-
-
         case KC_LSFT:
             return true;
 
