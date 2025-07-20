@@ -174,9 +174,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case KC_DOT:
         case KC_A ... KC_Z:
             if(IS_LAYER_ON(mouse_layer)) {
-                #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-                auto_mouse_layer_off();
-                #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
                 layer_off(mouse_layer);
             }
             return process_record_user(keycode, record);
@@ -330,26 +327,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         if(IS_LAYER_ON(mouse_mods_layer))
         {
-            #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-            auto_mouse_layer_off();
-            #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
-
             layer_off(mouse_layer);
         }
     }
 
     switch (keycode) {
-        #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-        case CM_OFF:
-
-            set_auto_mouse_enable(false);
-
-            return true;
-
-        case CM_ON:
-            set_auto_mouse_enable(true);
-            return true;
-        #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
         case KC_LSFT:
             return true;
 
@@ -366,9 +348,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case DF(0):
         case DF(1):
         case TO(0):
-            #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-            auto_mouse_layer_off();
-            #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
             if(is_caps_word_on()) caps_word_off();
             if(get_oneshot_mods()) clear_oneshot_mods();
             set_pointing_mode(POINTING_MODE_NORMAL);
@@ -379,9 +358,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LCTL(KC_T):
         case LCTL(KC_F):
             layer_off(nav_layer);
-            #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-            auto_mouse_layer_off();
-            #endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
             layer_off(mouse_layer);
             return true;
 
