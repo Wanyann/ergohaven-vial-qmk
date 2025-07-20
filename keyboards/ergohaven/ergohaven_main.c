@@ -31,6 +31,10 @@ static bool scrolllock_enabled = false;
 static bool mod_layer_on = false;
 static bool alpha_layer_active = true;
 
+enum {
+    K,
+};
+
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
 {
     kb_config_t new_config      = kb_config;
