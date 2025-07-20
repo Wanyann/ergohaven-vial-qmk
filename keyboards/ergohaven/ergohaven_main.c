@@ -305,8 +305,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-    tap_dance_action_t *action;
-
     if (record->event.pressed) {
         if(IS_LAYER_ON(mouse_mods_layer))
         {
