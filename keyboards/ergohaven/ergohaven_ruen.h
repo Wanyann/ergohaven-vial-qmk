@@ -2,7 +2,7 @@
 #include "ergohaven.h"
 
 enum ruen_custom_keycodes {
-     LG_START = LAYER_PREV + 2,
+    LG_START = LAYER_PREV + 2,
 
     LG_TOGGLE = LG_START,
     LG_SYNC,

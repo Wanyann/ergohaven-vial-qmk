@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "ergohaven.h"
+#include "ru_letters.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_EN] = LAYOUT( \
@@ -11,11 +12,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
 
         [_RU] = LAYOUT( \
-         _______, _______,   _______,   KC_F4,   KC_F5,    KC_F6,                                            KC_F7,   KC_F8,   KC_F9,   KC_F10, KC_F11,  KC_F12,
-         _______, _______, KC_HOME, KC_UP,   KC_END,   KC_INS,                                           KC_PGUP, KC_7,    KC_8,    KC_9,   _______, _______,
-         _______, _______, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,                                           KC_PGDN, KC_4,    KC_5,    KC_6,   _______, _______,
-         _______, _______, PREVWRD, KC_CAPS, NEXTWRD,  KC_DEL,                                           KC_PSCR, KC_1,    KC_2,    KC_3,   _______, _______,
-                           _______, _______, _______, _______, _______, _______,       _______, _______, ADJUST, _______,  KC_0, _______\
+         _______, _______,  _______, _______, _______,  _______,                                            _______,   _______,   _______,   _______, _______,  _______,
+         _______, KC_W,     KC_M,    KC_Z,    KC_COMMA, KC_DOT,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X, _______,
+         _______, KC_E,     KC_B,    KC_T,    RU_A,     KC_F,                                               KC_K,     KC_Y,    KC_N,    KC_C,   KC_H, _______,
+         _______, KC_A,     KC_QUOT, KC_LBRC, KC_S,     KC_DOT,                                             KC_COMMA, KC_V,    KC_G,    KC_U,   KC_SEMI, _______,
+                           _______, _______, _______, _______, _______, _______,          _______, _______, ADJUST, _______,  KC_0, _______\
         ),
 
         [_MOUSE] = LAYOUT( \
