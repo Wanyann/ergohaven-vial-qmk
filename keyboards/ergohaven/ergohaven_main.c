@@ -65,64 +65,35 @@ uint8_t weak_mod_state;
 
 // tap dance stuff
 
-// 1. Функция для отправки символа с учётом Caps Word
-void send_tap_with_caps(uint16_t keycode) {
-    if (is_caps_word_on()) {
-        // Для букв применяем Shift
-        if (keycode >= KC_A && keycode <= KC_Z) {
-            tap_code16(S(keycode));
-            return;
-        }
+// 2. Структура для хранения конфигурации Tap-Hold
+typedef struct {
+    uint16_t tap_key;
+    uint16_t hold_key;
+} th_config_t;
 
-        // Для специальных символов, которые должны быть "заглавными"
-        // Добавьте здесь обработку других символов по аналогии с caps_word_press_user
-        switch (keycode) {
-            case KC_MINS:
-                tap_code16(KC_UNDS); // _ вместо -
-                return;
-            case KC_SCLN:
-                tap_code16(KC_COLN); // : вместо ;
-                return;
-            // Добавьте другие символы по необходимости
-        }
-    }
+// 3. Конфигурация для всех Tap-Hold клавиш
+th_config_t th_config[] = {
+    [TH_K_Z - SAFE_RANGE] = {.tap_key = KC_K, .hold_key = LCTL(KC_Z)},
+    [TH_A_X - SAFE_RANGE] = {.tap_key = KC_A, .hold_key = LCTL(KC_X)},
+    [TH_E_R - SAFE_RANGE] = {.tap_key = KC_E, .hold_key = LCTL(KC_R)},
+    // Добавьте остальные конфигурации
+};
 
-    // Стандартная отправка
-    tap_code16(keycode);
-}
+// 4. Глобальные переменные для отслеживания состояния
+static struct {
+    uint16_t active_key;   // Текущая активная TH-клавиша
+    uint16_t timer;        // Таймер для определения удержания
+    bool is_holding;       // Флаг удержания
+} th_state = {.active_key = KC_NO, .timer = 0, .is_holding = false};
 
-// 2. Обработчики Tap Dance
-void td_generic_finished(tap_dance_state_t *state, void *user_data) {
-    uint8_t idx = state->count - 1;
-    if (idx >= TD_LAST) return;
-
-    if (state->pressed) {
-        // Удержание: отправляем комбинацию один раз
-        tap_code16(td_pairs[idx].hold);
+// 5. Функция для отправки символа с учётом Caps Word
+void send_key_with_caps(uint16_t keycode) {
+    if (is_caps_word_on() && keycode >= KC_A && keycode <= KC_Z) {
+        tap_code16(S(keycode)); // Заглавная буква
     } else {
-        // Тап: отправляем символ с учётом Caps Word
-        send_tap_with_caps(td_pairs[idx].tap);
+        tap_code16(keycode); // Стандартная отправка
     }
 }
-
-void td_generic_reset(tap_dance_state_t *state, void *user_data) {
-    // Сброс не требуется
-}
-
-// 3. Массив Tap Dance действий
-tap_dance_action_t tap_dance_actions[] = {
-    [TD_K_Z] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_generic_finished, td_generic_reset),
-    // Добавьте остальные в том же формате
-};
-
-// 4. Массив пар "тап-удержание"
-td_pair_t td_pairs[] = {
-    [TD_K_Z] = {.tap = KC_K, .hold = LCTL(KC_Z)},
-    // Примеры других комбинаций:
-    // [TD_X_C] = {.tap = KC_X, .hold = LCTL(KC_C)},
-    // [TD_Y_V] = {.tap = KC_Y, .hold = LCTL(KC_V)},
-    // Добавьте остальные
-};
 
 // end tap dance stuff
 
@@ -312,6 +283,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     }
 
+    if (keycode >= TH_K_Z && keycode < TH_LAST) {
+        uint16_t index = keycode - TH_K_Z;
+
+        if (record->event.pressed) {
+            // Нажатие: запоминаем клавишу и запускаем таймер
+            th_state.active_key = keycode;
+            th_state.timer = timer_read();
+            th_state.is_holding = false;
+        } else {
+            // Отпускание
+            if (!th_state.is_holding) {
+                // Не было удержания - отправляем tap-действие
+                send_key_with_caps(th_config[index].tap_key);
+            }
+            th_state.active_key = KC_NO;
+        }
+        return false; // Перехватываем обработку
+    }
+
     switch (keycode) {
 
         case KC_LSFT:
@@ -461,6 +451,19 @@ void matrix_scan_kb(void) { // The very important timer.
     }
 
     matrix_scan_user();
+}
+
+void matrix_scan_user(void) {
+    if (th_state.active_key != KC_NO && !th_state.is_holding) {
+        if (timer_elapsed(th_state.timer) > TAPPING_TERM) {
+            // Время удержания истекло - активируем hold-действие
+            uint16_t index = th_state.active_key - TH_K_Z;
+            tap_code16(th_config[index].hold_key);
+            th_state.is_holding = true;
+        }
+    }
+
+    // ... остальной код ...
 }
 
 void keyboard_post_init_kb(void) {
