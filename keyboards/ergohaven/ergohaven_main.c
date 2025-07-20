@@ -398,30 +398,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case LG_SET_EN:
         case LG_SET_RU:
 
-        case TD(0):
-        case TD(1):
-        case TD(2):
-        case TD(3):
-        case TD(4):
-        case TD(5):
-        case TD(6):
-        case TD(7):
-        case TD(8):
-        case TD(9):
-        case TD(10):
-        case TD(11):
-        case TD(12):
-        case TD(13):
-        case TD(14):
-        case TD(15):
-        case TD(16):
-        case TD(17):
-        case TD(18):
-        case TD(19):
-        case TD(20):
-        case TD(21):
-        case TD(22):
-        case TD(23):
+        case TD(0) ... TD(23):
             return true;
 
         case KC_ENTER: tap_code16(KC_ENTER);
