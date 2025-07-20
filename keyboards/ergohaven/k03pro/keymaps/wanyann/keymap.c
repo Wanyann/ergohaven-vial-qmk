@@ -3,11 +3,11 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_EN] = LAYOUT( \
-          _______,   _______,    _______,    _______,    _______,   _______,                                          _______,  _______,     _______,     _______,   _______,    _______, \
-          _______,   KC_Q,       KC_W,       KC_E,       KC_R,      KC_T,                                          KC_Y,  KC_U,     KC_I,     KC_O,   KC_P,    KC_BSLS, \
-          _______,   LALT_T(KC_A),       KC_S,       KC_D,       KC_F,      KC_G,                                          KC_H,  KC_J,     KC_K,     KC_L,   KC_SCLN, KC_QUOT, \
-          _______,   KC_Z,       KC_X,       KC_C,       KC_V,      KC_B,                                          KC_N,  KC_M,     KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT, \
-                             KC_LGUI, KC_LALT,  KC_LCTL,  LOWER, KC_SPC, KC_LBRC,       KC_RBRC, KC_ENT, RAISE, KC_RCTL, KC_RALT,  KC_RGUI \
+          _______,   _______,      _______,    _______,    _______,   _______,                                   _______,  _______,     _______,     _______,   _______,    _______, \
+          _______,   KC_NO,        KC_X,         KC_Z,         KC_COMMA,      KC_DOT,                            KC_Q,  KC_G,     KC_N,  KC_F,   KC_NO,  KC_NO, \
+          _______,   LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  KC_G,                              KC_P,  KC_D,     KC_R,  KC_S,   KC_L,   KC_NO, \
+          _______,   KC_K,         KC_Y,         KC_O,         KC_U,          KC_NO,                             KC_B,  KC_C,     KC_M,  KC_W,   KC_V,   KC_NO, \
+                     KC_LGUI,      KC_LALT,      KC_LCTL,      LOWER,         KC_SPC,    KC_LBRC,       KC_RBRC, KC_ENT, RAISE, KC_RCTL, KC_RALT,  KC_RGUI \
         ),
 
         [_RU] = LAYOUT( \

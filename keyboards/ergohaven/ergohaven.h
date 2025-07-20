@@ -8,9 +8,9 @@
 #endif
 
 #define _BASE 0
-#define _RU 0
+#define _EN 0
 #define _LOWER 1
-#define _EN 1
+#define _RU 1
 #define _RAISE 2
 #define _MOUSE 2
 #define _ADJUST 3
