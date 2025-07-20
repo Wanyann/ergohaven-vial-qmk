@@ -32,7 +32,7 @@ static bool mod_layer_on = false;
 static bool alpha_layer_active = true;
 
 enum {
-    K,
+    TD_K_Z,
 };
 
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
@@ -109,7 +109,7 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
     }
 
 tap_dance_action_t tap_dance_actions[] = {
-    [K] = ACTION_TAP_DANCE_TAP_HOLD(KC_K, LCTL(KC_Z)),
+    [TD_K_Z] = ACTION_TAP_DANCE_TAP_HOLD(KC_K, LCTL(KC_Z)),
 };
 
 // end tap dance stuff
@@ -386,7 +386,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
-        case TD(K): // list all tap dance keycodes with tap-hold configurations
+        case TD(TD_K_Z): // list all tap dance keycodes with tap-hold configurations
             action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
             if (!record->event.pressed && action->state.count && !action->state.finished) {
                 tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
