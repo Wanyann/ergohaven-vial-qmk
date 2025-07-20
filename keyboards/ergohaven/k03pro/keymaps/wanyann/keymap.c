@@ -12,7 +12,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
 
         [_RU] = LAYOUT( \
-         _______, _______,  _______, _______, _______,  _______,                                            _______,   _______,   _______,   _______, _______,  _______,
+         QK_BOOT, _______,  _______, _______, _______,  _______,                                            _______,   _______,   _______,   _______, _______,  _______,
          _______, KC_W,     KC_M,    KC_Z,    KC_COMMA, KC_DOT,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X, _______,
          _______, KC_E,     KC_B,    KC_T,    RU_A,     KC_F,                                               KC_K,     KC_Y,    KC_N,    KC_C,   KC_H, _______,
          _______, KC_A,     KC_QUOT, KC_LBRC, KC_S,     KC_DOT,                                             KC_COMMA, KC_V,    KC_G,    KC_U,   KC_SCLN, _______,
