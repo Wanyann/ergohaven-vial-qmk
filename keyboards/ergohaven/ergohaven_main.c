@@ -76,9 +76,9 @@ void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
 
     if (state->pressed) {
         if (state->count == 1
-#ifndef PERMISSIVE_HOLD
+// #ifndef PERMISSIVE_HOLD
             && !state->interrupted
-#endif
+// #endif
         ) {
             register_code16(tap_hold->hold);
             tap_hold->held = tap_hold->hold;
@@ -382,7 +382,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (keycode) {
 
-        case TD(CT_CLN): // list all tap dance keycodes with tap-hold configurations
+        case TD(K): // list all tap dance keycodes with tap-hold configurations
             action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
             if (!record->event.pressed && action->state.count && !action->state.finished) {
                 tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
