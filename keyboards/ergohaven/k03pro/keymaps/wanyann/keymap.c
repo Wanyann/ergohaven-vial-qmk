@@ -7,7 +7,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           _______,   _______,      _______,    _______,    _______,   _______,                                   _______,  _______,     _______,     _______,   _______,    _______, \
           _______,   KC_NO,        KC_X,         KC_Z,         KC_COMMA,      KC_DOT,                            KC_Q,  KC_G,     KC_N,  KC_F,   KC_NO,  KC_NO, \
           _______,   LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  KC_G,                              KC_P,  KC_D,     KC_R,  KC_S,   KC_L,   KC_NO, \
-          _______,   TD(TD_K_Z),         KC_Y,         KC_O,         KC_U,          KC_NO,                             KC_B,  KC_C,     KC_M,  KC_W,   KC_V,   KC_NO, \
+          _______,   TH_K_Z,         KC_Y,         KC_O,         KC_U,          KC_NO,                             KC_B,  KC_C,     KC_M,  KC_W,   KC_V,   KC_NO, \
                      KC_LGUI,      KC_LALT,      KC_LCTL,      LOWER,         KC_SPC,    KC_LBRC,       KC_RBRC, KC_ENT, RAISE, KC_RCTL, KC_RALT,  KC_RGUI \
         ),
 

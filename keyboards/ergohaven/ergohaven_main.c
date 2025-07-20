@@ -356,6 +356,9 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
+        case TH_K_Z ... TH_LAST:
+        // Разрешаем Caps Word продолжать работу
+            return true;
         // Keycodes for russian symbols
         case KC_SCLN:
         case KC_QUOT:
