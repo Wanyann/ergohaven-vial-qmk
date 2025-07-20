@@ -63,6 +63,53 @@ uint8_t mod_state;
 uint8_t os_mod_state;
 uint8_t weak_mod_state;
 
+// tap dance stuff
+
+typedef struct {
+    uint16_t tap;
+    uint16_t hold;
+    uint16_t held;
+} tap_dance_tap_hold_t;
+
+void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (state->pressed) {
+        if (state->count == 1
+#ifndef PERMISSIVE_HOLD
+            && !state->interrupted
+#endif
+        ) {
+            register_code16(tap_hold->hold);
+            tap_hold->held = tap_hold->hold;
+        } else {
+            register_code16(tap_hold->tap);
+            tap_hold->held = tap_hold->tap;
+        }
+    }
+}
+
+void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+
+    if (tap_hold->held) {
+        unregister_code16(tap_hold->held);
+        tap_hold->held = 0;
+    }
+}
+
+#define ACTION_TAP_DANCE_TAP_HOLD(tap, hold)                                        \
+    {                                                                               \
+        .fn        = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, \
+        .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}),               \
+    }
+
+tap_dance_action_t tap_dance_actions[] = {
+    [K] = ACTION_TAP_DANCE_TAP_HOLD(KC_K, LCTL(KC_Z)),
+};
+
+// end tap dance stuff
+
 bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
@@ -315,6 +362,7 @@ bool caps_word_press_user(uint16_t keycode) {
 
 void caps_word_set_user(bool active) {
     // if (active) {
+    //     if (get_cur_lang() == LANG_RU)
     //     layer_on(3);
     // } else {
     //     layer_off(3);
@@ -322,7 +370,8 @@ void caps_word_set_user(bool active) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+
+    tap_dance_action_t *action;
 
     if (record->event.pressed) {
         if(IS_LAYER_ON(mouse_mods_layer))
@@ -332,6 +381,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (keycode) {
+
+        case TD(CT_CLN): // list all tap dance keycodes with tap-hold configurations
+            action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+
+
         case KC_LSFT:
             return true;
 
@@ -369,49 +428,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // if (is_processing) return;
-// в подходе с процесс рекорд юзер не получается тапнуть гуи - посмотреть
     if (modifiersPressed()) {
         if(alpha_layer_active) {
-            // is_processing = true;
-            // prev_lang = get_cur_lang();
-            // mod_state = get_mods();
-            // os_mod_state = get_oneshot_mods();
-            // weak_mod_state = get_weak_mods();
 
             layer_on(shortcut_layer);
             mod_layer_on = true;
-            // printf("%s", "mod layer activated");
-
-            // clear_mods();
-            // clear_oneshot_mods();
-            // clear_weak_mods();
-            // set_lang(LANG_EN);
-
-            // register_mods(mod_state);
-            // set_oneshot_mods(os_mod_state);
-            // set_weak_mods(weak_mod_state);
-            // is_processing = false;
         }
     } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
         layer_off(shortcut_layer);
-        // if(get_cur_lang() != prev_lang) {
-        //     is_processing = true;
-        //     mod_state = get_mods();
-        //     os_mod_state = get_oneshot_mods();
-        //     weak_mod_state = get_weak_mods();
 
-        //     clear_mods();
-        //     clear_oneshot_mods();
-        //     clear_weak_mods();
-
-        //     set_lang(prev_lang);
-
-        //     register_mods(mod_state);
-        //     set_oneshot_mods(os_mod_state);
-        //     set_weak_mods(weak_mod_state);
-        //     is_processing = false;
-        // }
         mod_layer_on = false;
     }
 }
@@ -429,55 +454,6 @@ void matrix_scan_kb(void) { // The very important timer.
         is_alt_tab_active = false;
         }
     }
-
-//  в таком подходе работает тап по гуи, но если гуи зажать - не сменяется раскладка (вероятно из-за того что он используется в сочетании для смены языка)
-    // if (is_processing) {
-    //     matrix_scan_user();
-    //     return;
-    // }
-
-    // if (modifiersPressed()) {
-    //     if(alpha_layer_active) {
-    //         // is_processing = true;
-    //         // prev_lang = get_cur_lang();
-    //         // mod_state = get_mods();
-    //         // os_mod_state = get_oneshot_mods();
-    //         // weak_mod_state = get_weak_mods();
-
-    //         layer_on(shortcut_layer);
-    //         mod_layer_on = true;
-
-    //         // clear_mods();
-    //         // clear_oneshot_mods();
-    //         // clear_weak_mods();
-    //         // set_lang(LANG_EN);
-
-    //         // register_mods(mod_state);
-    //         // set_oneshot_mods(os_mod_state);
-    //         // set_weak_mods(weak_mod_state);
-    //         // is_processing = false;
-    //     }
-    // } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
-    //     layer_off(shortcut_layer);
-    //     // if(get_cur_lang() != prev_lang) {
-    //     //     is_processing = true;
-    //     //     mod_state = get_mods();
-    //     //     os_mod_state = get_oneshot_mods();
-    //     //     weak_mod_state = get_weak_mods();
-
-    //     //     clear_mods();
-    //     //     clear_oneshot_mods();
-    //     //     clear_weak_mods();
-
-    //     //     set_lang(prev_lang);
-
-    //     //     register_mods(mod_state);
-    //     //     set_oneshot_mods(os_mod_state);
-    //     //     set_weak_mods(weak_mod_state);
-    //     //     is_processing = false;
-    //     // }
-    //     mod_layer_on = false;
-    // }
 
     matrix_scan_user();
 }
