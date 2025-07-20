@@ -82,7 +82,7 @@ enum td_extra_keys {
     TD_K_Z = 32,
     //TD_A_X, // Пример второй клавиши
     // Добавьте остальные 18 клавиш
-    //TD_LAST
+    TD_LAST
 };
 
 extern td_pair_t td_pairs[];
