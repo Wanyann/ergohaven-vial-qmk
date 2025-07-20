@@ -74,7 +74,7 @@ enum custom_keycodes {
 };
 
 enum {
-    TD_K_Z = 32,
+    TD_K_Z,
 };
 
 // 1st layer on the cycle

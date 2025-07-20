@@ -287,6 +287,78 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     return process_record_user(keycode, record);
 }
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+    tap_dance_action_t *action;
+
+    if (record->event.pressed) {
+        if(IS_LAYER_ON(mouse_mods_layer))
+        {
+            layer_off(mouse_layer);
+        }
+    }
+
+    switch (keycode) {
+
+        case TD(TD_K_Z): // list all tap dance keycodes with tap-hold configurations
+            action = &simple_tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
+            if (!record->event.pressed && action->state.count && !action->state.finished) {
+                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                tap_code16(tap_hold->tap);
+            }
+            return true;
+
+
+        case KC_LSFT:
+            return true;
+
+        case KC_BTN1:
+            if (record->event.pressed) {
+                layer_on(mouse_mods_layer);
+                register_code(KC_BTN1);
+            } else {
+                unregister_code(KC_BTN1);
+                layer_off(mouse_mods_layer);
+            }
+            return false;
+
+        case DF(0):
+        case DF(1):
+        case TO(0):
+            if(is_caps_word_on()) caps_word_off();
+            if(get_oneshot_mods()) clear_oneshot_mods();
+            set_pointing_mode(POINTING_MODE_NORMAL);
+            return true;
+
+        case LALT(KC_SPACE):
+        case LCTL(KC_L):
+        case LCTL(KC_T):
+        case LCTL(KC_F):
+            layer_off(nav_layer);
+            layer_off(mouse_layer);
+            return true;
+
+        case KC_ENTER:
+
+        default:
+            return true;
+    }
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (modifiersPressed()) {
+        if(alpha_layer_active) {
+
+            layer_on(shortcut_layer);
+            mod_layer_on = true;
+        }
+    } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
+        layer_off(shortcut_layer);
+
+        mod_layer_on = false;
+    }
+}
+
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
         // Keycodes for russian symbols
@@ -367,78 +439,6 @@ void caps_word_set_user(bool active) {
     // } else {
     //     layer_off(3);
     // }
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
-    tap_dance_action_t *action;
-
-    if (record->event.pressed) {
-        if(IS_LAYER_ON(mouse_mods_layer))
-        {
-            layer_off(mouse_layer);
-        }
-    }
-
-    switch (keycode) {
-
-        case TD(TD_K_Z): // list all tap dance keycodes with tap-hold configurations
-            action = &simple_tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return true;
-
-
-        case KC_LSFT:
-            return true;
-
-        case KC_BTN1:
-            if (record->event.pressed) {
-                layer_on(mouse_mods_layer);
-                register_code(KC_BTN1);
-            } else {
-                unregister_code(KC_BTN1);
-                layer_off(mouse_mods_layer);
-            }
-            return false;
-
-        case DF(0):
-        case DF(1):
-        case TO(0):
-            if(is_caps_word_on()) caps_word_off();
-            if(get_oneshot_mods()) clear_oneshot_mods();
-            set_pointing_mode(POINTING_MODE_NORMAL);
-            return true;
-
-        case LALT(KC_SPACE):
-        case LCTL(KC_L):
-        case LCTL(KC_T):
-        case LCTL(KC_F):
-            layer_off(nav_layer);
-            layer_off(mouse_layer);
-            return true;
-
-        case KC_ENTER:
-
-        default:
-            return true;
-    }
-}
-
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (modifiersPressed()) {
-        if(alpha_layer_active) {
-
-            layer_on(shortcut_layer);
-            mod_layer_on = true;
-        }
-    } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
-        layer_off(shortcut_layer);
-
-        mod_layer_on = false;
-    }
 }
 
 bool led_update_user(led_t led_state) {
