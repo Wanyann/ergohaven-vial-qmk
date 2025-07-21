@@ -84,6 +84,15 @@ enum custom_th_keys {
     TH_COM_R,
     TH_V_SLS,
 
+    TH_RU_F_Z,
+    TH_RU_YE_X,
+    TH_RU_KHA_C,
+    TH_RU_YERU_V,
+    TH_RU_YU_B,
+    TH_RU_A_F,
+    TH_RU_DOT_T,
+    TH_RU_COM_R,
+    TH_RU_ZHE_SLS,
     // Добавьте остальные 17 клавиш здесь
     TH_LAST
 };

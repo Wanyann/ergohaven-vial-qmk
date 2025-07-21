@@ -12,11 +12,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
 
         [_RU] = LAYOUT( \
-         QK_BOOT, _______,  _______, _______, _______,  _______,                                            _______,   _______,   _______,   _______, _______,  _______,
-         _______, KC_W,     KC_M,    KC_Z,    KC_COMMA, KC_DOT,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X, _______,
-         _______, KC_E,     KC_B,    KC_T,    RU_A,     KC_F,                                               KC_K,     KC_Y,    KC_N,    KC_C,   KC_H, _______,
-         _______, KC_A,     KC_QUOT, KC_LBRC, KC_S,     KC_DOT,                                             KC_COMMA, KC_V,    KC_G,    KC_U,   KC_SCLN, _______,
-                           _______, _______, _______, _______, _______, _______,          _______, _______, ADJUST, _______,  KC_0, _______\
+         QK_BOOT, _______,      _______,      _______,      _______,       _______,                                            _______,   _______,   _______,   _______, _______,      _______,
+         _______, KC_W,         RU_SOFT,      KC_Z,         TH_RU_COM_R,   TH_RU_DOT_T,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X,          _______,
+         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     KC_Y,    KC_N,    KC_C,   KC_H,          _______,
+         _______, TH_RU_F_Z,    TH_RU_YE_X,   TH_RU_KHA_C,  TH_RU_YERU_V,  TH_RU_YU_B,                                              KC_COMMA, KC_V,    KC_G,    KC_U,   TH_RU_ZHE_SLS, _______,
+                  _______,      _______,      _______,      _______,       _______,    _______,          _______, _______, ADJUST, _______,  KC_0, _______\
         ),
 
         [_MOUSE] = LAYOUT( \
