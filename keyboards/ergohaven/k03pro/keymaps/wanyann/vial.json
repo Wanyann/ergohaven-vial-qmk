@@ -44,10 +44,10 @@
     },
     "key_overrides": [
         {
-            "keys": ["RU_SOFT"],
+            "keys": ["KC_M"],
             "with": "KC_RBRC",
             "modifiers": ["MOD_LSFT"],
-            "layers": ["_RU"]
+            "layers": [0]
         }
     ]
 }
