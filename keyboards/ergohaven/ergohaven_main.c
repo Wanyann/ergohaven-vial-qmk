@@ -67,8 +67,8 @@ uint8_t weak_mod_state;
 // key overrides
 
 // 1. Объявите ваши key_override_t как обычно
-const key_override_t soft_sign_override =
-    ko_make_with_layers_negated(MOD_MASK_SHIFT, RU_SOFT, KC_RBRC, ~(1<<_RU));
+const key_override_t soft_sign_override = ko_make_with_layers(MOD_MASK_SHIFT, RU_SOFT, KC_RBRC, ~(1<<_RU));
+
 
 // 2. Создайте отдельный массив для ваших оверрайдов
 const key_override_t *custom_key_overrides[] = {
@@ -479,10 +479,22 @@ void matrix_scan_user(void) {
 }
 
 void keyboard_post_init_kb(void) {
-    // Регистрация кастомных key overrides
-    for (int i = 0; custom_key_overrides[i] != NULL; i++) {
-        vial_key_override_register(custom_key_overrides[i]);
-    }
+
+    extern const key_override_t **vial_key_overrides;
+    static const key_override_t *custom_overrides[] = {
+        &soft_sign_override,
+        NULL
+    };
+
+    // Объединение массивов
+    const key_override_t *all_overrides[] = {
+        *vial_key_overrides,
+        &soft_sign_override,
+        NULL
+    };
+
+    vial_key_overrides = all_overrides;
+
 
     #ifdef CONSOLE_ENABLE
     debug_enable = true;
