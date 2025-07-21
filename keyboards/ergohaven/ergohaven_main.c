@@ -74,8 +74,13 @@ typedef struct {
 // 3. Конфигурация для всех Tap-Hold клавиш
 th_config_t th_config[] = {
     [TH_K_Z - SAFE_RANGE] = {.tap_key = KC_K, .hold_key = LCTL(KC_Z)},
-    [TH_A_X - SAFE_RANGE] = {.tap_key = KC_A, .hold_key = LCTL(KC_X)},
-    [TH_E_R - SAFE_RANGE] = {.tap_key = KC_E, .hold_key = LCTL(KC_R)},
+    [TH_Y_X - SAFE_RANGE] = {.tap_key = KC_Y, .hold_key = LCTL(KC_X)},
+    [TH_O_C - SAFE_RANGE] = {.tap_key = KC_O, .hold_key = LCTL(KC_C)},
+    [TH_U_V - SAFE_RANGE] = {.tap_key = KC_U, .hold_key = LCTL(KC_V)},
+    [TH_NO_B - SAFE_RANGE] = {.tap_key = KC_NO, .hold_key = LGUI(KC_V)},
+    [TH_DOT_T - SAFE_RANGE] = {.tap_key = KC_DOT, .hold_key = LCTL(KC_T)},
+    [TH_COM_R - SAFE_RANGE] = {.tap_key = KC_COMM, .hold_key = LCTL(KC_R)},
+    [TH_V_SLS - SAFE_RANGE] = {.tap_key = KC_V, .hold_key = LCTL(KC_SLSH)},
     // Добавьте остальные конфигурации
 };
 

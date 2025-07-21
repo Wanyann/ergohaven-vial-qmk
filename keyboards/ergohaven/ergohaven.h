@@ -75,8 +75,15 @@ enum custom_keycodes {
 
 enum custom_th_keys {
     TH_K_Z = SAFE_RANGE, // Начало блока кастомных клавиш
-    TH_A_X,
-    TH_E_R,
+    TH_Y_X,
+    TH_O_C,
+    TH_U_V,
+    TH_NO_B,
+    TH_J_F,
+    TH_DOT_T,
+    TH_COM_R,
+    TH_V_SLS,
+
     // Добавьте остальные 17 клавиш здесь
     TH_LAST
 };
