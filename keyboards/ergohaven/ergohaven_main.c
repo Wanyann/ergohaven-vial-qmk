@@ -477,7 +477,7 @@ void matrix_scan_user(void) {
 void keyboard_post_init_kb(void) {
 
     for (int i = 0; custom_key_overrides[i] != NULL; i++) {
-        vial_key_override_register(custom_key_overrides[i]);
+        key_override_register(custom_key_overrides[i]);
     }
 
     #ifdef CONSOLE_ENABLE
