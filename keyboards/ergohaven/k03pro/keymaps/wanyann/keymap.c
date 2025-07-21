@@ -6,7 +6,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_EN] = LAYOUT( \
           _______,   _______,      _______,    _______,    _______,   _______,                                   _______,  _______,  _______,   _______,   _______,  _______, \
           _______,   KC_NO,        KC_X,         KC_Z,         TH_COM_R,      TH_DOT_T,                          KC_Q,     KC_G,     KC_N,      KC_F,     KC_NO,     KC_NO, \
-          _______,   LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  TH_J_F,                            KC_P,     KC_D,     KC_R,      KC_S,     KC_L,      KC_NO, \
+          _______,   LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  TH_J_F,                            KC_P,     LT(KC_D),     LSFT_T(KC_R),      KC_S,     KC_L,      KC_NO, \
           _______,   TH_K_Z,       TH_Y_X,       TH_O_C,       TH_U_V,        TH_NO_B,                           KC_B,     KC_C,     KC_M,      KC_W,     KC_V,      TH_V_SLS, \
                      KC_LGUI,      KC_LALT,      KC_LCTL,      LOWER,         KC_SPC,    KC_LBRC,       KC_RBRC, KC_ENT,   RAISE,    KC_RCTL,   KC_RALT,  KC_RGUI \
         ),
@@ -14,7 +14,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_RU] = LAYOUT( \
          QK_BOOT, _______,      _______,      _______,      _______,       _______,                                            _______,   _______,   _______,   _______, _______,      _______,
          _______, KC_W,         RU_SOFT,      KC_Z,         TH_RU_COM_R,   TH_RU_DOT_T,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X,          _______,
-         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     KC_Y,    KC_N,    KC_C,   KC_H,          _______,
+         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     KC_Y,    LSFT_T(KC_N),    KC_C,   KC_H,          _______,
          _______, TH_RU_F_Z,    TH_RU_YE_X,   TH_RU_KHA_C,  TH_RU_YERU_V,  TH_RU_YU_B,                                              KC_COMMA, KC_V,    KC_G,    KC_U,   TH_RU_ZHE_SLS, _______,
                   _______,      _______,      _______,      _______,       _______,    _______,          _______, _______, ADJUST, _______,  KC_0, _______\
         ),
@@ -27,7 +27,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            _______, _______, _______, ADJUST, _______, _______,        _______, _______, _______, _______, _______, _______ \
         ),
 
-        [_ADJUST] = LAYOUT(
+        [_MCTRL] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_FOUR] = LAYOUT(
+        [_MODS] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -43,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_FIVE] = LAYOUT(
+        [_NAV] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_SIX] = LAYOUT(
+        [_NUM] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_SEVEN] = LAYOUT(
+        [_APP] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -67,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_EIGHT] = LAYOUT(
+        [_SYM] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_TEN] = LAYOUT(
+        [_FN] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
@@ -91,12 +91,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
 
         ),
-        [_ELEVEN] = LAYOUT(
+        [_OS] = LAYOUT(
         QK_BOOT, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______, _______,                                            _______, _______, _______, _______, DM_PLY1, DM_REC1,
         _______, _______, _______, _______, _______, _______,                                            _______, KC_VOLD, KC_MUTE, KC_VOLU, DM_PLY2, DM_REC2,
         _______, _______, _______, _______, _______, CG_TOGG,                                            _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, DM_RSTP,
                           _______, _______, _______, _______, _______, _______,        _______, _______, _______,  _______, _______, _______
+
+        ),
+        [_GAME] = LAYOUT(
+        KC_GRV,   KC_1,    KC_2,    KC_3,     KC_4,     KC_5,                                          KC_6,  KC_7,     KC_8,     KC_9,   KC_0,    KC_BSPC, \
+        KC_ESC,   KC_Q,    KC_W,    KC_E,     KC_R,     KC_T,                                          KC_Y,  KC_U,     KC_I,     KC_O,   KC_P,    KC_BSLS, \
+        KC_TAB,   KC_A,    KC_S,    KC_D,     KC_F,     KC_G,                                          KC_H,  KC_J,     KC_K,     KC_L,   KC_SCLN, KC_QUOT, \
+        KC_LSFT,  KC_Z,    KC_X,    KC_C,     KC_V,     KC_B,                                          KC_N,  KC_M,     KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT, \
+                            KC_LGUI, KC_LALT,  KC_LCTL,  LOWER, KC_SPC, KC_LBRC,       KC_RBRC, KC_ENT, RAISE, KC_RCTL, KC_RALT,  KC_RGUI \
 
         ),
 };

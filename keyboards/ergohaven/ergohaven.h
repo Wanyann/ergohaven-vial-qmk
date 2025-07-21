@@ -8,11 +8,8 @@
 #endif
 
 #define _BASE 0
-#define _EN 0
 #define _LOWER 1
-#define _RU 1
 #define _RAISE 2
-#define _MOUSE 2
 #define _ADJUST 3
 #define _FOUR 4
 #define _FIVE 5
@@ -26,6 +23,19 @@
 #define _THIRTEEN 13
 #define _FOURTEEN 14
 #define _FIFTEEN 15
+
+#define _EN 0
+#define _RU 1
+#define _MOUSE 2
+#define _MCTRL 3
+#define _MODS 4
+#define _NAV 5
+#define _NUM 6
+#define _APP 7
+#define _SYM 8
+#define _FN 9
+#define _OS 10
+#define _GAME 11
 
 #define BASE      DF(_BASE)
 #define RAISE     MO(_RAISE)
