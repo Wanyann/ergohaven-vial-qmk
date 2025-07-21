@@ -42,14 +42,12 @@
             [{"rx":18,"ry":-0.1},"5,1\n\n\n5,0\n\n\n\n\n\ne",{"y":1.0,"x":-1},"5,0\n\n\n5,0\n\n\n\n\n\ne"]
         ]
     },
-    {
-   "key_overrides": [
-            {
-                "keys": ["RU_SOFT"],
-                "with": "KC_RBRC",
-                "modifiers": ["MOD_LSFT"],
-                "layers": ["_RU"]
-            }
-        ]
-    }
+    "key_overrides": [
+        {
+            "keys": ["RU_SOFT"],
+            "with": "KC_RBRC",
+            "modifiers": ["MOD_LSFT"],
+            "layers": ["_RU"]
+        }
+    ]
 }
