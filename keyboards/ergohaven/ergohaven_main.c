@@ -69,14 +69,6 @@ uint8_t weak_mod_state;
 // 1. Объявите ваши key_override_t как обычно
 const key_override_t soft_sign_override = ko_make_with_layers(MOD_MASK_SHIFT, RU_SOFT, KC_RBRC, 1<<_RU);
 
-
-// 2. Создайте отдельный массив для ваших оверрайдов
-const key_override_t *custom_key_overrides[] = {
-    &soft_sign_override,
-    // добавьте другие оверрайды здесь
-    NULL // Обязательный NULL-terminator
-};
-
 // key overrides end
 
 // tap dance stuff
@@ -481,10 +473,6 @@ void matrix_scan_user(void) {
 void keyboard_post_init_kb(void) {
 
     extern const key_override_t **vial_key_overrides;
-    static const key_override_t *custom_overrides[] = {
-        &soft_sign_override,
-        NULL
-    };
 
     // Объединение массивов
     const key_override_t *all_overrides[] = {
