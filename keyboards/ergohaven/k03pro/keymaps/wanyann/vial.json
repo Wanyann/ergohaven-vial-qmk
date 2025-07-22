@@ -47,7 +47,7 @@
             "keys": ["KC_M"],
             "with": "KC_RBRC",
             "modifiers": ["MOD_LSFT"],
-            "layers": [1]
+            "layers": ["1"]
         }
     ]
 }
