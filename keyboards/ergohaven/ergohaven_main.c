@@ -104,8 +104,8 @@ th_config_t th_config[] = {
     [TH_U_V - SAFE_RANGE] = {.tap_key = KC_U, .hold_key = LCTL(KC_V)},
     [TH_NO_B - SAFE_RANGE] = {.tap_key = KC_NO, .hold_key = LGUI(KC_V)},
     [TH_J_F - SAFE_RANGE] = {.tap_key = KC_J, .hold_key = LCTL(KC_F)},
-    [TH_DOT_T - SAFE_RANGE] = {.tap_key = LG_DOT, .hold_key = LCTL(KC_T)},
-    [TH_COM_R - SAFE_RANGE] = {.tap_key = LG_COMMA, .hold_key = LCTL(KC_R)},
+    [TH_DOT_T - SAFE_RANGE] = {.tap_key = KC_DOT, .hold_key = LCTL(KC_T)},
+    [TH_COM_R - SAFE_RANGE] = {.tap_key = KC_COMMA, .hold_key = LCTL(KC_R)},
     [TH_V_SLS - SAFE_RANGE] = {.tap_key = KC_V, .hold_key = LCTL(KC_SLSH)},
 
     [TH_RU_F_Z - SAFE_RANGE] = {.tap_key = KC_A, .hold_key = LCTL(KC_Z)},
@@ -114,6 +114,8 @@ th_config_t th_config[] = {
     [TH_RU_YERU_V - SAFE_RANGE] = {.tap_key = KC_S, .hold_key = LCTL(KC_V)},
     [TH_RU_YU_B - SAFE_RANGE] = {.tap_key = KC_DOT, .hold_key = LGUI(KC_V)},
     [TH_RU_A_F - SAFE_RANGE] = {.tap_key = KC_F, .hold_key = LCTL(KC_F)},
+    [TH_RU_DOT_T - SAFE_RANGE] = {.tap_key = KC_SLSH, .hold_key = LCTL(KC_T)},
+    [TH_RU_COM_R - SAFE_RANGE] = {.tap_key = S(KC_SLSH), .hold_key = LCTL(KC_R)},
     [TH_RU_ZHE_SLS - SAFE_RANGE] = {.tap_key = KC_SCLN, .hold_key = LCTL(KC_SLSH)},
 
     [TH_BTN2_V - SAFE_RANGE] = {.tap_key = KC_BTN2, .hold_key = LCTL(KC_V)},
