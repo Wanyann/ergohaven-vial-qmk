@@ -14,6 +14,7 @@ typedef union {
         uint8_t sniper_mode : 2;
         uint8_t dpi_mode : 3;
         bool    invert_scroll : 1;
+        bool    sticky_pointing_mode : 1;
     };
 } vial_config_t;
 
@@ -181,6 +182,7 @@ void keyboard_post_init_user(void) {
     vial_config.raw = via_get_layout_options();
     via_set_layout_options_kb(vial_config.raw);
     set_led_blinks(false);
+    set_sticky_pointing_mode(vial_config.sticky_pointing_mode);
 
     transaction_register_rpc(RPC_SYNC_TOUCH, sync_touch);
     transaction_register_rpc(RPC_SYNC_DISPLAY, sync_display);
