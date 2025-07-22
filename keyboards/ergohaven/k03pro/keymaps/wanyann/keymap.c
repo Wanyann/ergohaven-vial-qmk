@@ -8,13 +8,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           _______,   KC_NO,        KC_X,         KC_Z,         TH_COM_R,      TH_DOT_T,                          KC_Q,     KC_G,     KC_N,      KC_F,     KC_NO,     KC_NO, \
           _______,   LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  TH_J_F,                            KC_P,     LT(_NUM, KC_D),     LSFT_T(KC_R),      KC_S,     KC_L,      KC_NO, \
           _______,   TH_K_Z,       TH_Y_X,       TH_O_C,       TH_U_V,        TH_NO_B,                           KC_B,     KC_C,     KC_M,      KC_W,     KC_V,      TH_V_SLS, \
-                     KC_LGUI,      KC_LALT,      KC_LCTL,      LOWER,         KC_SPC,    KC_LBRC,       KC_RBRC, KC_ENT,   RAISE,    KC_RCTL,   KC_RALT,  KC_RGUI \
+                     KC_NO,      KC_NO,      KC_NO,      LOWER,         LT(_NAV, KC_SPACE),    OSL(_APP),       KC_BSPC, LT(_NUM, KC_T),   KC_NO,    KC_NO,   KC_NO,  KC_NO \
         ),
 
         [_RU] = LAYOUT( \
          QK_BOOT, _______,      _______,      _______,      _______,       _______,                                            _______,   _______,   _______,   _______, _______,      _______,
          _______, KC_W,         RU_SOFT,      KC_Z,         TH_RU_COM_R,   TH_RU_DOT_T,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X,          _______,
-         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     KC_Y,    LSFT_T(KC_N),    KC_C,   KC_H,          _______,
+         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     LT(_NUM, KC_Y),    LSFT_T(KC_N),    KC_C,   KC_H,          _______,
          _______, TH_RU_F_Z,    TH_RU_YE_X,   TH_RU_KHA_C,  TH_RU_YERU_V,  TH_RU_YU_B,                                              KC_COMMA, KC_V,    KC_G,    KC_U,   TH_RU_ZHE_SLS, _______,
                   _______,      _______,      _______,      _______,       _______,    _______,          _______, _______, ADJUST, _______,  KC_0, _______\
         ),
