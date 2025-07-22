@@ -64,6 +64,19 @@ uint8_t mod_state;
 uint8_t os_mod_state;
 uint8_t weak_mod_state;
 
+// combo
+
+const uint16_t PROGMEM ru_combo[] = {TH_O_C, TH_U_V, COMBO_END};
+const uint16_t PROGMEM en_combo[] = {KC_C, KC_M, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(ru_combo, LG_SET_RU),
+    COMBO(en_combo, LG_SET_EN), // keycodes with modifiers are possible too!
+};
+
+// combo end
+
+
 // key overrides
 
 // 1. Объявите ваши key_override_t как обычно
