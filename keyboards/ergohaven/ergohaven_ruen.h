@@ -66,7 +66,7 @@ enum ruen_custom_keycodes {
 
 enum { LANG_EN = 0, LANG_RU };
 
-enum { TG_DEFAULT = 0, TG_M0, TG_M1M2 };
+enum { TG_M1M2 = 0, TG_M0, TG_DEFAULT };
 
 bool pre_process_record_ruen(uint16_t keycode, keyrecord_t *record);
 
