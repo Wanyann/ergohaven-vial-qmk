@@ -57,7 +57,7 @@ void set_lang(uint8_t lang) {
                     unregister_code(KC_LCTL);
                     unregister_code(KC_LSFT);
                     wait_ms(20);
-                    layer_off(_RU)
+                    layer_off(_RU);
                     if (mods != 0) add_mods(mods);
                 }
             } else {
@@ -71,7 +71,7 @@ void set_lang(uint8_t lang) {
                     unregister_code(KC_LCTL);
                     unregister_code(KC_LSFT);
                     wait_ms(20);
-                    layer_on(_RU)
+                    layer_on(_RU);
                 if (mods != 0) add_mods(mods);
             }
             break;
