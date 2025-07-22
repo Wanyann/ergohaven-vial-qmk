@@ -335,7 +335,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             th_state.active_key = KC_NO;
         }
-        return false; // Перехватываем обработку
+        return true;
     }
 
     switch (keycode) {
@@ -393,6 +393,18 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
+
+        case TH_DOT_T:
+        case TH_COM_R:
+        case TH_RU_COM_R:
+        case TH_RU_DOT_T:
+            return false;
+
+        case TH_RU_YE_X:
+        case TH_RU_KHA_C:
+        case TH_RU_YU_B:
+            if(get_cur_lang() = LANG_RU) tap_code16(S(keycode));
+
         case TH_K_Z ... TH_LAST:
         // Разрешаем Caps Word продолжать работу
             return true;
