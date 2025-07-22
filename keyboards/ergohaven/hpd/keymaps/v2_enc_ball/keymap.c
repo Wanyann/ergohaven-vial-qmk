@@ -10,7 +10,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,    KC_NO,        KC_X,         KC_Z,         TH_COM_R,      TH_DOT_T,                          KC_Q,     KC_G,     KC_N,      KC_F,     KC_NO,     KC_NO, \
         _______,    LGUI_T(KC_H), LALT_T(KC_I), LSFT_T(KC_E), LCTL_T(KC_A),  TH_J_F,                            KC_P,     LT(_NUM, KC_D),     LSFT_T(KC_R),      KC_S,     KC_L,      KC_NO, \
         _______,    TH_K_Z,       TH_Y_X,       TH_O_C,       TH_U_V,        TH_NO_B,                           KC_B,     KC_C,     KC_M,      KC_W,     TH_V_SLS,      KC_NO, \
-                    KC_NO,        KC_NO,         KC_NO,     LT(_NAV, KC_SPACE),    OSL(_APP), KC_NO,        KC_BTN1, KC_BSPC, LT(_NUM, KC_T),   KC_NO,    KC_NO,   KC_NO,   \
+                    KC_NO,        KC_NO,         TO(0),     LT(_NAV, KC_SPACE),    OSL(_APP), KC_NO,        KC_BTN1, KC_BSPC, LT(_NUM, KC_T),   KC_NO,    KC_NO,   KC_NO,   \
                                                                                           KC_MUTE,          KC_MUTE
     ),
 
@@ -19,7 +19,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, KC_W,         KC_M,      KC_Z,         TH_RU_COM_R,   TH_RU_DOT_T,                                             KC_P,     KC_D,    KC_R,    KC_L,   KC_X,          _______,
         _______, LGUI_T(KC_E), LALT_T(KC_B), LSFT_T(KC_T), LCTL_T(KC_J),  TH_RU_A_F,                                               KC_K,     LT(_NUM, KC_Y),    LSFT_T(KC_N),    KC_C,   KC_Q,          _______,
         _______, TH_RU_F_Z,    TH_RU_YE_X,   TH_RU_KHA_C,  TH_RU_YERU_V,  TH_RU_YU_B,                                              KC_COMMA, KC_V,    KC_G,    KC_U,   TH_RU_ZHE_SLS, _______,
-                  KC_NO,         KC_NO,      KC_NO,   LT(_NAV, KC_SPACE),    OSL(_APP), KC_NO,          KC_NO, KC_BSPC, LT(_NUM, KC_H),   KC_NO,    KC_NO,   KC_NO,   \
+                  KC_NO,         KC_NO,      _______,   LT(_NAV, KC_SPACE),    OSL(_APP), KC_NO,          KC_NO, KC_BSPC, LT(_NUM, KC_H),   KC_NO,    KC_NO,   KC_NO,   \
                                                                                        _______,         _______
     ),
 
@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, MEH(KC_P), MEH(KC_W), MEH(KC_E), MEH(KC_R), MEH(KC_T),                                 MEH(KC_Y), MEH(KC_U), MEH(KC_I), MEH(KC_O), MEH(KC_P),  _______,
         _______, MEH(KC_A), MEH(KC_S), MEH(KC_D), MEH(KC_F), MEH(KC_G),                                 MEH(KC_H), MEH(KC_J), MEH(KC_K), MEH(KC_L), MEH(KC_SCLN),  _______,
         _______, MEH(KC_Z), MEH(KC_X), MEH(KC_C), HYPR(KC_V), MEH(KC_B),                                MEH(KC_N), MEH(KC_M), MEH(KC_COMMA), MEH(KC_DOT), MEH(KC_SLSH),  _______,
-                           _______, _______, KC_NO, KC_NO, _______, _______,                 _______, _______, _______, _______, _______, _______, \
+                           _______, _______, _______, KC_NO, _______, _______,                 _______, _______, _______, _______, _______, _______, \
                                                                        _______,                 _______
     ),
     [_SYM] = LAYOUT(
