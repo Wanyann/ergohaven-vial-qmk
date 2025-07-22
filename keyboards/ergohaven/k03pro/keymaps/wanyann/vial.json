@@ -13,6 +13,7 @@
             "Hide encoder R1",
             "Hide encoder R2",
             "Hide encoder R3",
+            "Sticky pointer modes",
             [ "Auto mouse layer", "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" ],
             "Invert scroll",
             [ "DPI", "320", "400", "500", "630", "800", "1000" ],
