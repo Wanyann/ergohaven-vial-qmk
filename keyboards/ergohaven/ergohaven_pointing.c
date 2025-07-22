@@ -34,6 +34,12 @@ void set_orientation(orientation_t o) {
     orientation = o;
 }
 
+static bool sticky_pointing_mode = false;
+
+void set_sticky_pointing_mode(bool next_sticky_mode) {
+    sticky_pointing_mode = next_sticky_mode;
+}
+
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
 void set_automouse(uint8_t layer) {
@@ -225,7 +231,8 @@ bool process_record_pointing(uint16_t keycode, keyrecord_t *record) {
                 set_pointing_mode(NEW_MODE);
                 press_timer = timer_read();
             } else {
-                if (timer_elapsed(press_timer) < get_tapping_term(keycode, record)) {
+                if (sticky_pointing_mode && timer_elapsed(press_timer) < get_tapping_term(keycode, record))
+                {
                     if (prev_pointing_mode == NEW_MODE)
                         set_pointing_mode(POINTING_MODE_NORMAL);
                     else
