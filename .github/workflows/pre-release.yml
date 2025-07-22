@@ -1,8 +1,6 @@
 name: Pre-Release
 
-on:
-  push:
-    branches: []
+on: deployment
 
 jobs:
 
