@@ -124,7 +124,8 @@ static struct {
 
 // 5. Функция для отправки символа с учётом Caps Word
 void send_key_with_caps(uint16_t keycode) {
-    if (is_caps_word_on() && keycode >= KC_A && keycode <= KC_Z) {
+    if (is_caps_word_on() && (keycode >= KC_A && keycode <= KC_Z) ||
+    (get_cur_lang() == LANG_RU && (keycode == KC_DOT || keycode == KC_COMM || keycode == KC_QUOT))) { // допилить тут иф, сделать чтобы клавишам на русском добавлялся мод шифт
         tap_code16(S(keycode)); // Заглавная буква
     } else {
         tap_code16(keycode); // Стандартная отправка
