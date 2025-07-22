@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "ergohaven_ruen.h"
 #include "ergohaven.h"
 #include "ergohaven_pointing.h"
 #include "ru_letters.h"
