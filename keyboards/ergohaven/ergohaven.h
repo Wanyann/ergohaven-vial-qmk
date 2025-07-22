@@ -103,6 +103,10 @@ enum custom_th_keys {
     TH_RU_DOT_T,
     TH_RU_COM_R,
     TH_RU_ZHE_SLS,
+
+    TH_BTN2_V,
+    TH_BTN3_F,
+
     // Добавьте остальные 17 клавиш здесь
     TH_LAST
 };

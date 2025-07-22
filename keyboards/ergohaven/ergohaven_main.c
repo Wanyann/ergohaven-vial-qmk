@@ -117,6 +117,11 @@ th_config_t th_config[] = {
     [TH_DOT_T - SAFE_RANGE] = {.tap_key = KC_SLSH, .hold_key = LCTL(KC_T)},
     [TH_COM_R - SAFE_RANGE] = {.tap_key = S(KC_SLSH), .hold_key = LCTL(KC_R)},
     [TH_V_SLS - SAFE_RANGE] = {.tap_key = RU_V, .hold_key = LCTL(KC_SLSH)},
+
+    [TH_BTN2_V - SAFE_RANGE] = {.tap_key = KC_BTN2, .hold_key = LCTL(KC_V)},
+    [TH_BTN3_F - SAFE_RANGE] = {.tap_key = KC_BTN3, .hold_key = LCTL(KC_F)},
+
+
     // Добавьте остальные конфигурации
 };
 
@@ -373,6 +378,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             layer_off(nav_layer);
             layer_off(mouse_layer);
             return true;
+        case KC_SCRL:
 
         case KC_ENTER:
 
