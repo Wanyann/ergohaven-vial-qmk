@@ -398,7 +398,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case TH_K_Z ... TH_PUNCTUATION:
         // Разрешаем Caps Word продолжать работу
             return true;
-        case TH_PUNCTUATION ... TH_LAST:
+        case TH_PUNCTUATION + 1 ... TH_LAST:
             return false;
         // Keycodes for russian symbols
         case KC_SCLN:
