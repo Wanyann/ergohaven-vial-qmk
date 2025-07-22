@@ -8,7 +8,6 @@
 #include "hid.h"
 #include "version.h"
 #include "print.h"
-#include "ru_letters.h"
 
 typedef union {
     uint32_t raw;
@@ -51,18 +50,9 @@ float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
 #endif
 
 bool is_alt_tab_active = false;
-bool is_processing = false;
 uint16_t alt_tab_timer = 0;
 
-uint16_t mouse_layer = 3;
-uint16_t shortcut_layer = 2;
-uint16_t nav_layer = 4;
-uint16_t mouse_mods_layer = 13;
 uint8_t prev_lang = LANG_EN;
-
-uint8_t mod_state;
-uint8_t os_mod_state;
-uint8_t weak_mod_state;
 
 // combo
 
@@ -253,8 +243,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case KC_COMMA:
         case KC_DOT:
         case KC_A ... KC_Z:
-            if(IS_LAYER_ON(mouse_layer)) {
-                layer_off(mouse_layer);
+            if(IS_LAYER_ON(_MOUSE)) {
+                layer_off(_MOUSE);
             }
             return process_record_user(keycode, record);
 
@@ -323,9 +313,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     if (record->event.pressed) {
-        if(IS_LAYER_ON(mouse_mods_layer))
+        if(IS_LAYER_ON(_MCTRL))
         {
-            layer_off(mouse_layer);
+            layer_off(_MOUSE);
         }
     }
 
@@ -355,11 +345,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case KC_BTN1:
             if (record->event.pressed) {
-                layer_on(mouse_mods_layer);
+                layer_on(_MCTRL);
                 register_code(KC_BTN1);
             } else {
                 unregister_code(KC_BTN1);
-                layer_off(mouse_mods_layer);
+                layer_off(_MCTRL);
             }
             return false;
 
@@ -375,8 +365,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LCTL(KC_L):
         case LCTL(KC_T):
         case LCTL(KC_F):
-            layer_off(nav_layer);
-            layer_off(mouse_layer);
+            layer_off(_NAV);
+            layer_off(_MOUSE);
             return true;
         case KC_SCRL:
 
@@ -391,11 +381,11 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (modifiersPressed()) {
         if(alpha_layer_active) {
 
-            layer_on(shortcut_layer);
+            layer_on(_MODS);
             mod_layer_on = true;
         }
-    } else if (mod_layer_on && IS_LAYER_ON(shortcut_layer)) {
-        layer_off(shortcut_layer);
+    } else if (mod_layer_on && IS_LAYER_ON(_MODS)) {
+        layer_off(_MODS);
 
         mod_layer_on = false;
     }
