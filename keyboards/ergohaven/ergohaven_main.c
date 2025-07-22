@@ -403,7 +403,7 @@ bool caps_word_press_user(uint16_t keycode) {
         case TH_RU_YE_X:
         case TH_RU_KHA_C:
         case TH_RU_YU_B:
-            if(get_cur_lang() = LANG_RU) tap_code16(S(keycode));
+            add_weak_mods(MOD_BIT(KC_LSFT));
 
         case TH_K_Z ... TH_LAST:
         // Разрешаем Caps Word продолжать работу
