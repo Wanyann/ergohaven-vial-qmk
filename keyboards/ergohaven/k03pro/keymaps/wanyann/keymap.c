@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
         [_APP] = LAYOUT(
         _______, _______, _______, _______, _______, _______,                                           _______, _______, _______, _______, _______,  _______,
-        _______, MEH(KC_V), MEH(KC_V), MEH(KC_V), MEH(KC_V), MEH(KC_V),                                 MEH(KC_Y), MEH(KC_U), MEH(KC_I), MEH(KC_O), MEH(KC_P),  _______,
+        _______, MEH(KC_P), MEH(KC_W), MEH(KC_E), MEH(KC_R), MEH(KC_T),                                 MEH(KC_Y), MEH(KC_U), MEH(KC_I), MEH(KC_O), MEH(KC_P),  _______,
         _______, MEH(KC_A), MEH(KC_S), MEH(KC_D), MEH(KC_F), MEH(KC_G),                                 MEH(KC_H), MEH(KC_J), MEH(KC_K), MEH(KC_L), MEH(KC_SCLN),  _______,
         _______, MEH(KC_Z), MEH(KC_X), MEH(KC_C), HYPR(KC_V), MEH(KC_B),                                MEH(KC_N), MEH(KC_M), MEH(KC_COMMA), MEH(KC_DOT), MEH(KC_SLSH),  _______,
                           _______, _______, KC_NO, KC_NO, _______, _______,       _______, _______, _______, _______, _______, _______ \
