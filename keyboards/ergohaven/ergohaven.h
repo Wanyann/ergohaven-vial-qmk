@@ -90,8 +90,7 @@ enum custom_th_keys {
     TH_U_V,
     TH_NO_B,
     TH_J_F,
-    TH_DOT_T,
-    TH_COM_R,
+
     TH_V_SLS,
 
     TH_RU_F_Z,
@@ -100,12 +99,17 @@ enum custom_th_keys {
     TH_RU_YERU_V,
     TH_RU_YU_B,
     TH_RU_A_F,
-    TH_RU_DOT_T,
-    TH_RU_COM_R,
+
     TH_RU_ZHE_SLS,
 
     TH_BTN2_V,
     TH_BTN3_F,
+    TH_PUNCTUATION,
+
+    TH_DOT_T,
+    TH_COM_R,
+    TH_RU_DOT_T,
+    TH_RU_COM_R,
 
     // Добавьте остальные 17 клавиш здесь
     TH_LAST
