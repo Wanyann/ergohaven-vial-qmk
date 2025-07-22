@@ -104,12 +104,6 @@ enum custom_th_keys {
 
     TH_BTN2_V,
     TH_BTN3_F,
-    TH_PUNCTUATION,
-
-    TH_DOT_T,
-    TH_COM_R,
-    TH_RU_DOT_T,
-    TH_RU_COM_R,
 
     // Добавьте остальные 17 клавиш здесь
     TH_LAST

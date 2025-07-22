@@ -125,7 +125,7 @@ static struct {
 // 5. Функция для отправки символа с учётом Caps Word
 void send_key_with_caps(uint16_t keycode) {
     if (is_caps_word_on() && ((keycode >= KC_A && keycode <= KC_Z) ||
-    (get_cur_lang() == LANG_RU && (keycode == KC_DOT || keycode == KC_COMM || keycode == KC_QUOT)))) { // допилить тут иф, сделать чтобы клавишам на русском добавлялся мод шифт
+        (get_cur_lang() == LANG_RU && (keycode == KC_DOT || keycode == KC_COMM || keycode == KC_QUOT || keycode == KC_LBRC)))) {
         tap_code16(S(keycode)); // Заглавная буква
     } else {
         tap_code16(keycode); // Стандартная отправка
@@ -395,11 +395,9 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
 
-        case TH_K_Z ... TH_PUNCTUATION:
+        case TH_K_Z ... TH_LAST:
         // Разрешаем Caps Word продолжать работу
             return true;
-        case TH_PUNCTUATION + 1 ... TH_LAST:
-            return false;
         // Keycodes for russian symbols
         case KC_SCLN:
         case KC_QUOT:
