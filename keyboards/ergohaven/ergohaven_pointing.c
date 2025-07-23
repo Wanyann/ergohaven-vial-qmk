@@ -22,7 +22,7 @@ void set_text_sens(int32_t s) {
     sens[POINTING_MODE_TEXT] = s;
 }
 
-static bool invert_scroll = false;
+static bool invert_scroll = true;
 
 void set_invert_scroll(bool invert) {
     invert_scroll = invert;
@@ -353,6 +353,10 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
                 }
                 mrpt.h = shift_x;
                 mrpt.v = -shift_y;
+                if (invert_scroll) {
+                    mrpt.v = -mrpt.v;
+                    mrpt.h = -mrpt.h;
+                }
                 break;
 
             case POINTING_MODE_TEXT:
@@ -403,11 +407,6 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
         // if(is_mouse_active) uprintf("after mrpt.x: %d ; mrpt.y: %d ; mrpt.h: %d ; mrpt.v: %d \n\n\n", abs(mrpt.x), abs(mrpt.y), abs(mrpt.h), abs(mrpt.v));
         accumulated_h = 0;
         accumulated_v = 0;
-    }
-
-    if (invert_scroll) {
-        mrpt.v = -mrpt.v;
-        mrpt.h = -mrpt.h;
     }
 
     return mrpt;
