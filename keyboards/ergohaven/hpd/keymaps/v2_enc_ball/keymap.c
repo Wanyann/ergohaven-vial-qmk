@@ -133,6 +133,8 @@ typedef union {
         uint8_t sniper_mode : 2;
         uint8_t dpi_mode : 4;
         bool    sticky_pointing_mode : 1;
+        bool    invert_scroll : 1;
+        bool    acceleration : 1;
     };
 } vial_config_t;
 
@@ -158,6 +160,8 @@ void via_set_layout_options_kb(uint32_t value) {
     set_sniper_sens(SNIPER_TABLE[vial_config.sniper_mode]);
     set_text_sens(TEXT_TABLE[vial_config.text_mode]);
     set_sticky_pointing_mode(vial_config.sticky_pointing_mode);
+    set_invert_scroll(vial_config.invert_scroll);
+    set_acceleration(vial_config.acceleration);
 }
 
 void keyboard_post_init_user(void) {

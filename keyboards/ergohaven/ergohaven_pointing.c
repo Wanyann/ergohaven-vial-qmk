@@ -39,7 +39,11 @@ static bool sticky_pointing_mode = false;
 void set_sticky_pointing_mode(bool next_sticky_mode) {
     sticky_pointing_mode = next_sticky_mode;
 }
+static bool acceleration = false;
 
+void set_acceleration(bool acc) {
+    acceleration = acc;
+}
 #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
 void set_automouse(uint8_t layer) {
@@ -280,6 +284,15 @@ report_mouse_t pointing_device_task_user(report_mouse_t mrpt) {
             mrpt.x = -mrpt.y;
             mrpt.y = tmp;
             break;
+    }
+
+    if (acceleration)
+    {
+        mouse_xy_report_t x = mrpt.x;
+        mouse_xy_report_t y = mrpt.y;
+
+        mrpt.x = (mouse_xy_report_t)(x > 0 ? x * x / 16 + x : -x * x / 16 + x);
+        mrpt.y = (mouse_xy_report_t)(y > 0 ? y * y / 16 + y : -y * y / 16 + y);
     }
 
     static int32_t accumulated_h = 0;
