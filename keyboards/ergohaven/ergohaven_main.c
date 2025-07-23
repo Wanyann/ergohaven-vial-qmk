@@ -370,7 +370,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
 
         case LT(5, KC_SPACE):
-            if (record->event.pressed && !is_layer_active(5)) {
+            if (record->event.pressed && IS_LAYER_OFF(5)) {
                 if(ctrl_pressed) {
                     register_code(KC_LCTL);
                     tap_code16(KC_TAB);
