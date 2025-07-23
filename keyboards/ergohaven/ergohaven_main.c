@@ -368,7 +368,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LCTL(KC_F):
             layer_off(_NAV);
             layer_off(_MOUSE);
-            return true;
+            tap_code(keycode):
+            return false;
 
         case LT(5, KC_SPACE):
             if (record->event.pressed) {
