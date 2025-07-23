@@ -30,6 +30,7 @@ static bool numlock_enabled = false;
 static bool scrolllock_enabled = false;
 static bool mod_layer_on = false;
 static bool alpha_layer_active = true;
+static bool ctrl_pressed = false;
 
 void kb_config_update_ruen_toggle_mode(uint8_t mode)
 {
@@ -342,11 +343,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case KC_BTN1:
             if (record->event.pressed) {
+                ctrl_pressed = true;
                 layer_on(_MCTRL);
                 register_code(KC_BTN1);
             } else {
                 unregister_code(KC_BTN1);
                 layer_off(_MCTRL);
+                ctrl_pressed = false;
+                unregister_code(KC_LCTL);
             }
             return false;
 
@@ -365,6 +369,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             layer_off(_NAV);
             layer_off(_MOUSE);
             return true;
+
+        case LT(5, KC_SPACE):
+            if (record->event.pressed) {
+                if(ctrl_pressed) {
+                    register_code(KC_LCTL);
+                    tap_code16(KC_TAB);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
         case KC_SCRL:
 
         case KC_ENTER:
