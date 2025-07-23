@@ -370,7 +370,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;
 
         case LT(5, KC_SPACE):
-            if (record->tap.count) {
+            if (record->tap.count && record->event.pressed) {
                 if(ctrl_pressed) {
                     register_code(KC_LCTL);
                     tap_code16(KC_TAB);
