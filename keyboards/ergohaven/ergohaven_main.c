@@ -369,8 +369,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             set_pointing_mode(POINTING_MODE_NORMAL);
             return true;
 
-        case KC_SPACE:
-            if (record->event.pressed) {
+        case LT(5, KC_SPACE):
+            if (record->event.pressed && !is_layer_active(5)) {
                 if(ctrl_pressed) {
                     register_code(KC_LCTL);
                     tap_code16(KC_TAB);
@@ -497,12 +497,7 @@ void matrix_scan_user(void) {
 }
 
 void keyboard_post_init_kb(void) {
-
-    // for (int i = 0; custom_key_overrides[i] != NULL; i++) {
-    //     key_override_register(custom_key_overrides[i]);
-    // }
-
-    #ifdef CONSOLE_ENABLE
+#ifdef CONSOLE_ENABLE
     debug_enable = true;
 #endif
 
