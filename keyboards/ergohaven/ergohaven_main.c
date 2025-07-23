@@ -314,7 +314,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if(IS_LAYER_ON(_MCTRL))
         {
             layer_off(_MOUSE);
-            auto_mouse_layer_off();
         }
     }
 
@@ -369,7 +368,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case LCTL(KC_F):
             layer_off(_NAV);
             layer_off(_MOUSE);
-            auto_mouse_layer_off();
             return true;
 
         case LT(5, KC_SPACE):
