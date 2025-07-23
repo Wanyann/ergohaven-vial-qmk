@@ -70,8 +70,6 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
         case EH_USR1:
         case EH_USR2:
         case EH_USR3:
-        case TD(4):
-        case TD(5):
             return true;
         default:
             return false;
