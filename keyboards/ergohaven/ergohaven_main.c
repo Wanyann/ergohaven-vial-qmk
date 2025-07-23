@@ -375,7 +375,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     register_code(KC_LCTL);
                     tap_code16(KC_TAB);
                     return false;
-                } else if((get_mods() | get_oneshot_mods() | get_weak_mods()) == MOD_BIT(KC_LCTL)) {
+                } else if((get_mods() | get_oneshot_mods() | get_weak_mods() & MOD_BIT(KC_LCTL)) == MOD_BIT(KC_LCTL)) {
                     tap_code16(KC_TAB);
                     return false;
                 } else {
