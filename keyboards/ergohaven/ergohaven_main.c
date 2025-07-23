@@ -233,6 +233,13 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             layer_move(prev_layer);
             return false;
+        case LALT(KC_SPACE):
+        case LCTL(KC_L):
+        case LCTL(KC_T):
+        case LCTL(KC_F):
+            layer_off(_NAV);
+            layer_off(_MOUSE);
+            return true;
         case KC_SCLN:
         case KC_QUOT:
         case KC_LBRC:
@@ -360,14 +367,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if(is_caps_word_on()) caps_word_off();
             if(get_oneshot_mods()) clear_oneshot_mods();
             set_pointing_mode(POINTING_MODE_NORMAL);
-            return true;
-
-        case LALT(KC_SPACE):
-        case LCTL(KC_L):
-        case LCTL(KC_T):
-        case LCTL(KC_F):
-            layer_off(_NAV);
-            layer_off(_MOUSE);
             return true;
 
         case LT(5, KC_SPACE):
