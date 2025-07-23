@@ -383,8 +383,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case KC_SCRL:
 
-        case KC_ENTER:
-
         default:
             return true;
     }
