@@ -369,7 +369,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             set_pointing_mode(POINTING_MODE_NORMAL);
             return true;
 
-        case LT(5, KC_SPACE):
+        case KC_SPACE:
             if (record->event.pressed) {
                 if(ctrl_pressed) {
                     register_code(KC_LCTL);
