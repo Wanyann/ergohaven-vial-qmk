@@ -66,14 +66,8 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
         case EH_USR1:
         case EH_USR2:
         case EH_USR3:
-        case TD(24):
-        case TD(25):
-        case TD(26):
-        case TD(27):
-        case TD(28):
-        case TD(29):
-        case TD(30):
-        case TD(31):
+        case TD(4):
+        case TD(5):
             return true;
         default:
             return false;
@@ -82,7 +76,7 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t *record) {
     return is_mouse_record_user(keycode, record);
 }
 
-#endif // ePOINTING_DEVICE_AUTO_MOUSE_ENABLE
+#endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
 static bool led_blinks = true;
 
