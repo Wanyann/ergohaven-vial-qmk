@@ -357,6 +357,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_BTN1);
                 layer_off(_MCTRL);
                 ctrl_pressed = false;
+                wait_ms(20);
                 unregister_code(KC_LCTL);
             }
             return false;
