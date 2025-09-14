@@ -45,13 +45,6 @@ void kb_config_update_ruen_mac_layout(bool mac_layout) {
     kb_config_update(new_config);
 }
 
-
-#ifdef COMBO_MUST_TAP_PER_COMBO
-bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
-    return true;
-}
-#endif
-
 #ifdef AUDIO_ENABLE
 float base_sound[][2] = SONG(TERMINAL_SOUND);
 float caps_sound[][2] = SONG(CAPS_LOCK_ON_SOUND);
