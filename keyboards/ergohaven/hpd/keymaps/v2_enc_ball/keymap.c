@@ -2,6 +2,7 @@
 #include "ergohaven.h"
 #include "ergohaven_pointing.h"
 #include "ergohaven_ruen.h"
+#include "g/keymap_combo.h"
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
