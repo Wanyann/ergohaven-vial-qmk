@@ -48,30 +48,12 @@ void set_lang(uint8_t lang) {
             if (lang == LANG_EN) {
                 if (!should_revert_ru) {
                     if (mods != 0) del_mods(mods);
-                    // dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
-                    register_code(KC_LCTL);
-                    register_code(KC_LSFT);
-                    wait_ms(20);
-                    tap_code(KC_9);
-                    wait_ms(20);
-                    unregister_code(KC_LCTL);
-                    unregister_code(KC_LSFT);
-                    wait_ms(20);
-                    set_single_persistent_default_layer(_EN);
+                    dynamic_keymap_macro_send(QK_MACRO_1 - QK_MACRO);
                     if (mods != 0) add_mods(mods);
                 }
             } else {
                 if (mods != 0) del_mods(mods);
-                //dynamic_keymap_macro_send(QK_MACRO_2 - QK_MACRO);
-                    register_code(KC_LCTL);
-                    register_code(KC_LSFT);
-                    wait_ms(20);
-                    tap_code(KC_8);
-                    wait_ms(20);
-                    unregister_code(KC_LCTL);
-                    unregister_code(KC_LSFT);
-                    wait_ms(20);
-                    set_single_persistent_default_layer(_RU);
+                dynamic_keymap_macro_send(QK_MACRO_2 - QK_MACRO);
                 if (mods != 0) add_mods(mods);
             }
             break;
