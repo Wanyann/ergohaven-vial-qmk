@@ -135,6 +135,29 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
 
+// helper: emulate a normal key press+release for ruen-handled keycode
+static void process_ruen_as_keypress(uint16_t keycode) {
+    keyrecord_t rec;
+    // zero-init
+    memset(&rec, 0, sizeof(rec));
+    // emulate press
+    rec.event.pressed = true;
+    process_record_ruen(keycode, &rec);
+    // emulate release
+    memset(&rec, 0, sizeof(rec));
+    rec.event.pressed = false;
+    process_record_ruen(keycode, &rec);
+}
+
+bool process_combo(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LG_START ... LG_END:    // пример — ваш кейкод для '.'
+            process_ruen_as_keypress(LG_DOT);
+            return false; // если хотите блокировать дальнейшую обработку
+    }
+    return true;
+}
+
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //   #ifdef WPM_ENABLE
 //     if (record->event.pressed) {
