@@ -141,7 +141,7 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
 // Помести этот код в тот же .c файл, где объявлены
 // pre_process_record_kb / process_record_kb / post_process_record_user.
 // Если helper выше их определения — добавь прототипы.
-
+/*
 static void process_as_full_keypress(uint16_t keycode) {
     keyrecord_t rec;
 
@@ -186,7 +186,29 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
+*/
 
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if (!pressed) return;
+
+    // Получаем keycode, который соответствует комбо
+    uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
+
+    // Создаём keyrecord как для обычной клавиши
+    keyrecord_t record = {
+        .event = {
+            .time = timer_read32(),
+            .pressed = true
+        }
+    };
+
+    // Передаём в основной процессор, он уже вызовет и ruen, и user
+    process_record_kb(keycode, &record);
+
+    // Эмулируем отпускание, чтобы flow завершился полностью
+    record.event.pressed = false;
+    process_record_kb(keycode, &record);
+}
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //   #ifdef WPM_ENABLE

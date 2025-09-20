@@ -335,7 +335,7 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 }
 
 void housekeeping_task_ruen(void) {
-    if (timer_elapsed32(revert_time) < 200) return;
+    if (timer_elapsed32(revert_time) < 500) return;
 
     if (should_revert_ru) {
         should_revert_ru = false;
