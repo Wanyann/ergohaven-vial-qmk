@@ -31,7 +31,7 @@
 #    undef NO_DEBUG
 #endif
 
-// #define COMBO_ONLY_FROM_LAYER 0
+#define COMBO_ONLY_FROM_LAYER 0
 #define TAPPING_TERM 170
 #define PERMISSIVE_HOLD
 #define AUTO_MOUSE_DEFAULT_LAYER 2
