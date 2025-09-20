@@ -137,6 +137,7 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
 
+/*
 // helper: emulate a normal key press+release for ruen-handled keycode
 static void process_ruen_as_keypress(uint16_t keycode) {
     keyrecord_t rec;
@@ -160,6 +161,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             process_ruen_as_keypress(keycode);
     }
 }
+*/
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //   #ifdef WPM_ENABLE
