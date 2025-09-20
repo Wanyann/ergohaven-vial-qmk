@@ -151,17 +151,17 @@ static void process_as_full_keypress(uint16_t keycode) {
     rec.event.time = timer_read32();
 
     // run pre-process (как делают QMK)
-    bool ok = true;
+
     // Если у тебя объявлена pre_process_record_kb — вызываем её, чтобы сработали pre hooks.
     // Если её нет в пределах видимости — закомментируй этот блок.
-    ok = pre_process_record_kb ? pre_process_record_kb(keycode, &rec) : true;
+    bool ok = pre_process_record_kb(keycode, &rec);
 
     if (ok) {
         // основной обработчик (включает process_record_ruen и process_record_user)
         process_record_kb(keycode, &rec);
 
         // пост-обработка (если у тебя есть post_process_record_user)
-        if (post_process_record_user) post_process_record_user(keycode, &rec);
+        post_process_record_user(keycode, &rec);
     }
 
     // --- RELEASE ---
@@ -169,10 +169,10 @@ static void process_as_full_keypress(uint16_t keycode) {
     rec.event.pressed = false;
     rec.event.time = timer_read32();
 
-    ok = pre_process_record_kb ? pre_process_record_kb(keycode, &rec) : true;
+    ok = pre_process_record_kb(keycode, &rec);
     if (ok) {
         process_record_kb(keycode, &rec);
-        if (post_process_record_user) post_process_record_user(keycode, &rec);
+        post_process_record_user(keycode, &rec);
     }
 }
 
