@@ -9,6 +9,8 @@
 #include "version.h"
 #include "print.h"
 
+extern combo_t key_combos[];
+
 typedef union {
     uint32_t raw;
     struct {
@@ -149,13 +151,15 @@ static void process_ruen_as_keypress(uint16_t keycode) {
     process_record_ruen(keycode, &rec);
 }
 
-bool process_combo(uint16_t keycode, keyrecord_t *record) {
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if (!pressed) return;
+
+    uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
     switch (keycode) {
-        case LG_START ... LG_END:    // пример — ваш кейкод для '.'
-            process_ruen_as_keypress(LG_DOT);
-            return false; // если хотите блокировать дальнейшую обработку
+        case LG_START ... LG_END:
+            process_ruen_as_keypress(keycode);
+            return false;
     }
-    return true;
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
