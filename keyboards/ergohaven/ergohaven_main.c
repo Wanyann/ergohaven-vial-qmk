@@ -189,25 +189,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 */
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
-    if (!pressed) return;
+    keyrecord_t rec;
 
-    // Получаем keycode, который соответствует комбо
-    uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
+    // press
+    memset(&rec, 0, sizeof(rec));
+    rec.event.pressed = true;
+    process_record_kb(keycode, &rec);
 
-    // Создаём keyrecord как для обычной клавиши
-    keyrecord_t record = {
-        .event = {
-            .time = timer_read32(),
-            .pressed = true
-        }
-    };
-
-    // Передаём в основной процессор, он уже вызовет и ruen, и user
-    process_record_kb(keycode, &record);
-
-    // Эмулируем отпускание, чтобы flow завершился полностью
-    record.event.pressed = false;
-    process_record_kb(keycode, &record);
+    // release
+    memset(&rec, 0, sizeof(rec));
+    rec.event.pressed = false;
+    process_record_kb(keycode, &rec);
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
