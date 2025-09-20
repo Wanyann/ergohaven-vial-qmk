@@ -184,7 +184,7 @@ bool process_russian_letter(uint8_t keycode) {
         }
         tap_code(keycode);
     }
-    return false;
+    return true;
 }
 
 bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
@@ -201,7 +201,7 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (!record->event.pressed) return false;
+    if (!record->event.pressed) return true;
 
     switch (keycode) {
         case LG_TOGGLE:
@@ -239,35 +239,35 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
 
         case LG_DOT: // .
             tap_code16(cur_lang == LANG_EN ? KC_DOT : mac_layout ? S(KC_7) : KC_SLASH);
-            return false;
+            return true;
 
         case LG_COMMA: // ,
             tap_code16(cur_lang == LANG_EN ? KC_COMMA : mac_layout ? S(KC_6) : S(KC_SLASH));
-            return false;
+            return true;
 
         case LG_SCLN: // ;
             tap_code16(cur_lang == LANG_EN ? KC_SCLN : mac_layout ? S(KC_8) : S(KC_4));
-            return false;
+            return true;
 
         case LG_COLON: // :
             tap_code16(cur_lang == LANG_EN ? KC_COLON : mac_layout ? S(KC_5) : S(KC_6));
-            return false;
+            return true;
 
         case LG_DQUO: // "
             tap_code16(cur_lang == LANG_EN ? KC_DQUO : S(KC_2));
-            return false;
+            return true;
 
         case LG_QUES: // ?
             tap_code16(cur_lang == LANG_EN || mac_layout ? KC_QUES : S(KC_7));
-            return false;
+            return true;
 
         case LG_SLASH: // /
             tap_code16(cur_lang == LANG_EN || mac_layout ? KC_SLASH : LSFT(KC_BSLS));
-            return false;
+            return true;
 
         case LG_PERC: // %
             tap_code16(cur_lang == LANG_RU && mac_layout ? LSFT(KC_4) : LSFT(KC_5));
-            return false;
+            return true;
 
         case LG_TG_MAC:
             mac_layout = !mac_layout;
@@ -280,7 +280,7 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             tap_code16(en_table[keycode - LG_EN_START]);
             should_revert_ru = should_revert_ru || (cur_lang != lang);
             revert_time      = timer_read32();
-            return false;
+            return true;
         }
 
         case LG_RU_BE:
@@ -295,17 +295,15 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
             return process_russian_letter(KC_RBRC);
         case LG_RU_KHA:
             return process_russian_letter(KC_LBRC);
-            return false;
         case LG_RU_YO:
             return process_russian_letter(KC_GRAVE);
-            return false;
 
         case LG_NUM: {
             uint8_t lang = cur_lang;
             set_lang(LANG_RU);
             tap_code16(LSFT(KC_3));
             set_lang(lang);
-            return false;
+            return true;
         }
 
         case LG_WORD: {
@@ -322,13 +320,13 @@ bool process_record_ruen(uint16_t keycode, keyrecord_t *record) {
         case LG_STORE:
             stored_lang         = cur_lang;
             should_revert_macro = true;
-            return false;
+            return true;
 
         case LG_REVERT:
             set_lang(stored_lang);
             should_revert_macro = false;
             revert_time         = timer_read32();
-            return false;
+            return true;
     }
 
     return true;
