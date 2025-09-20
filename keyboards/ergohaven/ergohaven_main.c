@@ -158,7 +158,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     switch (keycode) {
         case LG_START ... LG_END:
             process_ruen_as_keypress(keycode);
-            return false;
     }
 }
 
