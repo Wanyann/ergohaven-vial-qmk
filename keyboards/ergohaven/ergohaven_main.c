@@ -137,31 +137,56 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
 
-/*
-// helper: emulate a normal key press+release for ruen-handled keycode
-static void process_ruen_as_keypress(uint16_t keycode) {
+
+// Помести этот код в тот же .c файл, где объявлены
+// pre_process_record_kb / process_record_kb / post_process_record_user.
+// Если helper выше их определения — добавь прототипы.
+
+static void process_as_full_keypress(uint16_t keycode) {
     keyrecord_t rec;
-    // zero-init
+
+    // --- PRESS ---
     memset(&rec, 0, sizeof(rec));
-    // emulate press
     rec.event.pressed = true;
-    process_record_ruen(keycode, &rec);
-    // emulate release
+    rec.event.time = timer_read32();
+
+    // run pre-process (как делают QMK)
+    bool ok = true;
+    // Если у тебя объявлена pre_process_record_kb — вызываем её, чтобы сработали pre hooks.
+    // Если её нет в пределах видимости — закомментируй этот блок.
+    ok = pre_process_record_kb ? pre_process_record_kb(keycode, &rec) : true;
+
+    if (ok) {
+        // основной обработчик (включает process_record_ruen и process_record_user)
+        process_record_kb(keycode, &rec);
+
+        // пост-обработка (если у тебя есть post_process_record_user)
+        if (post_process_record_user) post_process_record_user(keycode, &rec);
+    }
+
+    // --- RELEASE ---
     memset(&rec, 0, sizeof(rec));
     rec.event.pressed = false;
-    process_record_ruen(keycode, &rec);
+    rec.event.time = timer_read32();
+
+    ok = pre_process_record_kb ? pre_process_record_kb(keycode, &rec) : true;
+    if (ok) {
+        process_record_kb(keycode, &rec);
+        if (post_process_record_user) post_process_record_user(keycode, &rec);
+    }
 }
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     if (!pressed) return;
 
     uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
-    switch (keycode) {
-        case LG_START ... LG_END:
-            process_ruen_as_keypress(keycode);
+
+    if (LG_START <= keycode && keycode < LG_END) {
+        process_as_full_keypress(keycode);
     }
 }
-*/
+
+
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //   #ifdef WPM_ENABLE
