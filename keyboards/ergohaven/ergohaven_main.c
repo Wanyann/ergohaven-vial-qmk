@@ -135,6 +135,8 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
 
+extern combo_t key_combos[];
+
 void process_combo_event(uint16_t combo_index, bool pressed) {
     keyrecord_t rec;
     uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
