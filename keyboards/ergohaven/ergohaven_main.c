@@ -190,16 +190,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     keyrecord_t rec;
+    uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
 
-    // press
-    memset(&rec, 0, sizeof(rec));
-    rec.event.pressed = true;
-    process_record_kb(keycode, &rec);
-
-    // release
-    memset(&rec, 0, sizeof(rec));
-    rec.event.pressed = false;
-    process_record_kb(keycode, &rec);
+    if (pressed) {
+        memset(&rec, 0, sizeof(rec));
+        rec.event.pressed = true;
+        process_record_kb(keycode, &rec);
+    } else {
+        memset(&rec, 0, sizeof(rec));
+        rec.event.pressed = false;
+        process_record_kb(keycode, &rec);
+    }
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
