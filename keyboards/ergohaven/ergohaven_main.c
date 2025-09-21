@@ -135,6 +135,19 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t* record) {
     return pre_process_record_ruen(keycode, record) && pre_process_record_user(keycode, record);
 }
 
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    keyrecord_t rec;
+    uint16_t keycode = pgm_read_word(&key_combos[combo_index].keycode);
+    if (pressed) { memset(&rec, 0, sizeof(rec));
+        rec.event.pressed = true;
+        process_record_kb(keycode, &rec);
+    } else {
+        memset(&rec, 0, sizeof(rec));
+        rec.event.pressed = false;
+        process_record_kb(keycode, &rec);
+    }
+}
+
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 //   #ifdef WPM_ENABLE
 //     if (record->event.pressed) {
