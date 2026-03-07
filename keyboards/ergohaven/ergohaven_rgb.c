@@ -2,7 +2,7 @@
 #include "ergohaven.h"
 #include "ergohaven_rgb.h"
 
-const rgblight_segment_t PROGMEM layer0_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_WHITE});
+const rgblight_segment_t PROGMEM layer0_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CHARTREUSE});
 const rgblight_segment_t PROGMEM layer1_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_RED});
 const rgblight_segment_t PROGMEM layer2_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CYAN});
 const rgblight_segment_t PROGMEM layer3_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_GOLDENROD});
@@ -15,7 +15,7 @@ const rgblight_segment_t PROGMEM layer9_rgb[]  = RGBLIGHT_LAYER_SEGMENTS({0, 2, 
 const rgblight_segment_t PROGMEM layer10_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_TEAL});
 const rgblight_segment_t PROGMEM layer11_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_ORANGE});
 const rgblight_segment_t PROGMEM layer12_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_AZURE});
-const rgblight_segment_t PROGMEM layer13_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CHARTREUSE});
+const rgblight_segment_t PROGMEM layer13_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_WHITE});
 const rgblight_segment_t PROGMEM layer14_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_CORAL});
 const rgblight_segment_t PROGMEM layer15_rgb[] = RGBLIGHT_LAYER_SEGMENTS({0, 2, HSV_GOLD});
 
